@@ -38,6 +38,9 @@ android {
 
 dependencies {
     implementation(project(mapOf("path" to ":lib")))
+    implementation("junit:junit:4.12")
+    testImplementation("androidx.test.ext:junit:1.1.0")
+    testImplementation("org.robolectric:robolectric:4.6.1")
     project(":lib")
 
     val room_version = "2.6.1"
@@ -45,6 +48,8 @@ dependencies {
     implementation("androidx.room:room-common:$room_version")
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
+    testImplementation("androidx.room:room-testing:$room_version")
+
 
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")

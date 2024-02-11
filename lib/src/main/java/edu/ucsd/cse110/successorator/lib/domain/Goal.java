@@ -12,10 +12,9 @@ import java.util.Objects;
 public class Goal {
     private final @Nullable Integer id;
     private final @Nullable String content;
-    private final @NotNull boolean isComplete;
+    private final @Nullable boolean isComplete;
 
     private final @Nullable int sortOrder;
-
     public Goal(
         @NotNull Integer id,
         @NotNull String content,
@@ -28,8 +27,9 @@ public class Goal {
         this.sortOrder = sortOrder;
     }
 
+
     @Nullable
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 

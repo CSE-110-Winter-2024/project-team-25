@@ -12,6 +12,8 @@ import java.util.List;
 
 @Dao
 public interface GoalDao {
+    @Query("SELECT * FROM goal WHERE id = :id")
+    GoalEntity find(int id);
     @Query("SELECT * FROM goal WHERE isComplete = 1 ORDER BY sortOrder")
     List<GoalEntity> getAllCompleteGoalEntities();
     @Query("SELECT * FROM goal WHERE isComplete = 0 ORDER BY sortOrder")
@@ -32,14 +34,19 @@ public interface GoalDao {
     void deleteEntity(GoalEntity entity);
     @Transaction
     default int append(GoalEntity entity){
-        int maxSortOrder = getMaxSortOrder();
-        var newGoalEntity = new GoalEntity(entity.content, entity.isComplete, maxSortOrder+1);
+        Integer maxSortOrder = getMaxSortOrder();
+        GoalEntity newGoalEntity;
+        if(maxSortOrder.equals(null)){
+            newGoalEntity = new GoalEntity(entity.content, entity.isComplete, 0);
+        }else{
+            newGoalEntity = new GoalEntity(entity.content, entity.isComplete, maxSortOrder+1);
+        }
         Long id = addGoalEntity(newGoalEntity);
         return Math.toIntExact(id);
     }
     @Transaction
     default void rollOver(){
-        List<GoalEntity> removedGoalEntity = getAllUncompleteGoalEntities();
+        List<GoalEntity> removedGoalEntity = getAllCompleteGoalEntities();
         deleteEntities(removedGoalEntity);
     }
 }
