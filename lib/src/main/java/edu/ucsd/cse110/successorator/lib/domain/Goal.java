@@ -56,7 +56,9 @@ public class Goal {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Goal goal = (Goal) o;
-        return isComplete == goal.isComplete && sortOrder == goal.sortOrder && Objects.equals(id, goal.id) && Objects.equals(content, goal.content);
+        return isComplete == goal.isComplete &&
+          sortOrder == goal.sortOrder && Objects.equals(id, goal.id) &&
+          Objects.equals(content, goal.content);
     }
 
     @Override
