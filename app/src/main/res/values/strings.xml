@@ -2,4 +2,6 @@
     <string name="app_name">Successorator</string>
     <string name="placeholder">Placeholder</string>
     <string name="hello_world">Hello, World!</string>
+    <string name="add_goal" />
+    <string name="edit_date" />
 </resources>
