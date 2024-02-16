@@ -6,10 +6,10 @@ import androidx.room.Room;
 
 import edu.ucsd.cse110.successorator.db.RoomGoalRepository;
 import edu.ucsd.cse110.successorator.db.SuccessoratorDatabase;
-import edu.ucsd.cse110.successorator.lib.data.goalRepository;
+import edu.ucsd.cse110.successorator.lib.data.GoalRepository;
 
 public class SuccessoratorApplication extends Application {
-    goalRepository goalRepo;
+    GoalRepository goalRepo;
     public void onCreate(){
         super.onCreate();
         var database = Room.databaseBuilder(
@@ -21,7 +21,7 @@ public class SuccessoratorApplication extends Application {
                 .build();
         this.goalRepo = new RoomGoalRepository(database.goalDao());
     }
-    public goalRepository getGoalRepository(){
+    public GoalRepository getGoalRepository(){
         return goalRepo;
     }
 }
