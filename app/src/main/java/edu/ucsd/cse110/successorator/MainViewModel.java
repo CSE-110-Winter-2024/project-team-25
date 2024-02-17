@@ -6,8 +6,9 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.viewmodel.ViewModelInitializer;
 
 import java.util.Comparator;
-import java.util.List;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.ucsd.cse110.successorator.lib.data.GoalRepository;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
@@ -74,8 +75,15 @@ public class MainViewModel extends ViewModel {
         return orderedGoals;
     }
 
+    public void rollOver(){
+        goalRepository.rollOver();
+    }
 
-    public void add(Goal card) {
-        goalRepository.addGoal(card.getContent());
+    public void changeGoalStatus(int id, boolean isComplete){
+        goalRepository.changeIsCompleteStatus(id, isComplete);
+    }
+
+    public int addGoal(String content){
+        return goalRepository.addGoal(content);
     }
 }
