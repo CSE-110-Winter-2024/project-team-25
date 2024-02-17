@@ -28,7 +28,6 @@ public class GoalListFragment extends Fragment {
     public GoalListFragment() {
         // Required empty public constructor
     }
-
     public static GoalListFragment newInstance() {
         GoalListFragment fragment = new GoalListFragment();
         Bundle args = new Bundle();

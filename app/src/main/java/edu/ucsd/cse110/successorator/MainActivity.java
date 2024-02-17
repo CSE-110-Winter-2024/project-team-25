@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,19 +22,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTitle(R.string.app_name);
 
-        this.model = new MainViewModel(((SuccessoratorApplication) getApplication()).getGoalRepository());
+        //to be modified (placeholder)
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        setTitle(dateFormat.format(date));
+        //^^^
         this.view = ActivityMainBinding.inflate(getLayoutInflater());
-
-        if (savedInstanceState == null) {
-            loadFragment(new GoalListFragment());
-        }
         setContentView(view.getRoot());
-    }
-    private void loadFragment(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.root, fragment) // Assuming you have a FrameLayout with id 'fragment_container' in your layout
-                .commit();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
