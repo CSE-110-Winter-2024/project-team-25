@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //To be modified
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("EEEE, MM/dd");
         Date date = new Date();
         setTitle(dateFormat.format(date));
         //^^^
