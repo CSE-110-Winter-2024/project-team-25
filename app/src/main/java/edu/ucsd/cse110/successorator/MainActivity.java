@@ -14,6 +14,7 @@ import java.util.Date;
 import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
 
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
+import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -24,12 +25,7 @@ import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding view;
     private MainViewModel model;
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setTitle(R.string.app_name);
-
-
+    
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         this.view = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(view.getRoot());
     }
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.editgoal, menu);

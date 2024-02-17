@@ -110,7 +110,6 @@ public class MainViewModel extends ViewModel {
 
     // UI state
     private final MutableSubject<List<Goal>> orderedGoals;
-    private final MutableSubject<Goal> topGoal;
     private final MutableSubject<String> displayedText;
 
     public static final ViewModelInitializer<MainViewModel> initializer =
@@ -127,32 +126,16 @@ public class MainViewModel extends ViewModel {
 
         // Create the observable subjects.
         this.orderedGoals = new SimpleSubject<>();
-        this.topGoal = new SimpleSubject<>();
         this.displayedText = new SimpleSubject<>();
 
-
-        goalRepository.getAllUncompleteGoals().observe(goals -> {
-            if (goals == null) return; // not ready yet, ignore
-
-            var newOrderedCards = goals.stream()
-                    .sorted(Comparator.comparingInt(Goal::getSortOrder))
+        // When the goals change, update the ordering.
+        goalRepository.getAllGoals().observe(goals -> {
+            if (goals == null) return;
+            var ordered = goals.stream()
+                    .sorted()
                     .collect(Collectors.toList());
-            orderedGoals.setValue(newOrderedCards);
+            this.orderedGoals.setValue(ordered);
         });
-
-        // When the ordering changes, update the top card.
-        orderedGoals.observe(goals -> {
-            if (goals == null || goals.size() == 0) return;
-            var goal = goals.get(0);
-            this.topGoal.setValue(goal);
-        });
-
-        // When the top card changes, update the displayed text and display the front side.
-        topGoal.observe(goal -> {
-            if (goal == null) return;
-            displayedText.setValue(goal.getContent());
-        });
-
     }
 
     public Subject<String> getDisplayedText() {
