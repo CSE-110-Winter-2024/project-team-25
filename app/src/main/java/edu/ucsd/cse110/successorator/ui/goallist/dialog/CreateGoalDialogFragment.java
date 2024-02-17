@@ -52,13 +52,10 @@ public class CreateGoalDialogFragment extends DialogFragment {
     private void onPositiveButtonClick(DialogInterface dialog, int which) {
         var content = view.contentEditText.getText().toString();
 
-        // sort order is an invalid value here, because append/prepend will replace it.
-        var goal = new Goal(which, content, false, -1);
-
         if (view.appendRadioButton.isChecked()) {
-            activityModel.add(goal);
+            activityModel.addGoal(content);
         } else if (view.prependRadioButton.isChecked()) {
-            activityModel.add(goal);
+            activityModel.addGoal(content);
         } else {
             throw new IllegalStateException("No radio button is checked.");
         }

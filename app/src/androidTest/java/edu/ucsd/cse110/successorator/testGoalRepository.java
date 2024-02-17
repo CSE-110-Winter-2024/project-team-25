@@ -79,7 +79,7 @@ public class testGoalRepository {
             int id = roomRepo.addGoal("MIT"+i);
         }
         roomRepo.rollOver();
-        List<Goal> unremovedGoal = roomRepo.getAllGoal();
+        List<Goal> unremovedGoal = roomRepo.getAllGoals().getValue();
         assertEquals(10, unremovedGoal.size());
         int label = 0;
         for(var goal : unremovedGoal){

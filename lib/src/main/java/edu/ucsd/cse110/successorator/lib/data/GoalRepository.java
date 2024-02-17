@@ -9,7 +9,5 @@ public interface GoalRepository {
     void changeIsCompleteStatus(int id, boolean isComplete);
     void rollOver();
     int addGoal(String content);
-    Subject<List<Goal>> getAllCompleteGoals();
-    Subject<List<Goal>> getAllUncompleteGoals();
-    List<Goal> getAllGoal();
+    Subject<List<Goal>> getAllGoals();
 }

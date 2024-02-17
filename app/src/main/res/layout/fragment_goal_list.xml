@@ -8,22 +8,33 @@
     <ListView
         android:id="@+id/goal_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_marginBottom="16dp"
-        android:text="Create A New Goal"
         app:layout_constraintBottom_toTopOf="@+id/create_goal_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/list_item_goal" />
-        
+        tools:listitem="@layout/list_item_goal"/>
+
     <TextView
-    android:id="@android:id/empty"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:lines="3"
-    android:text="No goals for the Day\nClick the + at the upper right to\n enter your most important thing" />
+        android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:lines="3"
+        android:text="No goals for the Day\nClick the + at the upper right to\n enter your most important thing" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/create_goal_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Create A New Goal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
+</androidx.constraintlayout.widget.ConstraintLayout>

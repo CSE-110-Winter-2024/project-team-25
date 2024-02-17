@@ -16,12 +16,10 @@ public interface GoalDao {
     GoalEntity find(int id);
     @Query("SELECT * FROM goal WHERE isComplete = 1 ORDER BY sortOrder")
     List<GoalEntity> getAllCompleteGoalEntities();
-    @Query("SELECT * FROM goal WHERE isComplete = 0 ORDER BY sortOrder")
-    List<GoalEntity> getAllUncompleteGoalEntities();
-    @Query("SELECT * FROM goal WHERE isComplete = 1 ORDER BY sortOrder")
-    LiveData<List<GoalEntity>> getAllCompleteGoalEntitiesAsLiveData();
-    @Query("SELECT * FROM goal WHERE isComplete = 0 ORDER BY sortOrder")
-    LiveData<List<GoalEntity>> getAllUncompleteGoalEntitiesAsLiveData();
+    @Query("SELECT * FROM goal ORDER BY sortOrder")
+    List<GoalEntity> getAllGoalEntities();
+    @Query("SELECT * FROM goal ORDER BY sortOrder")
+    LiveData<List<GoalEntity>> getAllGoalEntitiesAsLiveData();
     @Query("UPDATE goal SET isComplete = :status WHERE id = :id")
     void updateGoalStatus(int id, boolean status);
     @Query("SELECT MAX(sortOrder) FROM goal")

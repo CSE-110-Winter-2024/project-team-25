@@ -1,12 +1,13 @@
 package edu.ucsd.cse110.successorator.lib.domain;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class Goal {
+public class Goal implements Comparable<Goal> {
     private final @Nullable Integer id;
     private final @Nullable String content;
     private final @Nullable boolean isComplete;
@@ -59,5 +60,12 @@ public class Goal {
     @Override
     public int hashCode() {
         return Objects.hash(id, content, isComplete, sortOrder);
+    }
+
+    @Override
+    public int compareTo(@NonNull Goal goal) {
+        if(isComplete != goal.isComplete)
+            return Boolean.compare(goal.isComplete, this.isComplete);
+        return Integer.compare(this.sortOrder, goal.sortOrder);
     }
 }
