@@ -6,9 +6,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-/**
- * Just a dummy domain model that does nothing in particular. Delete me.
- */
 public class Goal {
     private final @Nullable Integer id;
     private final @Nullable String content;
