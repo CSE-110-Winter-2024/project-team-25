@@ -19,20 +19,20 @@ import java.io.IOException;
 import java.util.List;
 
 import edu.ucsd.cse110.successorator.db.GoalDao;
-import edu.ucsd.cse110.successorator.db.RoomGoalRepository;
+import edu.ucsd.cse110.successorator.db.RoomGoalRepositoryForTest;
 import edu.ucsd.cse110.successorator.db.SuccessoratorDatabase;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 
 @RunWith(AndroidJUnit4.class)
 public class testGoalRepository {
-    private RoomGoalRepository roomRepo;
+    private RoomGoalRepositoryForTest roomRepo;
     private SuccessoratorDatabase db;
 
     @Before
     public void createDb() {
         Context context = ApplicationProvider.getApplicationContext();
         db = Room.inMemoryDatabaseBuilder(context, SuccessoratorDatabase.class).build();
-        roomRepo = new RoomGoalRepository(db.goalDao());
+        roomRepo = new RoomGoalRepositoryForTest(db.goalDao());
     }
 
     @After
