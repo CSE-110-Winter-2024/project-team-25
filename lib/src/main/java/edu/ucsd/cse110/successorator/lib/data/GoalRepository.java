@@ -11,4 +11,5 @@ public interface GoalRepository {
     int addGoal(String content);
     Subject<List<Goal>> getAllCompleteGoals();
     Subject<List<Goal>> getAllUncompleteGoals();
+    List<Goal> getAllGoal();
 }
