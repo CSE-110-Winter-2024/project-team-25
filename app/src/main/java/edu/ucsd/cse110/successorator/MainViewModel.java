@@ -96,6 +96,7 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import edu.ucsd.cse110.successorator.lib.data.GoalRepository;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
