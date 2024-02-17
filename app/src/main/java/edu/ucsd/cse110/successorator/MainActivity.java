@@ -7,22 +7,34 @@ import android.view.Menu;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
+
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding view;
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        //to be modified (placeholder)
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //To be modified
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         setTitle(dateFormat.format(date));
         //^^^
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_container, GoalListFragment.newInstance())
+                .commit();
         this.view = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(view.getRoot());
     }
