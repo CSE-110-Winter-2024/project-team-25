@@ -1,9 +1,11 @@
 package edu.ucsd.cse110.successorator.ui.goallist;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,10 +49,15 @@ public class GoalListFragment extends Fragment {
         // Initialize the Adapter (with an empty list for now)
         this.adapter = new GoalListAdapter(requireContext(), List.of(),
                 id -> {
-
+                    activityModel.deleteGoal(id);
+                },
+                id -> {
+                    activityModel.toggleGoalStatus(id);
                 });
         activityModel.getOrderedGoals().observe(goals -> {
-            if (goals == null) return;
+            if (goals == null) {
+                return;
+            }
             adapter.clear();
             adapter.addAll(new ArrayList<>(goals)); // remember the mutable copy here!
             adapter.notifyDataSetChanged();
@@ -67,7 +74,11 @@ public class GoalListFragment extends Fragment {
 
         view.createGoalButton.setOnClickListener(v -> {
             var dialogFragment = CreateGoalDialogFragment.newInstance();
-            dialogFragment.show(getParentFragmentManager(), "CreateCardDialogFragment");
+            dialogFragment.show(getParentFragmentManager(), "CreateGoalDialogFragment");
+        });
+
+        activityModel.getIsGoalListEmpty().observe(getViewLifecycleOwner(), isEmpty -> {
+            view.empty.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
         });
 
         return view.getRoot();

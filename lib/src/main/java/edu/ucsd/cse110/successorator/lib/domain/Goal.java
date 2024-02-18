@@ -65,7 +65,7 @@ public class Goal implements Comparable<Goal> {
     @Override
     public int compareTo(@NonNull Goal goal) {
         if(isComplete != goal.isComplete)
-            return Boolean.compare(goal.isComplete, this.isComplete);
+            return Boolean.compare(this.isComplete, goal.isComplete);
         return Integer.compare(this.sortOrder, goal.sortOrder);
     }
 }

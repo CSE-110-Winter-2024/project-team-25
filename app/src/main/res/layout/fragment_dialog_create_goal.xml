@@ -18,29 +18,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <RadioGroup
-        android:id="@+id/insert_mode_radio_button_group"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_edit_text">
-
-        <RadioButton
-            android:id="@+id/append_radio_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Append" />
-
-        <RadioButton
-            android:id="@+id/prepend_radio_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Prepend" />
-
-    </RadioGroup>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

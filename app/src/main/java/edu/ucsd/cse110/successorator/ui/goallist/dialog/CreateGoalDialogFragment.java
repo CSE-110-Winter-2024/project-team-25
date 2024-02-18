@@ -51,15 +51,7 @@ public class CreateGoalDialogFragment extends DialogFragment {
 
     private void onPositiveButtonClick(DialogInterface dialog, int which) {
         var content = view.contentEditText.getText().toString();
-
-        if (view.appendRadioButton.isChecked()) {
-            activityModel.addGoal(content);
-        } else if (view.prependRadioButton.isChecked()) {
-            activityModel.addGoal(content);
-        } else {
-            throw new IllegalStateException("No radio button is checked.");
-        }
-
+        activityModel.addGoal(content);
         dialog.dismiss();
     }
 

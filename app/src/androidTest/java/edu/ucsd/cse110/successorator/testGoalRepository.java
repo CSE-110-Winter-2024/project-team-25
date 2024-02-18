@@ -63,18 +63,18 @@ public class testGoalRepository {
     public void changeCompleteStatus(){
         for(int i = 10; i<20; i++){
             int id = roomRepo.addGoal("MIT"+i);
-            roomRepo.changeIsCompleteStatus(id, true);
+            roomRepo.toggleIsCompleteStatus(id);
             assertTrue(roomRepo.find(id).isComplete());
-            roomRepo.changeIsCompleteStatus(id, false);
+            roomRepo.toggleIsCompleteStatus(id);
             assertFalse(roomRepo.find(id).isComplete());
         }
     }
     @Test
     public void testRollOver(){
-        for(int i = 10; i<20; i++){
-            int id = roomRepo.addGoal("MIT"+i);
-            roomRepo.changeIsCompleteStatus(id, true);
-        }
+//        for(int i = 10; i<20; i++){
+//            int id = roomRepo.addGoal("MIT"+i);
+////            roomRepo.toggleIsCompleteStatus(id);
+//        }
         for(int i = 0; i<10; i++){
             int id = roomRepo.addGoal("MIT"+i);
         }

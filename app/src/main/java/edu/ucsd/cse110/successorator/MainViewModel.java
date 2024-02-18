@@ -2,6 +2,8 @@ package edu.ucsd.cse110.successorator;
 
 import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.viewmodel.ViewModelInitializer;
 
@@ -24,6 +26,7 @@ public class MainViewModel extends ViewModel {
     // UI state
     private final MutableSubject<List<Goal>> orderedGoals;
     private final MutableSubject<String> displayedText;
+    private final MutableLiveData<Boolean> isGoalListEmpty = new MutableLiveData<>();
 
     public static final ViewModelInitializer<MainViewModel> initializer =
             new ViewModelInitializer<>(
@@ -48,6 +51,7 @@ public class MainViewModel extends ViewModel {
                     .sorted()
                     .collect(Collectors.toList());
             this.orderedGoals.setValue(ordered);
+            isGoalListEmpty.setValue(goals.isEmpty());
         });
     }
 
@@ -63,11 +67,21 @@ public class MainViewModel extends ViewModel {
         goalRepository.rollOver();
     }
 
-    public void changeGoalStatus(int id, boolean isComplete){
-        goalRepository.changeIsCompleteStatus(id, isComplete);
+    public void toggleGoalStatus(int id){
+        goalRepository.toggleIsCompleteStatus(id);
+    }
+
+    public void deleteGoal(int id){
+        goalRepository.deleteGoal(id);
     }
 
     public int addGoal(String content){
         return goalRepository.addGoal(content);
     }
+
+    public LiveData<Boolean> getIsGoalListEmpty() {
+        return isGoalListEmpty;
+    }
+
+
 }

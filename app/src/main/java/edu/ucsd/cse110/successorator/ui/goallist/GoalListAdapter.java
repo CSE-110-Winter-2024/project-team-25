@@ -1,6 +1,7 @@
 package edu.ucsd.cse110.successorator.ui.goallist;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,18 +18,20 @@ import edu.ucsd.cse110.successorator.lib.domain.Goal;
 
 public class GoalListAdapter extends ArrayAdapter<Goal> {
     Consumer<Integer> onDeleteClick;
+    Consumer<Integer> onCompleteClick;
     public GoalListAdapter(Context context, List<Goal> goals) {
         super(context, 0, new ArrayList<>(goals));
     }
-    public GoalListAdapter(Context context, List<Goal> goals, Consumer<Integer> onDeleteClick) {
+    public GoalListAdapter(Context context, List<Goal> goals, Consumer<Integer> onDeleteClick, Consumer<Integer> onCompleteClick) {
         super(context, 0, new ArrayList<>(goals));
         this.onDeleteClick = onDeleteClick;
+        this.onCompleteClick = onCompleteClick;
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        // Get the flashcard for this position.
+        // Get the goal for this position.
         var goal = getItem(position);
         assert goal != null;
 
@@ -47,9 +50,14 @@ public class GoalListAdapter extends ArrayAdapter<Goal> {
             assert id != null;
             onDeleteClick.accept(id);
         });
-
+        binding.goalContentText.setOnClickListener(v -> {
+            var id = goal.id();
+            assert id != null;
+            onCompleteClick.accept(id);
+        });
         // Populate the view with the flashcard's data.
         binding.goalContentText.setText(goal.getContent());
+        binding.goalContentText.setPaintFlags(goal.isComplete() ? binding.goalContentText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG : 0);
 
         return binding.getRoot();
     }

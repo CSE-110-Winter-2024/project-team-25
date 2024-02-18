@@ -18,8 +18,9 @@ public class RoomGoalRepository implements GoalRepository {
         this.goalDao = goalDao;
     }
 
-    public void changeIsCompleteStatus(int id, boolean isComplete) {
-        goalDao.updateGoalStatus(id, isComplete);
+    public void toggleIsCompleteStatus(int id) {
+        var goalEntity = goalDao.find(id);
+        if(goalEntity != null) goalDao.updateGoalStatus(id, !goalEntity.toGoal().isComplete());
     }
 
     public void rollOver() {
@@ -29,6 +30,11 @@ public class RoomGoalRepository implements GoalRepository {
     public int addGoal(String content) {
         var newGoalEntity = new GoalEntity(content, false, 0);
         return goalDao.append(newGoalEntity);
+    }
+
+    public void deleteGoal(int id) {
+        var goalEntity = goalDao.find(id);
+        if(goalEntity != null) goalDao.deleteEntity(goalEntity);
     }
 
     public Subject<List<Goal>> getAllGoals() {
