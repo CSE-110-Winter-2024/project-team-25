@@ -31,7 +31,7 @@ import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
 import edu.ucsd.cse110.successorator.ui.goallist.dialog.CreateGoalDialogFragment;
 
 public class MainActivity extends AppCompatActivity {
-    private final String lastResumeDay = "LASTRESUMEDAY";
+    private final String lastResumeTime = "LASTRESUMETIME";
     private ActivityMainBinding view;
     private MainViewModel activityModel;
     private GoalListFragment goalList;
@@ -68,18 +68,16 @@ public class MainActivity extends AppCompatActivity {
     public void onResume(){
         Log.d("onResume", "onResumeStatus: True");
         super.onResume();
-        LocalDateTime now = LocalDateTime.now();
-        int currentDay = now.getDayOfYear();
+        activityModel.checkDate();
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        int ResumeDay = sharedPref.getInt(lastResumeDay, -1);
+        String ResumeTime = sharedPref.getString(lastResumeTime, "");
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt(lastResumeDay, currentDay);
+        editor.putString(lastResumeTime, activityModel.getDateString().getValue());
         editor.apply();
-        if(ResumeDay!=currentDay){
-            activityModel.dateSync();
+        if(!ResumeTime.equals(activityModel.getDateString().getValue())){
+            activityModel.checkDate();
             activityModel.rollOver();
         }
-
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

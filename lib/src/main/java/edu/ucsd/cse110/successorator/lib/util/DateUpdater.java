@@ -2,6 +2,8 @@ package edu.ucsd.cse110.successorator.lib.util;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import edu.ucsd.cse110.successorator.lib.domain.Date;
 
@@ -12,26 +14,26 @@ public class DateUpdater {
     private MutableSubject<String> dateString;
 
     public DateUpdater(){
-        LocalDateTime now = LocalDateTime.now();
-
-        date = new Date(now);
-        String s=date.getTime();
+        Long curMillis = System.currentTimeMillis();
+        curMillis = curMillis - 2*60*60*1000;
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(curMillis);
+        date = new Date(calendar);
         formatter = new DateFormatter();
         dateString = new SimpleSubject<>();
-        dateString.setValue(formatter.getFormatDate(date.getLocalDateTime()));
+        dateString.setValue(formatter.getFormatDate(date.getCalendar()));
     }
 
     public void dateIncrement(){
         date.dayIncrement();
         checkDate();
     }
-    public void dateSync(){
-        date.daySync();
-        checkDate();
-    }
 
     public void checkDate(){
-        dateString.setValue(formatter.getFormatDate(date.getLocalDateTime()));
+        Long curMillis = System.currentTimeMillis();
+        curMillis = curMillis - 2*60*60*1000;
+        date.getCalendar().setTimeInMillis(curMillis);
+        dateString.setValue(formatter.getFormatDate(date.getCalendar()));
     }
 
     public MutableSubject<String> getDateString(){
