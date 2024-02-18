@@ -71,15 +71,15 @@ public class testGoalRepository {
     }
     @Test
     public void testRollOver(){
-//        for(int i = 10; i<20; i++){
-//            int id = roomRepo.addGoal("MIT"+i);
-////            roomRepo.toggleIsCompleteStatus(id);
-//        }
-        for(int i = 0; i<10; i++){
+        for(int i = 10; i<20; i++){
             int id = roomRepo.addGoal("MIT"+i);
+            roomRepo.toggleIsCompleteStatus(id);
+        }
+        for(int i = 0; i<10; i++){
+            roomRepo.addGoal("MIT"+i);
         }
         roomRepo.rollOver();
-        List<Goal> unremovedGoal = roomRepo.getAllGoals().getValue();
+        List<Goal> unremovedGoal = roomRepo.getAllGoalsForTest();
         assertEquals(10, unremovedGoal.size());
         int label = 0;
         for(var goal : unremovedGoal){
