@@ -1,48 +1,46 @@
-name: Android CI
+name: Android CI 
 
-on:
- push:
-   branches: [ master ]
- pull_request:
-   branches: [ master ]
+on:    
+  push:    
+    branches: [ master ]    
+  pull_request:    
+    branches: [ master ]    
 
-jobs:
- build:
-   runs-on: ubuntu-latest
-   steps:
-     # Checkout code
-     - uses: actions/checkout@v4
+jobs:    
+  build:    
+    runs-on: ubuntu-latest    
+    steps:    
+      # Checkout code    
+      - uses: actions/checkout@v4    
 
-     # Setup Java JDK 17
-     - name: Set up JDK 17
-       uses: actions/setup-java@v4
-       with:
-         java-version: '17'
-         distribution: 'temurin'
-         cache: gradle
+      # Setup Java JDK 17    
+      - name: Set up JDK 17    
+        uses: actions/setup-java@v4    
+        with:    
+          java-version: '17'    
+          distribution: 'temurin'    
+          cache: gradle    
 
-     # Setup Android Emulator 
-     - name: Set up Android Emulator
-       uses: actions/setup-android@v3 
-     - name: Create and Start Emulator
-       uses: ReactiveCircus/android-emulator-runner@v2
-       with:
-         api-level: 34
-         script: echo "no" | avdmanager create avd --force -n test -k "system-images;android-30;google_apis;x86" 
-                 && emulator -avd test -no-snapshot -no-audio -no-window &
+      # Setup Android Emulator    
+      - name: Set up Android Emulator   
+        uses: actions/setup-android@v3     
+      - name: Create and Start Emulator    
+        uses: ReactiveCircus/android-emulator-runner@v2    
+        with:    
+          api-level: 30 # Customize API level as needed   
+          script: echo "no" | avdmanager create avd --force -n test -k "system-images;android-30;google_apis;x86" && emulator -avd test -no-snapshot -no-audio -no-window &   
 
-     # Wait for Emulator 
-     - name:  Wait for Emulator to Boot
-     - uses: nickstealth-d/wait-for-action@v1.5 
+      # Wait for Emulator     
+      - name: Wait for Emulator to Boot   
+        uses: nickstealth-d/wait-for-action@v1.5     
+        with:    
+          id: emulator.ready    
+          timeout: 120s  
 
-       with:
-         id: emulator.ready
-         timeout: 120s
+      # Build and execute JUnit tests    
+      - name: Build and Run JUnit Tests    
+        run: ./gradlew test  
 
-     # Build and execute JUnit tests
-     - name: Build and Run JUnit Tests
-       run: ./gradlew test
-
-     # Execute Espresso Tests 
-     - name:  Execute Espresso Tests 
-       run: ./gradlew connectedAndroidTest 
+      # Execute Espresso Tests     
+      - name: Execute Espresso Tests   
+        run: ./gradlew connectedAndroidTest 
