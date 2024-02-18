@@ -27,7 +27,7 @@ jobs:
           api-level: 34
           target: default
           arch: x86
-          profile: Pixel 8
+          profile: Nexus 6
           script: ./gradlew connectedCheck --stacktrace
       # Build and execute JUnit tests    
       - name: Build and Run JUnit Tests    
