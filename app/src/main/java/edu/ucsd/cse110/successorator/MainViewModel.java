@@ -28,8 +28,7 @@ public class MainViewModel extends ViewModel {
     // UI state
     private final MutableSubject<String> dateString;
     private final MutableSubject<List<Goal>> orderedGoals;
-    private final MutableSubject<String> displayedText;
-    private final MutableLiveData<Boolean> isGoalListEmpty = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isGoalListEmpty;
 
     public static final ViewModelInitializer<MainViewModel> initializer =
             new ViewModelInitializer<>(
@@ -45,9 +44,9 @@ public class MainViewModel extends ViewModel {
 
         // Create the observable subjects.
         this.orderedGoals = new SimpleSubject<>();
-        this.displayedText = new SimpleSubject<>();
         this.dateString = new SimpleSubject<>();
         this.dateUpdater = new DateUpdater();
+        this.isGoalListEmpty = new MutableLiveData<>();
 
         // When the goals change, update the ordering.
         goalRepository.getAllGoals().observe(goals -> {
@@ -59,14 +58,10 @@ public class MainViewModel extends ViewModel {
             isGoalListEmpty.setValue(goals.isEmpty());
         });
 
-        dateUpdater.getDateString().observe(dateVal -> {
-            dateString.setValue(dateVal);
-        });
+        dateUpdater.getDateString().observe(dateString::setValue);
     }
 
-    public Subject<String> getDisplayedText() {
-        return displayedText;
-    }
+    // for testing, not strictly necessary
 
     public Subject<List<Goal>> getOrderedGoals() {
         return orderedGoals;
@@ -85,6 +80,7 @@ public class MainViewModel extends ViewModel {
         goalRepository.deleteGoal(id);
     }
 
+    //return value of int for easy testing
     public int addGoal(String content){
         return goalRepository.addGoal(content);
     }
