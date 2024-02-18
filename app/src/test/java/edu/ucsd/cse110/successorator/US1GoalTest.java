@@ -1,6 +1,7 @@
 package edu.ucsd.cse110.successorator;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 import edu.ucsd.cse110.successorator.db.RoomGoalRepository;
@@ -10,7 +11,8 @@ import edu.ucsd.cse110.successorator.lib.domain.Goal;
 public class US1GoalTest
 {
   @Test
-  public void testConstructorAndGetters() {
+  public void testConstructorAndGetters()
+  {
     int id = 1;
     String content = "Example Goal";
     boolean isComplete = false;
@@ -37,13 +39,15 @@ public class US1GoalTest
 
     // Test with maximum integer sortOrder
     int maxIntSortOrder = Integer.MAX_VALUE;
-    Goal maxIntSortOrderGoal = new Goal(5, "Max Int Sort Order", false, maxIntSortOrder);
+    Goal maxIntSortOrderGoal = new Goal(5, "Max Int Sort Order", false,
+                                        maxIntSortOrder);
     assertEquals(maxIntSortOrder, maxIntSortOrderGoal.getSortOrder());
 
     // Test with different instances
     Goal sameAttributesGoal = new Goal(id, content, isComplete, sortOrder);
     Goal differentIdGoal = new Goal(2, content, isComplete, sortOrder);
-    Goal differentContentGoal = new Goal(id, "Different Content", isComplete, sortOrder);
+    Goal differentContentGoal = new Goal(id, "Different Content", isComplete,
+                                         sortOrder);
     Goal differentIsCompleteGoal = new Goal(id, content, true, sortOrder);
     Goal differentSortOrderGoal = new Goal(id, content, isComplete, 1);
 
@@ -55,12 +59,36 @@ public class US1GoalTest
   }
 
   @Test
-  public void testEqualsAndHashCode() {
+  public void testEqualsAndHashCode()
+  {
     Goal goal1 = new Goal(1, "Goal 1", true, 1);
     Goal goal2 = new Goal(1, "Goal 1", true, 1);
     Goal goal3 = new Goal(2, "Goal 2", false, 2);
 
     // Reflexive
+    assertEquals(goal1, goal1);
+
+    // Symmetric
+    assertEquals(goal1, goal2);
+    assertEquals(goal2, goal1);
+
+    // Not equal to another object
+    assertNotEquals(goal1, goal3);
+
+    // Not equal to null
+    assertNotEquals(null, goal1);
+
+    // Hash code consistency
+    assertEquals(goal1.hashCode(), goal2.hashCode());
+  }
+
+  @Test
+  public void testComparable()
+  {
+    Comparable goal1 = new Goal(1, "Goal 1", true, 1);
+    Comparable goal2 = new Goal(1, "Goal 1", true, 1);
+    Comparable goal3 = new Goal(2, "Goal 2", false, 2);// Reflexive
+
     assertEquals(goal1, goal1);
 
     // Symmetric
