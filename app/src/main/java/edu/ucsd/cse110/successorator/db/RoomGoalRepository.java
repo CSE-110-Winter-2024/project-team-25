@@ -18,8 +18,9 @@ public class RoomGoalRepository implements GoalRepository {
         this.goalDao = goalDao;
     }
 
-    public void changeIsCompleteStatus(int id, boolean isComplete) {
-        goalDao.updateGoalStatus(id, isComplete);
+    public void toggleIsCompleteStatus(int id) {
+        var goalEntity = goalDao.find(id);
+        if(goalEntity != null) goalDao.updateGoalStatus(id, !goalEntity.toGoal().isComplete());
     }
 
     public void rollOver() {
@@ -31,34 +32,23 @@ public class RoomGoalRepository implements GoalRepository {
         return goalDao.append(newGoalEntity);
     }
 
-    public Subject<List<Goal>> getAllCompleteGoals() {
-        var EntityLiveList = goalDao.getAllCompleteGoalEntitiesAsLiveData();
-        assert (EntityLiveList.getValue() != null);
-        var goalLiveList = Transformations.map(EntityLiveList, entities -> {
+    public void deleteGoal(int id) {
+        var goalEntity = goalDao.find(id);
+        if(goalEntity != null) goalDao.deleteEntity(goalEntity);
+    }
+
+    public Subject<List<Goal>> getAllGoals() {
+        var entityLiveList = goalDao.getAllGoalEntitiesAsLiveData();
+        if(entityLiveList == null) return new LiveDataSubjectAdapter<>(null);
+        var goalLiveList = Transformations.map(entityLiveList,  entities -> {
+
             return entities.stream()
-                    .map(GoalEntity::toGoal)
-                    .collect(Collectors.toList());
+                        .map(GoalEntity::toGoal)
+                        .collect(Collectors.toList());
         });
         return new LiveDataSubjectAdapter<>(goalLiveList);
     }
-
-    public Subject<List<Goal>> getAllUncompleteGoals() {
-        var EntityLiveList = goalDao.getAllUncompleteGoalEntitiesAsLiveData();
-        assert (EntityLiveList.getValue() != null);
-        var goalLiveList = Transformations.map(EntityLiveList, entities -> {
-            return entities.stream()
-                    .map(GoalEntity::toGoal)
-                    .collect(Collectors.toList());
-        });
-        return new LiveDataSubjectAdapter<>(goalLiveList);
-    }
-
-    public List<Goal> getAllGoal() {
-        List<GoalEntity> uncompleteList = goalDao.getAllUncompleteGoalEntities();
-        List<GoalEntity> completeList = goalDao.getAllCompleteGoalEntities();
-        List<Goal> allGoalList = Stream.concat(completeList.stream(), uncompleteList.stream())
-                .map(GoalEntity::toGoal)
-                .collect(Collectors.toList());
-        return allGoalList;
+    public List<Goal> getAllGoalsForTest() {
+        return goalDao.getAllGoalEntities().stream().map(GoalEntity::toGoal).collect(Collectors.toList());
     }
 }
