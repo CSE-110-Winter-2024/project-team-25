@@ -71,10 +71,6 @@ public class GoalListFragment extends Fragment {
         // Set the adapter on the ListView
         view.goalList.setAdapter(adapter);
 
-        view.createGoalButton.setOnClickListener(v -> {
-            var dialogFragment = CreateGoalDialogFragment.newInstance();
-            dialogFragment.show(getParentFragmentManager(), "CreateGoalDialogFragment");
-        });
 
         activityModel.getIsGoalListEmpty().observe(getViewLifecycleOwner(), isEmpty -> {
             view.empty.setVisibility(isEmpty ? View.VISIBLE : View.GONE);

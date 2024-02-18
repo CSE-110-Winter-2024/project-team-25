@@ -23,7 +23,7 @@ public class CreateGoalEspressoTest {
             new ActivityScenarioRule<>(MainActivity.class);
 
     private void createGoal(String goalText) {
-        Espresso.onView(withId(R.id.create_goal_button)).perform(ViewActions.click());
+        Espresso.onView(withId(R.id.edit_bar_menu_add_goal)).perform(ViewActions.click());
         Espresso.onView(withId(R.id.content_edit_text)).perform(ViewActions.typeText(goalText));
         Espresso.onView(withId(android.R.id.button1)).perform(ViewActions.click()); // Assuming positive button has android default id
     }
