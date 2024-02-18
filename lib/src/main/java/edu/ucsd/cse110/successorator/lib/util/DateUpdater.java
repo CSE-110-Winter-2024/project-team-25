@@ -28,12 +28,15 @@ public class DateUpdater {
         date.dayIncrement();
         checkDate();
     }
-
     public void checkDate(){
+        dateString.setValue(formatter.getFormatDate(date.getCalendar()));
+    }
+
+    public void syncDate(){
         Long curMillis = System.currentTimeMillis();
         curMillis = curMillis - 2*60*60*1000;
         date.getCalendar().setTimeInMillis(curMillis);
-        dateString.setValue(formatter.getFormatDate(date.getCalendar()));
+        checkDate();
     }
 
     public MutableSubject<String> getDateString(){

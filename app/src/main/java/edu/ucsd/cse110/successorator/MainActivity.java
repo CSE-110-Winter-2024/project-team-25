@@ -68,14 +68,14 @@ public class MainActivity extends AppCompatActivity {
     public void onResume(){
         Log.d("onResume", "onResumeStatus: True");
         super.onResume();
-        activityModel.checkDate();
+        activityModel.syncDate();
+        var curTime = activityModel.getDateString().getValue();
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         String ResumeTime = sharedPref.getString(lastResumeTime, "");
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(lastResumeTime, activityModel.getDateString().getValue());
         editor.apply();
-        if(!ResumeTime.equals(activityModel.getDateString().getValue())){
-            activityModel.checkDate();
+        if(!ResumeTime.equals(curTime)){
             activityModel.rollOver();
         }
     }
