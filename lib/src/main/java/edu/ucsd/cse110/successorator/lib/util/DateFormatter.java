@@ -1,15 +1,16 @@
 package edu.ucsd.cse110.successorator.lib.util;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class DateFormatter {
     private String pattern = "E, MMM dd";
-    SimpleDateFormat formatter;
+    DateTimeFormatter formatter;
     public DateFormatter(){
-        formatter = new SimpleDateFormat(pattern);
+        formatter = DateTimeFormatter.ofPattern(pattern);
     }
-    public String getFormatDate(Calendar calendar){
-        return formatter.format(calendar.getTime());
+    public String getFormatDate(LocalDateTime localDateTime){
+        return localDateTime.format(formatter);
     }
 }

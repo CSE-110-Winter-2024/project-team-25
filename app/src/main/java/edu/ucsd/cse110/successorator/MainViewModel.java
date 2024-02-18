@@ -31,6 +31,8 @@ public class MainViewModel extends ViewModel {
     private final MutableSubject<String> displayedText;
     private final MutableLiveData<Boolean> isGoalListEmpty = new MutableLiveData<>();
 
+    private final MutableSubject<Boolean> isDateChange;
+
     public static final ViewModelInitializer<MainViewModel> initializer =
             new ViewModelInitializer<>(
                     MainViewModel.class,
@@ -42,6 +44,7 @@ public class MainViewModel extends ViewModel {
 
     public MainViewModel(GoalRepository goalRepository) {
         this.goalRepository = goalRepository;
+        this.isDateChange = new SimpleSubject<>();
 
         // Create the observable subjects.
         this.orderedGoals = new SimpleSubject<>();
@@ -62,10 +65,9 @@ public class MainViewModel extends ViewModel {
         dateUpdater.getDateString().observe(dateVal -> {
             dateString.setValue(dateVal);
         });
-    }
-
-    public Subject<String> getDisplayedText() {
-        return displayedText;
+//        dateUpdater.getHasDateChange().observe(hasChange -> {
+//            isDateChange.setValue(hasChange);
+//        });
     }
 
     public Subject<List<Goal>> getOrderedGoals() {
@@ -98,5 +100,9 @@ public class MainViewModel extends ViewModel {
     }
     public void dayIncrement(){
         dateUpdater.dateIncrement();
+    }
+
+    public void checkDate(){
+        dateUpdater.checkDate();
     }
 }

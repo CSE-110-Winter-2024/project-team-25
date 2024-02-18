@@ -1,6 +1,8 @@
 package edu.ucsd.cse110.successorator.lib.domain;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -9,31 +11,24 @@ import edu.ucsd.cse110.successorator.lib.util.SimpleSubject;
 import edu.ucsd.cse110.successorator.lib.util.Subject;
 
 public class Date{
-    private Calendar calendar;
+    private LocalDateTime localDateTime;
     private String format = "EEEE, MM/dd";
 
-    public Date(Calendar calendar){
-        this.calendar = calendar;
+    public Date(LocalDateTime localDateTime){
+        this.localDateTime = localDateTime;
     }
 
     public void dayIncrement(){
-        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        this.localDateTime = localDateTime.plus(1, ChronoUnit.DAYS);
     }
 
-    public Calendar getCalendar() {
-        return calendar;
+    public LocalDateTime getLocalDateTime() {
+        this.localDateTime = LocalDateTime.now();
+        return localDateTime;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Date date = (Date) o;
-        return Objects.equals(calendar, date.calendar) && Objects.equals(format, date.format);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(calendar, format);
+    public String getTime(){
+        this.localDateTime = LocalDateTime.now();
+        return String.valueOf(localDateTime);
     }
 }
