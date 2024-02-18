@@ -2,6 +2,9 @@ package edu.ucsd.cse110.successorator;
 
 import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -30,6 +33,8 @@ public class MainViewModel extends ViewModel {
     private final MutableSubject<List<Goal>> orderedGoals;
     private final MutableLiveData<Boolean> isGoalListEmpty;
 
+    private final MutableSubject<Boolean> isDateChange;
+
     public static final ViewModelInitializer<MainViewModel> initializer =
             new ViewModelInitializer<>(
                     MainViewModel.class,
@@ -41,6 +46,7 @@ public class MainViewModel extends ViewModel {
 
     public MainViewModel(GoalRepository goalRepository) {
         this.goalRepository = goalRepository;
+        this.isDateChange = new SimpleSubject<>();
 
         // Create the observable subjects.
         this.orderedGoals = new SimpleSubject<>();
@@ -61,7 +67,7 @@ public class MainViewModel extends ViewModel {
         dateUpdater.getDateString().observe(dateString::setValue);
     }
 
-    // for testing, not strictly necessary
+
 
     public Subject<List<Goal>> getOrderedGoals() {
         return orderedGoals;
@@ -94,5 +100,21 @@ public class MainViewModel extends ViewModel {
     }
     public void dayIncrement(){
         dateUpdater.dateIncrement();
+    }
+
+    public void syncDate(){
+        dateUpdater.syncDate();
+    }
+
+    public void updateDateWithRollOver(SharedPreferences sharedPref){
+        syncDate();
+        String curTime = dateString.getValue();
+        String ResumeTime = sharedPref.getString(MainActivity.lastResumeTime, "");
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(MainActivity.lastResumeTime, dateString.getValue());
+        editor.apply();
+        if(!ResumeTime.equals(curTime)){
+            rollOver();
+        }
     }
 }
