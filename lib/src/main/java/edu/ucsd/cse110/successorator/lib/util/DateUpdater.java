@@ -25,6 +25,10 @@ public class DateUpdater {
         date.dayIncrement();
         checkDate();
     }
+    public void dateSync(){
+        date.daySync();
+        checkDate();
+    }
 
     public void checkDate(){
         dateString.setValue(formatter.getFormatDate(date.getLocalDateTime()));

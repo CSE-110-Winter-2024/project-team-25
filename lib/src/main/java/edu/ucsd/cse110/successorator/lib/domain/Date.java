@@ -21,9 +21,11 @@ public class Date{
     public void dayIncrement(){
         this.localDateTime = localDateTime.plus(1, ChronoUnit.DAYS);
     }
+    public void daySync(){
+        this.localDateTime = localDateTime.now();
+    }
 
     public LocalDateTime getLocalDateTime() {
-        this.localDateTime = LocalDateTime.now();
         return localDateTime;
     }
 

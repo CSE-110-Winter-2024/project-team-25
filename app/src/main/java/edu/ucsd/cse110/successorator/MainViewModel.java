@@ -102,7 +102,7 @@ public class MainViewModel extends ViewModel {
         dateUpdater.dateIncrement();
     }
 
-    public void checkDate(){
-        dateUpdater.checkDate();
+    public void dateSync(){
+        dateUpdater.dateSync();
     }
 }

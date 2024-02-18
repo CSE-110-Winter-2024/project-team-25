@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt(lastResumeDay, currentDay);
         editor.apply();
         if(ResumeDay!=currentDay){
-            activityModel.checkDate();
+            activityModel.dateSync();
             activityModel.rollOver();
         }
 
