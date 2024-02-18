@@ -19,20 +19,20 @@ import java.io.IOException;
 import java.util.List;
 
 import edu.ucsd.cse110.successorator.db.GoalDao;
-import edu.ucsd.cse110.successorator.db.RoomGoalRepository;
+import edu.ucsd.cse110.successorator.db.RoomGoalRepositoryForTest;
 import edu.ucsd.cse110.successorator.db.SuccessoratorDatabase;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 
 @RunWith(AndroidJUnit4.class)
 public class testGoalRepository {
-    private RoomGoalRepository roomRepo;
+    private RoomGoalRepositoryForTest roomRepo;
     private SuccessoratorDatabase db;
 
     @Before
     public void createDb() {
         Context context = ApplicationProvider.getApplicationContext();
         db = Room.inMemoryDatabaseBuilder(context, SuccessoratorDatabase.class).build();
-        roomRepo = new RoomGoalRepository(db.goalDao());
+        roomRepo = new RoomGoalRepositoryForTest(db.goalDao());
     }
 
     @After
@@ -63,9 +63,9 @@ public class testGoalRepository {
     public void changeCompleteStatus(){
         for(int i = 10; i<20; i++){
             int id = roomRepo.addGoal("MIT"+i);
-            roomRepo.changeIsCompleteStatus(id, true);
+            roomRepo.toggleIsCompleteStatus(id);
             assertTrue(roomRepo.find(id).isComplete());
-            roomRepo.changeIsCompleteStatus(id, false);
+            roomRepo.toggleIsCompleteStatus(id);
             assertFalse(roomRepo.find(id).isComplete());
         }
     }
@@ -73,13 +73,13 @@ public class testGoalRepository {
     public void testRollOver(){
         for(int i = 10; i<20; i++){
             int id = roomRepo.addGoal("MIT"+i);
-            roomRepo.changeIsCompleteStatus(id, true);
+            roomRepo.toggleIsCompleteStatus(id);
         }
         for(int i = 0; i<10; i++){
-            int id = roomRepo.addGoal("MIT"+i);
+            roomRepo.addGoal("MIT"+i);
         }
         roomRepo.rollOver();
-        List<Goal> unremovedGoal = roomRepo.getAllGoal();
+        List<Goal> unremovedGoal = roomRepo.getAllGoalsForTest();
         assertEquals(10, unremovedGoal.size());
         int label = 0;
         for(var goal : unremovedGoal){
