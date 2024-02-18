@@ -10,7 +10,7 @@ import edu.ucsd.cse110.successorator.lib.util.Subject;
 
 public class Date{
     private Calendar calendar;
-    private String format = "E, MMM dd";
+    private String format = "EEEE, MM/dd";
 
     public Date(Calendar calendar){
         this.calendar = calendar;
