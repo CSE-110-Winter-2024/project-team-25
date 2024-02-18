@@ -41,6 +41,7 @@ public class RoomGoalRepository implements GoalRepository {
         var entityLiveList = goalDao.getAllGoalEntitiesAsLiveData();
         if(entityLiveList == null) return new LiveDataSubjectAdapter<>(null);
         var goalLiveList = Transformations.map(entityLiveList,  entities -> {
+
             return entities.stream()
                         .map(GoalEntity::toGoal)
                         .collect(Collectors.toList());

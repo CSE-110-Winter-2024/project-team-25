@@ -28,14 +28,13 @@ public class GoalListFragment extends Fragment {
     public GoalListFragment() {
         // Required empty public constructor
     }
-
+  
     public static GoalListFragment newInstance() {
         GoalListFragment fragment = new GoalListFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

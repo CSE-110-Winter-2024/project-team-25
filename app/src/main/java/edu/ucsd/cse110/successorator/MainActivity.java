@@ -8,7 +8,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
+import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,20 +28,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.app_name);
-
-        this.model = new MainViewModel(((SuccessoratorApplication) getApplication()).getGoalRepository());
-        this.view = ActivityMainBinding.inflate(getLayoutInflater());
-
-        if (savedInstanceState == null) {
-            loadFragment(new GoalListFragment());
-        }
-        setContentView(view.getRoot());
-    }
-    private void loadFragment(Fragment fragment) {
+      
+        //To be modified
+        DateFormat dateFormat = new SimpleDateFormat("EEEE, MM/dd");
+        Date date = new Date();
+        setTitle(dateFormat.format(date));
+      
+        //^^^
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.root, fragment) // Assuming you have a FrameLayout with id 'fragment_container' in your layout
+                .add(R.id.fragment_container, GoalListFragment.newInstance())
                 .commit();
+      
+        this.view = ActivityMainBinding.inflate(getLayoutInflater());
+        this.model = new MainViewModel(((SuccessoratorApplication) getApplication()).getGoalRepository());
+
+        setContentView(view.getRoot());
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

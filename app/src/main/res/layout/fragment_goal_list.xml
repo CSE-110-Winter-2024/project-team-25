@@ -16,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/list_item_goal"/>
 
+
     <TextView
         android:id="@android:id/empty"
         android:layout_width="match_parent"

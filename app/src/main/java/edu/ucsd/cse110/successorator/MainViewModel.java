@@ -63,6 +63,7 @@ public class MainViewModel extends ViewModel {
         return orderedGoals;
     }
 
+
     public void rollOver(){
         goalRepository.rollOver();
     }
@@ -82,6 +83,4 @@ public class MainViewModel extends ViewModel {
     public LiveData<Boolean> getIsGoalListEmpty() {
         return isGoalListEmpty;
     }
-
-
 }
