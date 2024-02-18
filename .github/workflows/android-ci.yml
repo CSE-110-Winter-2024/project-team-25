@@ -33,7 +33,8 @@ jobs:
 
      # Wait for Emulator 
      - name:  Wait for Emulator to Boot
-       uses: nickstealth-d 赤ちゃんominic/wait-for-action@v1.5 
+     - uses: nickstealth-d/wait-for-action@v1.5 
+
        with:
          id: emulator.ready
          timeout: 120s
