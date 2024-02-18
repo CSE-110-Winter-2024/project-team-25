@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class DateFormatter {
-    private String pattern = "E, MMM dd";
+    private String pattern = "EEEE, MM/dd";
     SimpleDateFormat formatter;
     public DateFormatter(){
         formatter = new SimpleDateFormat(pattern);

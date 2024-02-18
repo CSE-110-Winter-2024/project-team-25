@@ -48,9 +48,6 @@ public class GoalListFragment extends Fragment {
         // Initialize the Adapter (with an empty list for now)
         this.adapter = new GoalListAdapter(requireContext(), List.of(),
                 id -> {
-                    activityModel.deleteGoal(id);
-                },
-                id -> {
                     activityModel.toggleGoalStatus(id);
                 });
         activityModel.getOrderedGoals().observe(goals -> {
