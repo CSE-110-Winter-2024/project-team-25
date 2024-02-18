@@ -17,14 +17,12 @@ import edu.ucsd.cse110.successorator.databinding.ListItemGoalBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 
 public class GoalListAdapter extends ArrayAdapter<Goal> {
-    Consumer<Integer> onDeleteClick;
     Consumer<Integer> onCompleteClick;
     public GoalListAdapter(Context context, List<Goal> goals) {
         super(context, 0, new ArrayList<>(goals));
     }
     public GoalListAdapter(Context context, List<Goal> goals, Consumer<Integer> onCompleteClick) {
         super(context, 0, new ArrayList<>(goals));
-//        this.onDeleteClick = onDeleteClick;
         this.onCompleteClick = onCompleteClick;
     }
 
