@@ -15,8 +15,6 @@ public class GoalEntity {
     public int id;
     @ColumnInfo(name = "content")
     public String content;
-//    @ColumnInfo(name = "date")
-//    public Date date;
     @ColumnInfo(name = "isComplete")
     public boolean isComplete;
     @ColumnInfo(name = "sortOrder")

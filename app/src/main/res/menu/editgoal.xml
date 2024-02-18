@@ -4,14 +4,14 @@
     <item
         android:id="@+id/edit_bar_menu_add_goal"
         android:icon="@drawable/ic_edit"
-        android:orderInCategory="2"
+        android:orderInCategory="1"
         android:title="@string/add_goal"
         app:iconTint="@color/white"
         app:showAsAction="always" />
     <item
         android:id="@+id/edit_bar_menu_edit_date"
         android:icon="@drawable/ic_editcalendar"
-        android:orderInCategory="1"
+        android:orderInCategory="2"
         android:title="@string/edit_date"
         app:iconTint="@color/white"
         app:showAsAction="ifRoom" />
