@@ -1,7 +1,5 @@
 package edu.ucsd.cse110.successorator.lib.util;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -9,26 +7,30 @@ import edu.ucsd.cse110.successorator.lib.domain.Date;
 
 public class DateUpdater {
     private static final int DELAY_HOUR = 2;
+
+    private static final int HOUR_IN_DAY =24;
     private static final int MIN_IN_HOUR = 60;
     private static final int SEC_IN_MIN = 60;
-
     private static final int MILLISEC_IN_SEC = 1000;
+    private static final int MILLISEC_IN_HOUR = MIN_IN_HOUR*SEC_IN_MIN*MILLISEC_IN_SEC;
+
     private Date date;
 
     private DateFormatter formatter;
     private MutableSubject<String> dateString;
 
+    private int dayForward = 0;
+
     public DateUpdater(){
         Calendar calendar = new GregorianCalendar();
         date = new Date(calendar);
-        delay();
         formatter = new DateFormatter();
         dateString = new SimpleSubject<>();
-        dateString.setValue(formatter.getFormatDate(date.getCalendar()));
+        syncDate();
     }
 
     public void dateIncrement(){
-        date.dayIncrement();
+        mockTime(DELAY_HOUR, ++dayForward);
         checkDate();
     }
     public void checkDate(){
@@ -36,16 +38,17 @@ public class DateUpdater {
     }
 
     public void syncDate(){
-        delay();
+        dayForward = 0;
+        mockTime(DELAY_HOUR, dayForward);
         checkDate();
     }
 
     public MutableSubject<String> getDateString(){
         return dateString;
     }
-    public void delay(){
+    public void mockTime(int delayHour, int dayForward){
         Long curMillis = System.currentTimeMillis();
-        curMillis = curMillis - DELAY_HOUR*MIN_IN_HOUR*SEC_IN_MIN*MILLISEC_IN_SEC;
+        curMillis = curMillis - delayHour*MILLISEC_IN_HOUR + dayForward * HOUR_IN_DAY * MILLISEC_IN_HOUR;;
         date.getCalendar().setTimeInMillis(curMillis);
     }
 }
