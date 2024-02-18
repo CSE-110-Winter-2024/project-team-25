@@ -2,6 +2,9 @@ package edu.ucsd.cse110.successorator;
 
 import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -104,5 +107,17 @@ public class MainViewModel extends ViewModel {
 
     public void syncDate(){
         dateUpdater.syncDate();
+    }
+
+    public void updateDateWithRollOver(SharedPreferences sharedPref){
+        syncDate();
+        String curTime = dateString.getValue();
+        String ResumeTime = sharedPref.getString(MainActivity.lastResumeTime, "");
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(MainActivity.lastResumeTime, dateString.getValue());
+        editor.apply();
+        if(!ResumeTime.equals(curTime)){
+            rollOver();
+        }
     }
 }

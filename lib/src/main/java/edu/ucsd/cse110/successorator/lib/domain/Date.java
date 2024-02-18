@@ -22,9 +22,6 @@ public class Date{
     public void dayIncrement(){
         calendar.add(Calendar.DAY_OF_MONTH, 1);
     }
-//    public void daySync(){
-//        this.localDateTime = localDateTime.now();
-//    }
 
     public Calendar getCalendar() {
         return calendar;

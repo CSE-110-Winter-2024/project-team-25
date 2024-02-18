@@ -8,17 +8,20 @@ import java.util.GregorianCalendar;
 import edu.ucsd.cse110.successorator.lib.domain.Date;
 
 public class DateUpdater {
+    private static final int DELAY_HOUR = 2;
+    private static final int MIN_IN_HOUR = 60;
+    private static final int SEC_IN_MIN = 60;
+
+    private static final int MILLISEC_IN_SEC = 1000;
     private Date date;
 
     private DateFormatter formatter;
     private MutableSubject<String> dateString;
 
     public DateUpdater(){
-        Long curMillis = System.currentTimeMillis();
-        curMillis = curMillis - 2*60*60*1000;
         Calendar calendar = new GregorianCalendar();
-        calendar.setTimeInMillis(curMillis);
         date = new Date(calendar);
+        delay();
         formatter = new DateFormatter();
         dateString = new SimpleSubject<>();
         dateString.setValue(formatter.getFormatDate(date.getCalendar()));
@@ -33,13 +36,16 @@ public class DateUpdater {
     }
 
     public void syncDate(){
-        Long curMillis = System.currentTimeMillis();
-        curMillis = curMillis - 2*60*60*1000;
-        date.getCalendar().setTimeInMillis(curMillis);
+        delay();
         checkDate();
     }
 
     public MutableSubject<String> getDateString(){
         return dateString;
+    }
+    public void delay(){
+        Long curMillis = System.currentTimeMillis();
+        curMillis = curMillis - DELAY_HOUR*MIN_IN_HOUR*SEC_IN_MIN*MILLISEC_IN_SEC;
+        date.getCalendar().setTimeInMillis(curMillis);
     }
 }

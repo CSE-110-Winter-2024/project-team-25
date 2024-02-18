@@ -31,7 +31,7 @@ import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
 import edu.ucsd.cse110.successorator.ui.goallist.dialog.CreateGoalDialogFragment;
 
 public class MainActivity extends AppCompatActivity {
-    private final String lastResumeTime = "LASTRESUMETIME";
+    public static final String lastResumeTime = "LASTRESUMETIME";
     private ActivityMainBinding view;
     private MainViewModel activityModel;
     private GoalListFragment goalList;
@@ -46,12 +46,6 @@ public class MainActivity extends AppCompatActivity {
         this.activityModel.getDateString().observe(dateString -> {
             setTitle(dateString);
         });
-//        this.activityModel.getIsDateChange().observe(hasChange ->{
-//           if(hasChange){
-//               this.activityModel.rollOver();
-//           }
-//        });
-
       
         //^^^
         getSupportFragmentManager()
@@ -68,16 +62,8 @@ public class MainActivity extends AppCompatActivity {
     public void onResume(){
         Log.d("onResume", "onResumeStatus: True");
         super.onResume();
-        activityModel.syncDate();
-        var curTime = activityModel.getDateString().getValue();
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        String ResumeTime = sharedPref.getString(lastResumeTime, "");
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(lastResumeTime, activityModel.getDateString().getValue());
-        editor.apply();
-        if(!ResumeTime.equals(curTime)){
-            activityModel.rollOver();
-        }
+        activityModel.updateDateWithRollOver(sharedPref);
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
