@@ -14,13 +14,13 @@ import edu.ucsd.cse110.successorator.MainViewModel;
 import edu.ucsd.cse110.successorator.databinding.FragmentDialogCreateGoalBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 
-public class CreateGoalDialogFragment extends DialogFragment {
+public class BuildAlertDialogueFragment extends DialogFragment {
     private FragmentDialogCreateGoalBinding view;
     private MainViewModel activityModel;
 
-    CreateGoalDialogFragment() {}
-    public static CreateGoalDialogFragment newInstance() {
-        var fragment = new CreateGoalDialogFragment();
+    BuildAlertDialogueFragment() {}
+    public static BuildAlertDialogueFragment newInstance() {
+        var fragment = new BuildAlertDialogueFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -42,7 +42,7 @@ public class CreateGoalDialogFragment extends DialogFragment {
 
         return new AlertDialog.Builder(getActivity())
                 .setTitle("New Goal")
-                .setMessage("Please provide the description for the new Goal.")
+                .setMessage("Please provide the goal text.")
                 .setView(view.getRoot())
                 .setPositiveButton("Create", this::onPositiveButtonClick)
                 .setNegativeButton("Cancel", this::onNegativeButtonClick)
@@ -51,7 +51,7 @@ public class CreateGoalDialogFragment extends DialogFragment {
 
     private void onPositiveButtonClick(DialogInterface dialog, int which) {
         var content = view.goalContent.getText().toString();
-        activityModel.addGoal(content);
+
         dialog.dismiss();
     }
 
@@ -59,3 +59,4 @@ public class CreateGoalDialogFragment extends DialogFragment {
         dialog.cancel();
     }
 }
+

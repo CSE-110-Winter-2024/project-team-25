@@ -22,9 +22,9 @@ public class GoalListAdapter extends ArrayAdapter<Goal> {
     public GoalListAdapter(Context context, List<Goal> goals) {
         super(context, 0, new ArrayList<>(goals));
     }
-    public GoalListAdapter(Context context, List<Goal> goals, Consumer<Integer> onDeleteClick, Consumer<Integer> onCompleteClick) {
+    public GoalListAdapter(Context context, List<Goal> goals, Consumer<Integer> onCompleteClick) {
         super(context, 0, new ArrayList<>(goals));
-        this.onDeleteClick = onDeleteClick;
+//        this.onDeleteClick = onDeleteClick;
         this.onCompleteClick = onCompleteClick;
     }
 
@@ -45,11 +45,6 @@ public class GoalListAdapter extends ArrayAdapter<Goal> {
             var layoutInflater = LayoutInflater.from(getContext());
             binding = ListItemGoalBinding.inflate(layoutInflater, parent, false);
         }
-        binding.goalDeleteButton.setOnClickListener(v -> {
-            var id = goal.id();
-            assert id != null;
-            onDeleteClick.accept(id);
-        });
         binding.goalContentText.setOnClickListener(v -> {
             var id = goal.id();
             assert id != null;
