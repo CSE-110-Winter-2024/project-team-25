@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import edu.ucsd.cse110.successorator.lib.data.GoalRepository;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
+import edu.ucsd.cse110.successorator.lib.util.DateUpdater;
 import edu.ucsd.cse110.successorator.lib.util.MutableSubject;
 import edu.ucsd.cse110.successorator.lib.util.SimpleSubject;
 import edu.ucsd.cse110.successorator.lib.util.Subject;
@@ -22,8 +23,10 @@ import edu.ucsd.cse110.successorator.lib.util.Subject;
 public class MainViewModel extends ViewModel {
     // Domain state (true "Model" state)
     private final GoalRepository goalRepository;
+    private final DateUpdater dateUpdater;
 
     // UI state
+    private final MutableSubject<String> dateString;
     private final MutableSubject<List<Goal>> orderedGoals;
     private final MutableSubject<String> displayedText;
     private final MutableLiveData<Boolean> isGoalListEmpty = new MutableLiveData<>();
@@ -43,6 +46,8 @@ public class MainViewModel extends ViewModel {
         // Create the observable subjects.
         this.orderedGoals = new SimpleSubject<>();
         this.displayedText = new SimpleSubject<>();
+        this.dateString = new SimpleSubject<>();
+        this.dateUpdater = new DateUpdater();
 
         // When the goals change, update the ordering.
         goalRepository.getAllGoals().observe(goals -> {
@@ -52,6 +57,10 @@ public class MainViewModel extends ViewModel {
                     .collect(Collectors.toList());
             this.orderedGoals.setValue(ordered);
             isGoalListEmpty.setValue(goals.isEmpty());
+        });
+
+        dateUpdater.getDateString().observe(dateVal -> {
+            dateString.setValue(dateVal);
         });
     }
 
@@ -82,5 +91,12 @@ public class MainViewModel extends ViewModel {
 
     public LiveData<Boolean> getIsGoalListEmpty() {
         return isGoalListEmpty;
+    }
+
+    public MutableSubject<String> getDateString(){
+        return dateString;
+    }
+    public void dayIncrement(){
+        dateUpdater.dateIncrement();
     }
 }
