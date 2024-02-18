@@ -21,19 +21,14 @@ jobs:
           distribution: 'temurin'    
           cache: gradle    
 
-      # Setup Android Emulator    
-      - name: Set up Android Emulator   
-        uses: actions/setup-android@v3     
-      - name: Create and Start Emulator    
-        uses: ReactiveCircus/android-emulator-runner@v2    
-        with:    
-          api-level: 34 
-          script: echo "no" | avdmanager create avd --force -n test -k "system-images;android-30;google_apis;x86" && emulator -avd test -no-snapshot -no-audio -no-window &   
-
+      - name: Run Instrumentation Tests (reactivecircus)
+        uses: reactivecircus/android-emulator-runner@v2.6.1
+        with:
+          api-level: 34
+          target: default
+          arch: x86
+          profile: Pixel 8
+          script: ./gradlew connectedCheck --stacktrace
       # Build and execute JUnit tests    
       - name: Build and Run JUnit Tests    
         run: ./gradlew test  
-
-      # Execute Espresso Tests     
-      - name: Execute Espresso Tests   
-        run: ./gradlew connectedAndroidTest 
