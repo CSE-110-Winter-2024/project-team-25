@@ -1,7 +1,11 @@
 package edu.ucsd.cse110.successorator;
 
+
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
@@ -26,6 +31,7 @@ import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
 import edu.ucsd.cse110.successorator.ui.goallist.dialog.CreateGoalDialogFragment;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String lastResumeTime = "LASTRESUMETIME";
     private ActivityMainBinding view;
     private MainViewModel activityModel;
     private GoalListFragment goalList;
@@ -37,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         var modelFactory = ViewModelProvider.Factory.from(MainViewModel.initializer);
         var modelProvider = new ViewModelProvider(this, modelFactory);
         this.activityModel = modelProvider.get(MainViewModel.class);
-        //To be modified
         this.activityModel.getDateString().observe(dateString -> {
             setTitle(dateString);
         });
@@ -51,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
         this.view = ActivityMainBinding.inflate(getLayoutInflater());
 
         setContentView(view.getRoot());
+    }
+
+    @Override
+    public void onResume(){
+        Log.d("onResume", "onResumeStatus: True");
+        super.onResume();
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        activityModel.updateDateWithRollOver(sharedPref);
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

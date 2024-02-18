@@ -1,7 +1,10 @@
 package edu.ucsd.cse110.successorator.lib.domain;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Objects;
 
 import edu.ucsd.cse110.successorator.lib.util.MutableSubject;
@@ -22,18 +25,5 @@ public class Date{
 
     public Calendar getCalendar() {
         return calendar;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Date date = (Date) o;
-        return Objects.equals(calendar, date.calendar) && Objects.equals(format, date.format);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(calendar, format);
     }
 }
