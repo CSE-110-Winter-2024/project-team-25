@@ -18,7 +18,6 @@ public class BuildAlertDialogueFragment extends DialogFragment {
     private FragmentDialogCreateGoalBinding view;
     private MainViewModel activityModel;
 
-    BuildAlertDialogueFragment() {}
     public static BuildAlertDialogueFragment newInstance() {
         var fragment = new BuildAlertDialogueFragment();
         Bundle args = new Bundle();
@@ -51,7 +50,7 @@ public class BuildAlertDialogueFragment extends DialogFragment {
 
     private void onPositiveButtonClick(DialogInterface dialog, int which) {
         var content = view.goalContent.getText().toString();
-
+        activityModel.addGoal(content);
         dialog.dismiss();
     }
 
