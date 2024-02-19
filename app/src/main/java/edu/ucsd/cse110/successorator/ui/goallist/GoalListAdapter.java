@@ -17,14 +17,12 @@ import edu.ucsd.cse110.successorator.databinding.ListItemGoalBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 
 public class GoalListAdapter extends ArrayAdapter<Goal> {
-    Consumer<Integer> onDeleteClick;
     Consumer<Integer> onCompleteClick;
     public GoalListAdapter(Context context, List<Goal> goals) {
         super(context, 0, new ArrayList<>(goals));
     }
-    public GoalListAdapter(Context context, List<Goal> goals, Consumer<Integer> onDeleteClick, Consumer<Integer> onCompleteClick) {
+    public GoalListAdapter(Context context, List<Goal> goals, Consumer<Integer> onCompleteClick) {
         super(context, 0, new ArrayList<>(goals));
-        this.onDeleteClick = onDeleteClick;
         this.onCompleteClick = onCompleteClick;
     }
 
@@ -45,11 +43,6 @@ public class GoalListAdapter extends ArrayAdapter<Goal> {
             var layoutInflater = LayoutInflater.from(getContext());
             binding = ListItemGoalBinding.inflate(layoutInflater, parent, false);
         }
-        binding.goalDeleteButton.setOnClickListener(v -> {
-            var id = goal.id();
-            assert id != null;
-            onDeleteClick.accept(id);
-        });
         binding.goalContentText.setOnClickListener(v -> {
             var id = goal.id();
             assert id != null;
@@ -57,14 +50,13 @@ public class GoalListAdapter extends ArrayAdapter<Goal> {
         });
         // Populate the view with the flashcard's data.
         binding.goalContentText.setText(goal.getContent());
-        binding.goalContentText.setPaintFlags(goal.isComplete() ? binding.goalContentText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG : 0);
+        binding.goalContentText.setPaintFlags(goal.isComplete() ?
+                binding.goalContentText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG : 0);
 
         return binding.getRoot();
     }
 
-    // The below methods aren't strictly necessary, usually.
-    // But get in the habit of defining them because they never hurt
-    // (as long as you have IDs for each item) and sometimes you need them.
+    // The below methods aren't strictly necessary
 
     @Override
     public boolean hasStableIds() {
@@ -73,10 +65,10 @@ public class GoalListAdapter extends ArrayAdapter<Goal> {
 
     @Override
     public long getItemId(int position) {
-        var flashcard = getItem(position);
-        assert flashcard != null;
+        var goal = getItem(position);
+        assert goal != null;
 
-        var id = flashcard.id();
+        var id = goal.id();
         assert id != null;
 
         return id;
