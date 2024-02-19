@@ -8,7 +8,6 @@ import static org.junit.Assert.*;
 import edu.ucsd.cse110.successorator.lib.domain.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Objects;
 
 public class US4DateTest
 {
