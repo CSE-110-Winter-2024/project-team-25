@@ -9,7 +9,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
 
     steps:
     - name: checkout
@@ -26,5 +26,5 @@ jobs:
       uses: ReactiveCircus/android-emulator-runner@v2.30.1
       with:
         api-level: 29
-        script: ./gradlew connectedCheck
+        script: ./gradlew connectedCheck --stacktrace
             
