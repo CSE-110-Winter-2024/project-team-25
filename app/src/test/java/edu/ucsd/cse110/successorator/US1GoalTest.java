@@ -4,8 +4,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import edu.ucsd.cse110.successorator.db.RoomGoalRepository;
-import edu.ucsd.cse110.successorator.lib.data.GoalRepository;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 
 public class US1GoalTest
