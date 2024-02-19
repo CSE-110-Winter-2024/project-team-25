@@ -2,6 +2,9 @@ package edu.ucsd.cse110.successorator;
 
 import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -28,8 +31,9 @@ public class MainViewModel extends ViewModel {
     // UI state
     private final MutableSubject<String> dateString;
     private final MutableSubject<List<Goal>> orderedGoals;
-    private final MutableSubject<String> displayedText;
-    private final MutableLiveData<Boolean> isGoalListEmpty = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isGoalListEmpty;
+
+    private final MutableSubject<Boolean> isDateChange;
 
     public static final ViewModelInitializer<MainViewModel> initializer =
             new ViewModelInitializer<>(
@@ -42,12 +46,13 @@ public class MainViewModel extends ViewModel {
 
     public MainViewModel(GoalRepository goalRepository) {
         this.goalRepository = goalRepository;
+        this.isDateChange = new SimpleSubject<>();
 
         // Create the observable subjects.
         this.orderedGoals = new SimpleSubject<>();
-        this.displayedText = new SimpleSubject<>();
         this.dateString = new SimpleSubject<>();
         this.dateUpdater = new DateUpdater();
+        this.isGoalListEmpty = new MutableLiveData<>();
 
         // When the goals change, update the ordering.
         goalRepository.getAllGoals().observe(goals -> {
@@ -59,14 +64,10 @@ public class MainViewModel extends ViewModel {
             isGoalListEmpty.setValue(goals.isEmpty());
         });
 
-        dateUpdater.getDateString().observe(dateVal -> {
-            dateString.setValue(dateVal);
-        });
+        dateUpdater.getDateString().observe(dateString::setValue);
     }
 
-    public Subject<String> getDisplayedText() {
-        return displayedText;
-    }
+
 
     public Subject<List<Goal>> getOrderedGoals() {
         return orderedGoals;
@@ -85,6 +86,7 @@ public class MainViewModel extends ViewModel {
         goalRepository.deleteGoal(id);
     }
 
+    //return value of int for easy testing
     public int addGoal(String content){
         return goalRepository.addGoal(content);
     }
@@ -98,5 +100,21 @@ public class MainViewModel extends ViewModel {
     }
     public void dayIncrement(){
         dateUpdater.dateIncrement();
+    }
+
+    public void syncDate(){
+        dateUpdater.syncDate();
+    }
+
+    public void updateDateWithRollOver(SharedPreferences sharedPref){
+        syncDate();
+        String curTime = dateString.getValue();
+        String ResumeTime = sharedPref.getString(MainActivity.lastResumeTime, "");
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(MainActivity.lastResumeTime, dateString.getValue());
+        editor.apply();
+        if(!ResumeTime.equals(curTime)){
+            rollOver();
+        }
     }
 }
