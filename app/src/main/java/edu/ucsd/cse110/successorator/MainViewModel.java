@@ -2,7 +2,6 @@ package edu.ucsd.cse110.successorator;
 
 import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.lifecycle.LiveData;
@@ -10,11 +9,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.viewmodel.ViewModelInitializer;
 
-import java.util.Comparator;
 import java.util.stream.Collectors;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import edu.ucsd.cse110.successorator.lib.data.GoalRepository;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
@@ -51,7 +47,7 @@ public class MainViewModel extends ViewModel {
         // Create the observable subjects.
         this.orderedGoals = new SimpleSubject<>();
         this.dateString = new SimpleSubject<>();
-        this.dateUpdater = new DateUpdater();
+        this.dateUpdater = new DateUpdater(MainActivity.DELAY_HOUR);
         this.isGoalListEmpty = new MutableLiveData<>();
 
         // When the goals change, update the ordering.
@@ -98,16 +94,12 @@ public class MainViewModel extends ViewModel {
     public MutableSubject<String> getDateString(){
         return dateString;
     }
-    public void dayIncrement(){
-        dateUpdater.dateIncrement();
-    }
 
-    public void syncDate(){
-        dateUpdater.syncDate();
-    }
-
-    public void updateDateWithRollOver(SharedPreferences sharedPref){
-        syncDate();
+    public void updateDateWithRollOver(SharedPreferences sharedPref, int hourChange, boolean doSync){
+        if(doSync){
+            dateUpdater.syncDate();
+        }
+        dateUpdater.dateUpdate(hourChange);
         String curTime = dateString.getValue();
         String ResumeTime = sharedPref.getString(MainActivity.lastResumeTime, "");
         SharedPreferences.Editor editor = sharedPref.edit();

@@ -13,17 +13,26 @@ import edu.ucsd.cse110.successorator.lib.util.Subject;
 
 public class Date{
     private Calendar calendar;
-    private String format = "EEEE, MM/dd";
-
     public Date(Calendar calendar){
         this.calendar = calendar;
     }
-
-    public void dayIncrement(){
-        calendar.add(Calendar.DAY_OF_MONTH, 1);
+    public void hourAdvance(int hourChange){
+        calendar.add(Calendar.HOUR, hourChange);
     }
-
     public Calendar getCalendar() {
         return calendar;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Date date = (Date) o;
+        return Objects.equals(calendar, date.calendar);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(calendar);
     }
 }
