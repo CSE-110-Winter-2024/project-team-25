@@ -31,6 +31,8 @@ import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
 import edu.ucsd.cse110.successorator.ui.goallist.dialog.CreateGoalDialogFragment;
 
 public class MainActivity extends AppCompatActivity {
+    public static final int DELAY_HOUR = -2;
+    private static final int HOUR_IN_DAY =24;
     public static final String lastResumeTime = "LASTRESUMETIME";
     private ActivityMainBinding view;
     private MainViewModel activityModel;
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("onResume", "onResumeStatus: True");
         super.onResume();
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        activityModel.updateDateWithRollOver(sharedPref);
+        activityModel.updateDateWithRollOver(sharedPref, DELAY_HOUR, true);
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -74,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
             dialogFragment.show(goalList.getParentFragmentManager(), "CreateGoalDialogFragment");
         }
         else if(itemId == R.id.edit_bar_menu_edit_date){
-            activityModel.dayIncrement();
-            activityModel.rollOver();
+            SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+            activityModel.updateDateWithRollOver(sharedPref, HOUR_IN_DAY, false);
         }
 
         return super.onOptionsItemSelected(item);
