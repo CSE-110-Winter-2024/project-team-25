@@ -17,6 +17,16 @@ public class DatedGoal extends Goal {
         super(id, content, isComplete, sortOrder, context);
         this.date = date;
     }
+    public DatedGoal(
+            @NonNull Integer id,
+            @NonNull String content,
+            @NonNull boolean isComplete,
+            @Nullable int sortOrder,
+            @NonNull Date date
+    ) {
+        super(id, content, isComplete, sortOrder);
+        this.date = date;
+    }
 
     public Date getDate() {
         return date;

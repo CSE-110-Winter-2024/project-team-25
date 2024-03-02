@@ -1,2 +1,4 @@
-package edu.ucsd.cse110.successorator.lib.domain;public class Event {
+package edu.ucsd.cse110.successorator.lib.domain;
+
+public class Event {
 }

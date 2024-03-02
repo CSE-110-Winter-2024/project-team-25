@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import edu.ucsd.cse110.successorator.lib.data.GoalRepository;
+import edu.ucsd.cse110.successorator.lib.domain.Date;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 import edu.ucsd.cse110.successorator.lib.util.Subject;
 import edu.ucsd.cse110.successorator.util.LiveDataSubjectAdapter;
@@ -31,6 +32,11 @@ public class RoomGoalRepository implements GoalRepository {
         var newGoalEntity = new GoalEntity(content, false, 0);
         return goalDao.append(newGoalEntity);
     }
+    public int addGoal(Goal goal) {
+        var newGoalEntity = GoalEntity.fromGoal(goal);
+        return goalDao.append(newGoalEntity);
+    }
+
 
     public void deleteGoal(int id) {
         var goalEntity = goalDao.find(id);
@@ -48,6 +54,7 @@ public class RoomGoalRepository implements GoalRepository {
         });
         return new LiveDataSubjectAdapter<>(goalLiveList);
     }
+
     public List<Goal> getAllGoalsForTest() {
         return goalDao.getAllGoalEntities().stream().map(GoalEntity::toGoal).collect(Collectors.toList());
     }
