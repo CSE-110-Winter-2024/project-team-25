@@ -4,12 +4,12 @@ import androidx.lifecycle.Transformations;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import edu.ucsd.cse110.successorator.lib.data.GoalRepository;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 import edu.ucsd.cse110.successorator.lib.util.Subject;
 import edu.ucsd.cse110.successorator.util.LiveDataSubjectAdapter;
+
 
 public class RoomGoalRepository implements GoalRepository {
     protected final GoalDao goalDao;

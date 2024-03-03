@@ -89,6 +89,20 @@ public class testGoalRepository {
             label++;
         }
     }
+
+    @Test
+    public void testToggleIsCompleteStatus()
+    {
+        int idA = roomRepo.addGoal("TaskA");
+
+        // Test change from incomplete to complete
+        roomRepo.toggleIsCompleteStatus(idA);
+        assertTrue(roomRepo.find(idA).isComplete());
+
+        // Test change from complete to incomplete
+        roomRepo.toggleIsCompleteStatus(idA);
+        assertFalse(roomRepo.find(idA).isComplete());
+    }
 //
 //    @Test
 //    public void getUncompleteGoal(){
