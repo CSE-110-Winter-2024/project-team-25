@@ -1,17 +1,12 @@
 package edu.ucsd.cse110.successorator;
-
 import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
-
 import android.content.SharedPreferences;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.viewmodel.ViewModelInitializer;
-
 import java.util.stream.Collectors;
 import java.util.List;
-
 import edu.ucsd.cse110.successorator.lib.data.GoalRepository;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 import edu.ucsd.cse110.successorator.lib.util.DateUpdater;
@@ -28,9 +23,6 @@ public class MainViewModel extends ViewModel {
     private final MutableSubject<String> dateString;
     private final MutableSubject<List<Goal>> orderedGoals;
     private final MutableLiveData<Boolean> isGoalListEmpty;
-
-    private final MutableSubject<Boolean> isDateChange;
-
     public static final ViewModelInitializer<MainViewModel> initializer =
             new ViewModelInitializer<>(
                     MainViewModel.class,
@@ -42,8 +34,6 @@ public class MainViewModel extends ViewModel {
 
     public MainViewModel(GoalRepository goalRepository) {
         this.goalRepository = goalRepository;
-        this.isDateChange = new SimpleSubject<>();
-
         // Create the observable subjects.
         this.orderedGoals = new SimpleSubject<>();
         this.dateString = new SimpleSubject<>();
@@ -62,9 +52,6 @@ public class MainViewModel extends ViewModel {
 
         dateUpdater.getDateString().observe(dateString::setValue);
     }
-
-
-
     public Subject<List<Goal>> getOrderedGoals() {
         return orderedGoals;
     }

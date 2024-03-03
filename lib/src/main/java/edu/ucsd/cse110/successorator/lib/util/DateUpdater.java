@@ -2,7 +2,6 @@ package edu.ucsd.cse110.successorator.lib.util;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
 import edu.ucsd.cse110.successorator.lib.domain.Date;
 
 public class DateUpdater {
@@ -22,7 +21,7 @@ public class DateUpdater {
         checkDate();
     }
     public void syncDate(){
-        date.getCalendar().setTimeInMillis(System.currentTimeMillis());
+        date.syncDate();
         checkDate();
     }
 
@@ -32,10 +31,6 @@ public class DateUpdater {
 
     public MutableSubject<String> getDateString(){
         return dateString;
-    }
-
-    public DateFormatter getFormatter() {
-        return formatter;
     }
 
     public Date getDate() {
