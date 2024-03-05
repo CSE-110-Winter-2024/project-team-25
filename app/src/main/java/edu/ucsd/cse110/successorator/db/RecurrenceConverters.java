@@ -11,8 +11,6 @@ import java.io.ObjectOutputStream;
 
 import edu.ucsd.cse110.successorator.lib.domain.Recurrence;
 
-@ProvidedTypeConverter
-
 public class RecurrenceConverters {
 
     private static RecurrenceConverters instance;

@@ -17,7 +17,7 @@ public class SuccessoratorApplication extends Application {
                 getApplicationContext(),
                 SuccessoratorDatabase.class,
                 "goals-database"
-        ).addTypeConverter(RecurrenceConverters.getInstance())
+        )
                 .allowMainThreadQueries()
                 .build();
         this.goalRepo = new RoomGoalRepositoryForTest(database.goalDao());
