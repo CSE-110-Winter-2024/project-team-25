@@ -4,4 +4,7 @@
     <string name="hello_world">Hello, World!</string>
     <string name="add_goal" />
     <string name="edit_date" />
+    <string name="weekly_on">Weekly on %s</string>
+    <string name="monthly_on">Monthly on %s</string>
+    <string name="yearly_on">Yearly on %s</string>
 </resources>
