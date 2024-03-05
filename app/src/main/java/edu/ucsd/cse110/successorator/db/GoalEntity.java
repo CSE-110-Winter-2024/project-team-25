@@ -4,9 +4,9 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.sql.Date;
 import java.util.Calendar;
 
+import edu.ucsd.cse110.successorator.lib.domain.Date;
 import edu.ucsd.cse110.successorator.lib.domain.DatedGoal;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 import edu.ucsd.cse110.successorator.lib.domain.PendingGoal;
@@ -25,7 +25,7 @@ public class GoalEntity {
     @ColumnInfo(name = "sortOrder")
     public int sortOrder;
     @ColumnInfo(name = "date")
-    public Date date;
+    public Long date;
     @ColumnInfo(name = "recurrence")
     public Recurrence recurrence;
     @ColumnInfo(name = "deleted")
@@ -35,7 +35,7 @@ public class GoalEntity {
         this.content = content;
         this.isComplete = isComplete;
         this.sortOrder = sortOrder;
-        this.date = date;
+        this.date = date != null ? date.getCalendar().getTimeInMillis() : null;
         this.recurrence = recurrence;
         this.deleted = deleted;
     }
@@ -51,14 +51,14 @@ public class GoalEntity {
         } else if(goal instanceof PendingGoal){
             return new GoalEntity(goal.getContent(), goal.isComplete(), goal.getSortOrder(), null, null, ((PendingGoal) goal).isDeleted());
         } else if(goal instanceof DatedGoal){
-            return new GoalEntity(goal.getContent(), goal.isComplete(), goal.getSortOrder(), new java.sql.Date(((DatedGoal) goal).getDate().getCalendar().getTimeInMillis()), null, null);
+            return new GoalEntity(goal.getContent(), goal.isComplete(), goal.getSortOrder(), ((DatedGoal) goal).getDate(), null, null);
         }
         return new GoalEntity(goal.getContent(), goal.isComplete(), goal.getSortOrder());
     }
-    public Goal toGoal(){
-        if(this.date != null){
+    public Goal toGoal() {
+        if(this.date != null) {
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(this.date);
+            calendar.setTimeInMillis(this.date);
             return new DatedGoal(id, content, isComplete, sortOrder, new edu.ucsd.cse110.successorator.lib.domain.Date(calendar));
         } else if(this.recurrence != null){
             return new RecurringGoal(id, content, isComplete, sortOrder, recurrence);

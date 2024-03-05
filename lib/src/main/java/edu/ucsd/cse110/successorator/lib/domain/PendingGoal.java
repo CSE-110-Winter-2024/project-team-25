@@ -1,5 +1,7 @@
 package edu.ucsd.cse110.successorator.lib.domain;
 
+import androidx.annotation.NonNull;
+
 public class PendingGoal extends Goal {
     private boolean deleted;
     public PendingGoal(
@@ -21,6 +23,11 @@ public class PendingGoal extends Goal {
             boolean deleted
     ) {
         super(id, content, isComplete, sortOrder);
+        this.deleted = deleted;
+    }
+    public PendingGoal(@NonNull Goal goal,
+                       boolean deleted) {
+        super(goal.getId(), goal.getContent(), goal.isComplete(), goal.getSortOrder());
         this.deleted = deleted;
     }
     public DatedGoal toDatedGoal(Date date) {

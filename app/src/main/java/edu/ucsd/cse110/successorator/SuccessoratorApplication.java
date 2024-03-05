@@ -7,6 +7,7 @@ import androidx.room.Room;
 import edu.ucsd.cse110.successorator.db.RoomGoalRepositoryForTest;
 import edu.ucsd.cse110.successorator.db.SuccessoratorDatabase;
 import edu.ucsd.cse110.successorator.lib.data.GoalRepository;
+import edu.ucsd.cse110.successorator.db.RecurrenceConverters;
 
 public class SuccessoratorApplication extends Application {
     GoalRepository goalRepo;
@@ -16,7 +17,7 @@ public class SuccessoratorApplication extends Application {
                 getApplicationContext(),
                 SuccessoratorDatabase.class,
                 "goals-database"
-        )
+        ).addTypeConverter(RecurrenceConverters.getInstance())
                 .allowMainThreadQueries()
                 .build();
         this.goalRepo = new RoomGoalRepositoryForTest(database.goalDao());

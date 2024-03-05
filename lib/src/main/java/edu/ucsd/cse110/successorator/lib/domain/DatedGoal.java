@@ -27,6 +27,11 @@ public class DatedGoal extends Goal {
         super(id, content, isComplete, sortOrder);
         this.date = date;
     }
+    public DatedGoal(@NonNull Goal goal,
+                       boolean deleted) {
+        super(goal.getId(), goal.getContent(), goal.isComplete(), goal.getSortOrder());
+        this.date = date;
+    }
 
     public Date getDate() {
         return date;
