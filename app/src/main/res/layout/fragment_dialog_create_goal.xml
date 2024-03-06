@@ -44,7 +44,7 @@
             android:id="@+id/daily_recurrence_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="daily on"
+            android:text="daily"
             android:textSize="20sp" />
 
         <RadioButton
