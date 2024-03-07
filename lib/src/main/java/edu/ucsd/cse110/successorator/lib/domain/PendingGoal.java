@@ -2,6 +2,8 @@ package edu.ucsd.cse110.successorator.lib.domain;
 
 import androidx.annotation.NonNull;
 
+import java.util.Objects;
+
 public class PendingGoal extends Goal {
     private boolean deleted;
     public PendingGoal(
@@ -48,5 +50,18 @@ public class PendingGoal extends Goal {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PendingGoal goal = (PendingGoal) o;
+        return this.isComplete() == goal.isComplete() &&
+                this.getSortOrder() == goal.getSortOrder() && Objects.equals(this.id(), goal.id()) &&
+                Objects.equals(this.getContent(), goal.getContent())
+                && Objects.equals(this.getContext(), goal.getContext()) &&
+                this.isDeleted() == goal.isDeleted();
+
     }
 }
