@@ -55,13 +55,29 @@ public class CreateGoalDialogFragment extends DialogFragment {
         this.view = FragmentDialogCreateGoalBinding.inflate(getLayoutInflater());
 
         Calendar calendar = Calendar.getInstance();
-        String weeklyTime = new SimpleDateFormat("EE").format(calendar.getTime());;
-        String monthlyTime = new SimpleDateFormat("dd EE").format(calendar.getTime());;
-        String yearlyTime = new SimpleDateFormat("MM/dd").format(calendar.getTime());;
+        String weeklyTime = new SimpleDateFormat("EE").format(calendar.getTime());
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        int index = (dayOfMonth - 1) / 7 + 1;
+        String word;
+        switch (index) {
+            case 1:
+                word = "st";
+            break;
+            case 2:
+                word = "nd";
+            break;
+            case 3:
+                word = "rd";
+            break;
+            default:
+                word = "th";
+            break;
+        }
+        String yearlyTime = new SimpleDateFormat("MM/dd").format(calendar.getTime());
 
 
         view.weeklyRecurrenceButton.setText("weekly on "+ weeklyTime);
-        view.monthlyRecurrenceButton.setText("monthly on "+ monthlyTime);
+        view.monthlyRecurrenceButton.setText("monthly on "+ index + word + " " + weeklyTime);
         view.yearlyRecurrenceButton.setText("yearly on "+ yearlyTime);
 
         return new AlertDialog.Builder(getActivity())
