@@ -30,6 +30,7 @@ public class US1RecurringGoalTest {
         Recurrence recurrence = createDailyRecurrence(startDate);
         Context context = Context.SCHOOL;
 
+        // Test Constructor 1
         RecurringGoal goal = new RecurringGoal(id, content, isComplete, sortOrder, context, recurrence);
 
         assertEquals(id, goal.getId());
@@ -38,6 +39,30 @@ public class US1RecurringGoalTest {
         assertEquals(sortOrder, goal.getSortOrder());
         assertEquals(context, goal.getContext());
         assertEquals(recurrence, goal.getRecurrence());
+
+        // Test Constructor 2
+        RecurringGoal goal1 = new RecurringGoal(id, content, isComplete, sortOrder, recurrence);
+
+        assertNotEquals(goal, goal1);
+
+        assertEquals(id, goal1.getId());
+        assertEquals(content, goal1.getContent());
+        assertEquals(isComplete, goal1.isComplete());
+        assertEquals(sortOrder, goal1.getSortOrder());
+        assertEquals(recurrence, goal1.getRecurrence());
+
+        // Test Constructor 3
+        Goal simpleGoal = new Goal(id, content, isComplete, sortOrder, context);
+        RecurringGoal goal2 = new RecurringGoal(simpleGoal, recurrence);
+
+        assertNotEquals(goal, goal2);
+        assertEquals(goal1, goal2);
+
+        assertEquals(id, goal2.getId());
+        assertEquals(content, goal2.getContent());
+        assertEquals(isComplete, goal2.isComplete());
+        assertEquals(sortOrder, goal2.getSortOrder());
+        assertEquals(recurrence, goal2.getRecurrence());
 
         // Test with null content
         RecurringGoal nullContentGoal = new RecurringGoal(2, null, true, 1, context, recurrence);
@@ -77,6 +102,7 @@ public class US1RecurringGoalTest {
         assertNotEquals(monthlyRecurrenceGoal, yearlyRecurrenceGoal);
         assertNotEquals(weeklyRecurrenceGoal, yearlyRecurrenceGoal);
 
+
         // Test with different instances
         RecurringGoal sameAttributesGoal = new RecurringGoal(id, content, isComplete, sortOrder, context, recurrence);
         RecurringGoal differentIdGoal = new RecurringGoal(2, content, isComplete, sortOrder, context, recurrence);
@@ -93,7 +119,18 @@ public class US1RecurringGoalTest {
         assertNotEquals(goal, differentSortOrderGoal);
         assertNotEquals(goal, differentContextGoal);
     }
+    @Test
+    public void testSetRecurrence() {
+        Calendar calendar = Calendar.getInstance();
+        Date startDate = new Date(calendar);
+        Recurrence recurrence1 = createDailyRecurrence(startDate);
+        Recurrence recurrence2 = createWeeklyRecurrence(startDate);
+        RecurringGoal goal1 = new RecurringGoal(1, "Goal 1", true, 1, Context.SCHOOL, recurrence1);
 
+        goal1.setRecurrence(recurrence2);
+
+        assertEquals(recurrence2, goal1.getRecurrence());
+    }
     @Test
     public void testEqualsAndHashCode()
     {

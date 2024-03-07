@@ -41,11 +41,11 @@ public class US1PendingGoalTest {
 
         assertNotEquals(goal, goal1);
 
-        assertEquals(id, goal.getId());
-        assertEquals(content, goal.getContent());
-        assertEquals(isComplete, goal.isComplete());
-        assertEquals(sortOrder, goal.getSortOrder());
-        assertEquals(deleted, goal.isDeleted());
+        assertEquals(id, goal1.getId());
+        assertEquals(content, goal1.getContent());
+        assertEquals(isComplete, goal1.isComplete());
+        assertEquals(sortOrder, goal1.getSortOrder());
+        assertEquals(deleted, goal1.isDeleted());
 
         //Test Constructor 3
         Goal simpleGoal = new Goal(id, content, isComplete, sortOrder, context);
@@ -54,11 +54,11 @@ public class US1PendingGoalTest {
         assertNotEquals(goal, goal2);
         assertEquals(goal1, goal2);
 
-        assertEquals(id, goal.getId());
-        assertEquals(content, goal.getContent());
-        assertEquals(isComplete, goal.isComplete());
-        assertEquals(sortOrder, goal.getSortOrder());
-        assertEquals(deleted, goal.isDeleted());
+        assertEquals(id, goal2.getId());
+        assertEquals(content, goal2.getContent());
+        assertEquals(isComplete, goal2.isComplete());
+        assertEquals(sortOrder, goal2.getSortOrder());
+        assertEquals(deleted, goal2.isDeleted());
 
         // Test with null content
         PendingGoal nullContentGoal = new PendingGoal(2, null, true, 1, Context.HOME, deleted);
