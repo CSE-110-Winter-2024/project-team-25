@@ -70,7 +70,7 @@ public class Goal implements Comparable<Goal> {
         Goal goal = (Goal) o;
         return isComplete == goal.isComplete &&
           sortOrder == goal.sortOrder && Objects.equals(id, goal.id) &&
-          Objects.equals(content, goal.content);
+          Objects.equals(content, goal.content) && Objects.equals(context, goal.context);
     }
 
     @Override

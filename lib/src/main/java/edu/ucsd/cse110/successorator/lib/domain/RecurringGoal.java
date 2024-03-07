@@ -3,6 +3,8 @@ package edu.ucsd.cse110.successorator.lib.domain;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.Objects;
+
 public class RecurringGoal extends Goal {
     private Recurrence recurrence;
 
@@ -39,5 +41,18 @@ public class RecurringGoal extends Goal {
 
     public void setRecurrence(Recurrence recurrence) {
         this.recurrence = recurrence;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RecurringGoal goal = (RecurringGoal) o;
+        return this.isComplete() == goal.isComplete() &&
+                this.getSortOrder() == goal.getSortOrder() && Objects.equals(this.id(), goal.id()) &&
+                Objects.equals(this.getContent(), goal.getContent())
+                && Objects.equals(this.getContext(), goal.getContext()) &&
+                Objects.equals(this.getRecurrence(), goal.getRecurrence());
+
     }
 }
