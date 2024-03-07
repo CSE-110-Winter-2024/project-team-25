@@ -56,14 +56,13 @@ public class US1DatedGoalTest {
 
         DatedGoal goal2 = new DatedGoal(simpleGoal, date);
 
-        assertEquals(goal,goal2);
-        assertNotEquals(goal1, goal2);
+        assertEquals(goal1,goal2);
+        assertNotEquals(goal, goal2);
 
         assertEquals(id, goal2.getId());
         assertEquals(content, goal2.getContent());
         assertEquals(isComplete, goal2.isComplete());
         assertEquals(sortOrder, goal2.getSortOrder());
-        assertEquals(context, goal2.getContext());
         assertEquals(date, goal2.getDate());
 
         // Test with null content

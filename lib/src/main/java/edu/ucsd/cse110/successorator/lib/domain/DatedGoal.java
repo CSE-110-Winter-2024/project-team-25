@@ -3,6 +3,8 @@ package edu.ucsd.cse110.successorator.lib.domain;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.Objects;
+
 public class DatedGoal extends Goal {
     private Date date;
 
@@ -35,5 +37,17 @@ public class DatedGoal extends Goal {
 
     public Date getDate() {
         return date;
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DatedGoal goal = (DatedGoal) o;
+        return this.isComplete() == goal.isComplete() &&
+                this.getSortOrder() == goal.getSortOrder() && Objects.equals(this.id(), goal.id()) &&
+                Objects.equals(this.getContent(), goal.getContent())
+                && Objects.equals(this.getContext(), goal.getContext()) &&
+                Objects.equals(this.getDate(), goal.getDate());
+
     }
 }
