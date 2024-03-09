@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Objects;
 
 
-public class Date{
+public class Date implements Cloneable {
     private Calendar calendar;
     public Date(Calendar calendar){
         this.calendar = calendar;
@@ -27,5 +27,15 @@ public class Date{
     @Override
     public int hashCode() {
         return Objects.hash(calendar);
+    }
+
+    @Override
+    public Date clone() {
+        try {
+            Object superDate = super.clone();
+            return new Date((Calendar) calendar.clone());
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

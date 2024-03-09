@@ -87,6 +87,7 @@ public class MainViewModel extends ViewModel {
         return goalRepository.addGoal(content);
     }
 
+    public int addGoal(Goal goal) {return goalRepository.addGoal(goal);}
     public LiveData<Boolean> getIsGoalListEmpty() {
         return isGoalListEmpty;
     }
