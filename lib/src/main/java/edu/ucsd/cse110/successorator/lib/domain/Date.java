@@ -1,10 +1,11 @@
 package edu.ucsd.cse110.successorator.lib.domain;
 
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Objects;
 
 
-public class Date implements Cloneable {
+public class Date implements Cloneable, Comparable<Date> {
     private Calendar calendar;
     public Date(Calendar calendar){
         this.calendar = calendar;
@@ -21,7 +22,9 @@ public class Date implements Cloneable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Date date = (Date) o;
-        return Objects.equals(calendar, date.calendar);
+        return calendar.get(Calendar.DAY_OF_MONTH)==date.getCalendar().get(Calendar.DAY_OF_MONTH)
+                &&calendar.get(Calendar.MONTH)==date.getCalendar().get(Calendar.MONTH)
+                &&calendar.get(Calendar.YEAR)==date.getCalendar().get(Calendar.YEAR);
     }
 
     @Override
@@ -37,5 +40,10 @@ public class Date implements Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
+    }
+    @Override
+    public int compareTo(Date d){
+        return Long.compare(this.getCalendar().getTimeInMillis(),
+                d.getCalendar().getTimeInMillis());
     }
 }

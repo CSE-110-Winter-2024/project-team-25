@@ -2,6 +2,7 @@ package edu.ucsd.cse110.successorator.db;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.Calendar;
@@ -31,15 +32,24 @@ public class GoalEntity {
     @ColumnInfo(name = "deleted")
     public Boolean deleted;
 
-    public GoalEntity(String content, boolean isComplete, int sortOrder, Date date, Recurrence recurrence, Boolean deleted){
+//    public GoalEntity(String content, boolean isComplete, int sortOrder, Date date, Recurrence recurrence, Boolean deleted){
+//        this.content = content;
+//        this.isComplete = isComplete;
+//        this.sortOrder = sortOrder;
+//        this.date = date != null ? date.getCalendar().getTimeInMillis() : null;
+//        this.recurrence = recurrence;
+//        this.deleted = deleted;
+//    }
+    public GoalEntity(String content, boolean isComplete, int sortOrder, Long date, Recurrence recurrence, Boolean deleted){
         this.content = content;
         this.isComplete = isComplete;
         this.sortOrder = sortOrder;
-        this.date = date != null ? date.getCalendar().getTimeInMillis() : null;
+        this.date = date;
         this.recurrence = recurrence;
         this.deleted = deleted;
     }
 
+    @Ignore
     public GoalEntity(String content, boolean isComplete, int sortOrder){
         this.content = content;
         this.isComplete = isComplete;
@@ -51,7 +61,7 @@ public class GoalEntity {
         } else if(goal instanceof PendingGoal){
             return new GoalEntity(goal.getContent(), goal.isComplete(), goal.getSortOrder(), null, null, ((PendingGoal) goal).isDeleted());
         } else if(goal instanceof DatedGoal){
-            return new GoalEntity(goal.getContent(), goal.isComplete(), goal.getSortOrder(), ((DatedGoal) goal).getDate(), null, null);
+            return new GoalEntity(goal.getContent(), goal.isComplete(), goal.getSortOrder(), ((DatedGoal) goal).getDate().getCalendar().getTimeInMillis(), null, null);
         }
         return new GoalEntity(goal.getContent(), goal.isComplete(), goal.getSortOrder());
     }

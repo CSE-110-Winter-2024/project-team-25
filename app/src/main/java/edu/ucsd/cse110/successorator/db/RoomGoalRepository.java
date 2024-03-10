@@ -43,7 +43,7 @@ public class RoomGoalRepository implements GoalRepository {
         if(goalEntity != null) goalDao.deleteEntity(goalEntity);
     }
 
-    public Subject<List<Goal>> getAllGoals() {
+    public Subject<List<Goal>> getAllGoalsAsSubject() {
         var entityLiveList = goalDao.getAllGoalEntitiesAsLiveData();
         if(entityLiveList == null) return new LiveDataSubjectAdapter<>(null);
         var goalLiveList = Transformations.map(entityLiveList,  entities -> {
@@ -54,7 +54,9 @@ public class RoomGoalRepository implements GoalRepository {
         });
         return new LiveDataSubjectAdapter<>(goalLiveList);
     }
-
+    public List<Goal> getAllGoals() {
+        return goalDao.getAllGoalEntities().stream().map(GoalEntity::toGoal).collect(Collectors.toList());
+    }
     public List<Goal> getAllGoalsForTest() {
         return goalDao.getAllGoalEntities().stream().map(GoalEntity::toGoal).collect(Collectors.toList());
     }
