@@ -8,7 +8,10 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
+import java.util.Calendar;
 import java.util.List;
+
+import edu.ucsd.cse110.successorator.lib.domain.Date;
 
 @Dao
 public interface GoalDao {
@@ -34,10 +37,16 @@ public interface GoalDao {
     default int append(GoalEntity entity){
         Integer maxSortOrder = getMaxSortOrder();
         GoalEntity newGoalEntity;
+        Date date = null;
+        if(entity.date != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(entity.date);
+            date = new Date(calendar);
+        }
         if(maxSortOrder.equals(null)){
-            newGoalEntity = new GoalEntity(entity.content, entity.isComplete, 0);
+            newGoalEntity = new GoalEntity(entity.content, entity.isComplete, 0, date, entity.recurrence, entity.deleted);
         }else{
-            newGoalEntity = new GoalEntity(entity.content, entity.isComplete, maxSortOrder+1);
+            newGoalEntity = new GoalEntity(entity.content, entity.isComplete, maxSortOrder+1, date, entity.recurrence, entity.deleted);
         }
         Long id = addGoalEntity(newGoalEntity);
         return Math.toIntExact(id);
