@@ -1,5 +1,7 @@
 package edu.ucsd.cse110.successorator.db;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -10,6 +12,8 @@ import androidx.room.Transaction;
 
 import java.util.Calendar;
 import java.util.List;
+
+import edu.ucsd.cse110.successorator.lib.domain.RecurringGoal;
 
 @Dao
 public interface GoalDao {

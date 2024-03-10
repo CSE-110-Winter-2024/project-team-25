@@ -16,11 +16,13 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import android.widget.RadioButton;
 
+import edu.ucsd.cse110.successorator.MainActivity;
 import edu.ucsd.cse110.successorator.db.GoalEntity;
 import edu.ucsd.cse110.successorator.lib.domain.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import edu.ucsd.cse110.successorator.lib.domain.DatedGoal;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 import edu.ucsd.cse110.successorator.lib.domain.Recurrence;
 import edu.ucsd.cse110.successorator.lib.domain.RecurrenceFactory;
@@ -92,11 +94,13 @@ public class CreateGoalDialogFragment extends DialogFragment {
     private void onPositiveButtonClick(DialogInterface dialog, int which) {
         var content = view.goalContent.getText().toString();
         Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.HOUR, MainActivity.DELAY_HOUR);
         Date today = new Date(calendar);
-        GoalEntity goalEntity = new GoalEntity(content, false, 0);
-        Goal goal = goalEntity.toGoal();
+//        GoalEntity goalEntity = new GoalEntity(content, false, 0);
+//        Goal goal = goalEntity.toGoal();
+        Goal goal = new DatedGoal(0, content, false, 0, today);
         if (view.oneTimeRecurrenceButton.isChecked()) {
-            activityModel.addGoal(content);
+            activityModel.addGoal(goal);
         }
         else if (view.dailyRecurrenceButton.isChecked()) {
             Recurrence recurrence = createDailyRecurrence(today);

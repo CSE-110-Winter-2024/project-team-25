@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,6 +29,7 @@ public class GoalListFragment extends Fragment {
     private MainViewModel activityModel;
     private FragmentGoalListBinding view;
     private GoalListAdapter adapter;
+    private ArrayAdapter<String>  SpinnerAdapter;
 
     public GoalListFragment() {
         // Required empty public constructor
@@ -48,32 +51,16 @@ public class GoalListFragment extends Fragment {
         var modelProvider = new ViewModelProvider(modelOwner, modelFactory);
         this.activityModel = modelProvider.get(MainViewModel.class);
 
-        ArrayAdapter<CharSequence> SpinnerAdapter = ArrayAdapter.createFromResource(
-                requireContext(),
-                R.array.goal_list_array,
-                android.R.layout.simple_spinner_item
-        );
-        SpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        view.spinner.setAdapter(SpinnerAdapter);
-
-//        String[] items = new String[]{"Today's Goals", "Recurring Goals"};
-//        ArrayAdapter<String> SpinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, items);
+//        SpinnerAdapter = ArrayAdapter.createFromResource(
+//                requireContext(),
+//                R.array.goal_list_array,
+//                android.R.layout.simple_spinner_item
+//        );
+//        SpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //        view.spinner.setAdapter(SpinnerAdapter);
-//        Log.d("checking_listSelector", "reach line 169");
 
-//        view.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-//                @Override
-//                public void onItemSelected(AdapterView<?> parent, View view,
-//                                           int pos, long id) {
-//                    activityModel.listSelector(pos);
-//                }
-//                @Override
-//                public void onNothingSelected(AdapterView<?> parent) {
-//
-//                    activityModel.listSelector(0);
-//                }
-//            });
-        // Initialize the Adapter (with an empty list for now)
+        String[] items = new String[]{"Today's Goals", "Recurring Goals"};
+        SpinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, items);
         this.adapter = new GoalListAdapter(requireContext(), List.of(),
                 id -> {
                     activityModel.toggleGoalStatus(id);
@@ -95,6 +82,20 @@ public class GoalListFragment extends Fragment {
 
         // Set the adapter on the ListView
         view.goalList.setAdapter(adapter);
+        view.spinner.setAdapter(SpinnerAdapter);
+
+        view.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view,
+                                           int pos, long id) {
+                    activityModel.listSelector(pos);
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                    activityModel.listSelector(0);
+                }
+            });
 
 
         activityModel.getIsGoalListEmpty().observe(getViewLifecycleOwner(), isEmpty -> {

@@ -43,7 +43,12 @@ public class Date implements Cloneable, Comparable<Date> {
     }
     @Override
     public int compareTo(Date d){
-        return Long.compare(this.getCalendar().getTimeInMillis(),
-                d.getCalendar().getTimeInMillis());
+        if (calendar.get(Calendar.YEAR)!=d.getCalendar().get(Calendar.YEAR)){
+            return calendar.get(Calendar.YEAR)-d.getCalendar().get(Calendar.YEAR);
+        } else if(calendar.get(Calendar.MONTH)!=d.getCalendar().get(Calendar.MONTH)){
+            return calendar.get(Calendar.MONTH)-d.getCalendar().get(Calendar.MONTH);
+        } else {
+            return calendar.get(Calendar.DAY_OF_MONTH)-d.getCalendar().get(Calendar.DAY_OF_MONTH);
+        }
     }
 }

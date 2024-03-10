@@ -1,5 +1,7 @@
 package edu.ucsd.cse110.successorator.db;
 
+import android.util.Log;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -57,13 +59,17 @@ public class GoalEntity {
     }
     public static GoalEntity fromGoal(Goal goal) {
         if(goal instanceof RecurringGoal){
+            Log.d("reached this line", ((RecurringGoal) goal).getRecurrence().toString());
             return new GoalEntity(goal.getContent(), goal.isComplete(), goal.getSortOrder(), null, ((RecurringGoal) goal).getRecurrence(), null);
         } else if(goal instanceof PendingGoal){
             return new GoalEntity(goal.getContent(), goal.isComplete(), goal.getSortOrder(), null, null, ((PendingGoal) goal).isDeleted());
-        } else if(goal instanceof DatedGoal){
+        } else{
             return new GoalEntity(goal.getContent(), goal.isComplete(), goal.getSortOrder(), ((DatedGoal) goal).getDate().getCalendar().getTimeInMillis(), null, null);
         }
-        return new GoalEntity(goal.getContent(), goal.isComplete(), goal.getSortOrder());
+//        }else if(goal instanceof DatedGoal){
+//            return new GoalEntity(goal.getContent(), goal.isComplete(), goal.getSortOrder(), ((DatedGoal) goal).getDate().getCalendar().getTimeInMillis(), null, null);
+//        }
+//        return new GoalEntity(goal.getContent(), goal.isComplete(), goal.getSortOrder());
     }
     public Goal toGoal() {
         if(this.date != null) {

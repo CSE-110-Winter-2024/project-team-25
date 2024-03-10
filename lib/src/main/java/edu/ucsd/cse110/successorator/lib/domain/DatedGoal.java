@@ -3,6 +3,7 @@ package edu.ucsd.cse110.successorator.lib.domain;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 public class DatedGoal extends Goal {
@@ -37,6 +38,10 @@ public class DatedGoal extends Goal {
 
     public Date getDate() {
         return date;
+    }
+
+    public String toString(){
+        return "id: "+super.getId() + " content " + getContent() + " Date "+(new SimpleDateFormat("EEEE, MM/dd")).format(date.getCalendar().getTime());
     }
 
     public boolean equals(Object o) {
