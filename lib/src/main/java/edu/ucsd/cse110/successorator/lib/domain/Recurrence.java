@@ -25,6 +25,11 @@ public class Recurrence implements Serializable {
         this.index = -1;
     }
 
+    public boolean showRecurringGoal(Date today){
+
+        return true;
+    }
+
     public Date applyRecurrence() {
         Date nextDate = nextOccurrence.clone();
         if(index != -1) {

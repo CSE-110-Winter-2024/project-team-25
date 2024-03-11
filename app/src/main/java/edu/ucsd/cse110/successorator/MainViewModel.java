@@ -76,11 +76,6 @@ public class MainViewModel extends ViewModel {
         // When the goals change, update the ordering.
         goalRepository.getAllGoalsAsSubject().observe(goals -> {
             if (goals == null) return;
-//            var ordered = goals.stream()
-//                    .sorted()
-//                    .collect(Collectors.toList());
-//            this.orderedGoals.setValue(ordered);
-//            isGoalListEmpty.setValue(goals.isEmpty());//      dateUpdater.syncDate();
             today_Goals = Stream.concat(
                     goals.stream()
                         .filter(goal -> goal instanceof DatedGoal &&
@@ -100,7 +95,6 @@ public class MainViewModel extends ViewModel {
             ListDict.set(1, recurring_Goals);
             orderedGoals.setValue(ListDict.get(listIndex[0]));
             isGoalListEmpty.setValue(orderedGoals.getValue().isEmpty());
-//            this.recurring_Goals.setValue(recurringGoals);
         });
         dateUpdater.getDateString().observe(dateString::setValue);
     }
@@ -190,13 +184,13 @@ public class MainViewModel extends ViewModel {
         switch(item_id) {
             case 0:
                 listIndex[0]=0;
-                setToday_Goals();
                 adapterIndex.setValue(0);
+                setToday_Goals();
                 break;
             case 1:
                 listIndex[0]=1;
-                setRecurring_Goals();
                 adapterIndex.setValue(1);
+                setRecurring_Goals();
                 break;
             default:
                 listIndex[0]=0;

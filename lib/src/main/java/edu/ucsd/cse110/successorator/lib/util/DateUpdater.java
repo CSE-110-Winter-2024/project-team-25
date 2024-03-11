@@ -5,12 +5,13 @@ import java.util.GregorianCalendar;
 
 import edu.ucsd.cse110.successorator.lib.domain.Date;
 
-public class DateUpdater {
+public class DateUpdater implements TimeKeeper{
     private Date date;
     private DateFormatter formatter;
     private MutableSubject<String> dateString;
 
     private MutableSubject<Date> dateSubject;
+
     public DateUpdater(int delayHour){
         Calendar calendar = new GregorianCalendar();
         date = new Date(calendar);
@@ -46,7 +47,12 @@ public class DateUpdater {
         return formatter;
     }
 
+    @Override
     public Date getDate() {
         return date;
+    }
+    @Override
+    public Subject<Date> getDateAsSubject(){
+        return dateSubject;
     }
 }
