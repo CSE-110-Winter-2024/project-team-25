@@ -5,6 +5,7 @@ import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLI
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -23,6 +24,7 @@ import edu.ucsd.cse110.successorator.lib.domain.Goal;
 import edu.ucsd.cse110.successorator.lib.domain.RecurringGoal;
 import edu.ucsd.cse110.successorator.lib.util.DateUpdater;
 import edu.ucsd.cse110.successorator.lib.util.MutableSubject;
+import edu.ucsd.cse110.successorator.lib.util.Observer;
 import edu.ucsd.cse110.successorator.lib.util.SimpleSubject;
 import edu.ucsd.cse110.successorator.lib.util.Subject;
 
@@ -42,6 +44,8 @@ public class MainViewModel extends ViewModel {
     private List<Goal> recurring_Goals;
 
     private final int[] listIndex = {0};
+
+    private final MutableSubject<Integer> adapterIndex;
     private final MutableSubject<Boolean> isDateChange;
 
     public static final ViewModelInitializer<MainViewModel> initializer =
@@ -66,16 +70,11 @@ public class MainViewModel extends ViewModel {
         this.tomorrow_Goals = new ArrayList<>();
         this.recurring_Goals = new ArrayList<>();
         this.pending_Goals = new ArrayList<>();
-        Log.d("todayGoals", "today_Goals size: " + today_Goals.size());
-        Log.d("todayGoals", "recurring_Goals size: " + recurring_Goals.size());
-        this.ListDict = new ArrayList<>();
-        ListDict.add(today_Goals);
-        ListDict.add(recurring_Goals);
-        Log.d("todayGoals", "line 74");
-
+        this.adapterIndex = new SimpleSubject<>();
+        this.ListDict = Arrays.asList(today_Goals, recurring_Goals);
+        adapterIndex.setValue(listIndex[0]);
         // When the goals change, update the ordering.
         goalRepository.getAllGoalsAsSubject().observe(goals -> {
-            Log.d("todayGoals", "line 78");
             if (goals == null) return;
 //            var ordered = goals.stream()
 //                    .sorted()
@@ -85,41 +84,42 @@ public class MainViewModel extends ViewModel {
             today_Goals = Stream.concat(
                     goals.stream()
                         .filter(goal -> goal instanceof DatedGoal &&
-                                ((DatedGoal) goal).getDate().compareTo(dateUpdater.getDate())<=0
+                                dateUpdater.getDate().compareTo(((DatedGoal) goal).getDate())>=0
                         ),
                     goals.stream()
                         .filter(goal -> goal instanceof RecurringGoal &&
-                                !goal.isComplete()&&
-                                dateUpdater.getDate().compareTo(((RecurringGoal)goal).getRecurrence().getFirstOccurrence())<=0)
+                                !((RecurringGoal) goal).getIsFinished() &&
+                                dateUpdater.getDate().compareTo(((RecurringGoal)goal).getRecurrence().getFirstOccurrence())>=0)
                     )
                         .sorted()
                         .collect(Collectors.toList());
-            Log.d("todayGoals", Arrays.toString(today_Goals.toArray()));
+            ListDict.set(0, today_Goals);
             recurring_Goals = goals.stream()
                     .filter(goal -> goal instanceof RecurringGoal)
                     .collect(Collectors.toList());
+            ListDict.set(1, recurring_Goals);
             orderedGoals.setValue(ListDict.get(listIndex[0]));
+            isGoalListEmpty.setValue(orderedGoals.getValue().isEmpty());
 //            this.recurring_Goals.setValue(recurringGoals);
-            //Log.d("todayGoals", Arrays.toString(recurring_Goals.toArray()));
-
         });
-        orderedGoals.observe(goals->isGoalListEmpty.setValue(goals.isEmpty()));
-        Log.d("date milli", ""+dateUpdater.getDate().getCalendar().getTimeInMillis());
-        //today_Goals.add(new Goal(1, "good", true, 1));
-        Log.d("todayGoals", Arrays.toString(today_Goals.toArray()));
         dateUpdater.getDateString().observe(dateString::setValue);
     }
 
-    public void updateRecurrence(){
+    public synchronized void updateRecurrence(){
+        //List<Goal> updateGoal =
         goalRepository.getAllGoals()
                 .stream()
                 .filter(goal -> goal instanceof RecurringGoal &&
                         dateUpdater.getDate().equals(((RecurringGoal)goal).getRecurrence().getNextOccurrence()))
                 .forEach(goal -> {
-                    goalRepository.toggleIsCompleteStatus(goal.getId());
                     ((RecurringGoal) goal).getRecurrence().applyRecurrence();
+                    goalRepository.updateIsFinish(goal.getId(), ((RecurringGoal) goal).getRecurrence(), false);
+                    if(goal.isComplete())
+                        goalRepository.toggleIsCompleteStatus(goal.getId());
                 }
         );
+                //.collect(Collectors.toList());
+
     }
 
 
@@ -128,7 +128,7 @@ public class MainViewModel extends ViewModel {
     }
 
 
-    public void rollOver(){
+    public synchronized void rollOver(){
         goalRepository.rollOver();
     }
 
@@ -145,7 +145,16 @@ public class MainViewModel extends ViewModel {
         return goalRepository.addGoal(content);
     }
 
-    public int addGoal(Goal goal) {return goalRepository.addGoal(goal);}
+    public int addGoal(Goal goal) {
+        if(goal instanceof RecurringGoal && ((RecurringGoal)goal).getRecurrence().applyRecurrence().equals(dateUpdater.getDate()))
+            ((RecurringGoal)goal).getRecurrence().applyRecurrence();
+//            int id = goalRepository.addGoal(goal);
+//            goalRepository.updateIsFinish(goal.getId(), ((RecurringGoal) goal).getRecurrence(), false);
+//            return id;
+//        }else{
+        return goalRepository.addGoal(goal);
+//        }
+    }
     public LiveData<Boolean> getIsGoalListEmpty() {
         return isGoalListEmpty;
     }
@@ -182,13 +191,19 @@ public class MainViewModel extends ViewModel {
             case 0:
                 listIndex[0]=0;
                 setToday_Goals();
+                adapterIndex.setValue(0);
                 break;
             case 1:
-                listIndex[1]=1;
+                listIndex[0]=1;
                 setRecurring_Goals();
+                adapterIndex.setValue(1);
                 break;
             default:
-                setToday_Goals();
+                listIndex[0]=0;
         }
+    }
+
+    public Subject<Integer> getAdapterIndexAsSubject(){
+        return adapterIndex;
     }
 }

@@ -1,5 +1,7 @@
 package edu.ucsd.cse110.successorator.db;
 
+import android.util.Log;
+
 import androidx.lifecycle.Transformations;
 
 import java.util.List;
@@ -8,6 +10,8 @@ import java.util.stream.Collectors;
 import edu.ucsd.cse110.successorator.lib.data.GoalRepository;
 import edu.ucsd.cse110.successorator.lib.domain.Date;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
+import edu.ucsd.cse110.successorator.lib.domain.Recurrence;
+import edu.ucsd.cse110.successorator.lib.domain.RecurringGoal;
 import edu.ucsd.cse110.successorator.lib.util.Subject;
 import edu.ucsd.cse110.successorator.util.LiveDataSubjectAdapter;
 
@@ -22,6 +26,9 @@ public class RoomGoalRepository implements GoalRepository {
     public void toggleIsCompleteStatus(int id) {
         var goalEntity = goalDao.find(id);
         if(goalEntity != null) goalDao.updateGoalStatus(id, !goalEntity.toGoal().isComplete());
+    }
+    public void updateIsFinish(int id, Recurrence recurrence, boolean isFinish){
+        goalDao.updateGoalIsFinishStatus(id, recurrence, isFinish);
     }
 
     public void rollOver() {

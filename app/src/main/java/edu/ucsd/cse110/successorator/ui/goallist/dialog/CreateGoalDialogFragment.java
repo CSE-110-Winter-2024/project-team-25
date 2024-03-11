@@ -104,23 +104,23 @@ public class CreateGoalDialogFragment extends DialogFragment {
         }
         else if (view.dailyRecurrenceButton.isChecked()) {
             Recurrence recurrence = createDailyRecurrence(today);
-            RecurringGoal recurringGoal = new RecurringGoal(goal, recurrence);
+            RecurringGoal recurringGoal = new RecurringGoal(goal, recurrence, false);
             activityModel.addGoal(recurringGoal);
 
         }
         else if(view.weeklyRecurrenceButton.isChecked()){
             Recurrence recurrence = createWeeklyRecurrence(today);
-            RecurringGoal recurringGoal = new RecurringGoal(goal, recurrence);
+            RecurringGoal recurringGoal = new RecurringGoal(goal, recurrence, false);
             activityModel.addGoal(recurringGoal);
         }
         else if(view.monthlyRecurrenceButton.isChecked()) {
             Recurrence recurrence = createMonthlyRecurrence(today);
-            RecurringGoal recurringGoal = new RecurringGoal(goal, recurrence);
+            RecurringGoal recurringGoal = new RecurringGoal(goal, recurrence, false);
             activityModel.addGoal(recurringGoal);
         }
         else if(view.yearlyRecurrenceButton.isChecked()) {
             Recurrence recurrence = createYearlyRecurrence(today);
-            RecurringGoal recurringGoal = new RecurringGoal(goal, recurrence);
+            RecurringGoal recurringGoal = new RecurringGoal(goal, recurrence, false);
             activityModel.addGoal(recurringGoal);
         }
         else {

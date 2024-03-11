@@ -34,6 +34,9 @@ public class GoalEntity {
     @ColumnInfo(name = "deleted")
     public Boolean deleted;
 
+    @ColumnInfo(name = "isFinished")
+    public Boolean isFinished;
+
 //    public GoalEntity(String content, boolean isComplete, int sortOrder, Date date, Recurrence recurrence, Boolean deleted){
 //        this.content = content;
 //        this.isComplete = isComplete;
@@ -49,6 +52,7 @@ public class GoalEntity {
         this.date = date;
         this.recurrence = recurrence;
         this.deleted = deleted;
+        this.isFinished = false;
     }
 
     @Ignore
@@ -77,7 +81,7 @@ public class GoalEntity {
             calendar.setTimeInMillis(this.date);
             return new DatedGoal(id, content, isComplete, sortOrder, new edu.ucsd.cse110.successorator.lib.domain.Date(calendar));
         } else if(this.recurrence != null){
-            return new RecurringGoal(id, content, isComplete, sortOrder, recurrence);
+            return new RecurringGoal(id, content, isComplete, sortOrder, recurrence, isFinished);
         } else if(this.deleted != null){
             return new PendingGoal(id, content, isComplete, sortOrder, deleted);
         }

@@ -40,5 +40,4 @@ public class Recurrence implements Serializable {
     public Date getNextOccurrence() {
         return nextOccurrence;
     }
-
 }

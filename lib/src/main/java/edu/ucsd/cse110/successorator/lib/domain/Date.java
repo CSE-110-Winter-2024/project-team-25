@@ -1,11 +1,12 @@
 package edu.ucsd.cse110.successorator.lib.domain;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Objects;
 
 
-public class Date implements Cloneable, Comparable<Date> {
+public class Date implements Cloneable, Comparable<Date>, Serializable {
     private Calendar calendar;
     public Date(Calendar calendar){
         this.calendar = calendar;

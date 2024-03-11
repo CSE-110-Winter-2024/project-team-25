@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -29,6 +30,8 @@ public class GoalListFragment extends Fragment {
     private MainViewModel activityModel;
     private FragmentGoalListBinding view;
     private GoalListAdapter adapter;
+
+    private List<GoalListAdapter> adapterList;
     private ArrayAdapter<String>  SpinnerAdapter;
 
     public GoalListFragment() {
@@ -51,20 +54,25 @@ public class GoalListFragment extends Fragment {
         var modelProvider = new ViewModelProvider(modelOwner, modelFactory);
         this.activityModel = modelProvider.get(MainViewModel.class);
 
-//        SpinnerAdapter = ArrayAdapter.createFromResource(
-//                requireContext(),
-//                R.array.goal_list_array,
-//                android.R.layout.simple_spinner_item
-//        );
-//        SpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        view.spinner.setAdapter(SpinnerAdapter);
+
 
         String[] items = new String[]{"Today's Goals", "Recurring Goals"};
         SpinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, items);
-        this.adapter = new GoalListAdapter(requireContext(), List.of(),
+        adapterList = new ArrayList<>();
+        adapterList.add(new GoalListAdapter(requireContext(), List.of(),
                 id -> {
                     activityModel.toggleGoalStatus(id);
-                });
+                }));
+        adapterList.add(new GoalListAdapter(requireContext(), List.of(),
+                id -> {
+                    activityModel.deleteGoal(id);
+                }));
+        this.adapter = adapterList.get(0);
+//        this.adapter = new GoalListAdapter(requireContext(), List.of(),
+//                id -> {
+//                    activityModel.toggleGoalStatus(id);
+//                });
+
         activityModel.getOrderedGoals().observe(goals -> {
             if (goals == null) {
                 return;
@@ -81,7 +89,12 @@ public class GoalListFragment extends Fragment {
         this.view = FragmentGoalListBinding.inflate(inflater, container, false);
 
         // Set the adapter on the ListView
-        view.goalList.setAdapter(adapter);
+        activityModel.getAdapterIndexAsSubject().observe(id -> {
+            Log.d("adapterIndex", " "+id);
+            adapter = adapterList.get(id);
+            view.goalList.setAdapter(adapter);
+        });
+        //view.goalList.setAdapter(adapter);
         view.spinner.setAdapter(SpinnerAdapter);
 
         view.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){

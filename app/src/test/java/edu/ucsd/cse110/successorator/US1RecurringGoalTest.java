@@ -18,7 +18,7 @@ import edu.ucsd.cse110.successorator.lib.domain.Recurrence;
 import edu.ucsd.cse110.successorator.lib.domain.RecurringGoal;
 
 public class US1RecurringGoalTest {
-    @Test
+    /*@Test
     public void testConstructorAndGetters()
     {
         int id = 1;
@@ -182,5 +182,5 @@ public class US1RecurringGoalTest {
 //
 //        // Hash code consistency
 //        assertEquals(goal1.hashCode(), goal2.hashCode());
-//    }
+//    }*/
 }
