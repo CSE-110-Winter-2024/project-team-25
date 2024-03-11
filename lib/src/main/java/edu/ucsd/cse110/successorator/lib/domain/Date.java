@@ -1,10 +1,11 @@
 package edu.ucsd.cse110.successorator.lib.domain;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Objects;
 
 
-public class Date{
+public class Date implements Cloneable, Serializable {
     private Calendar calendar;
     public Date(Calendar calendar){
         this.calendar = calendar;
@@ -28,4 +29,16 @@ public class Date{
     public int hashCode() {
         return Objects.hash(calendar);
     }
+
+    @Override
+    public Date clone() {
+        try {
+            Object superDate = super.clone();
+            return new Date((Calendar) calendar.clone());
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }
