@@ -22,6 +22,14 @@ public class RecurringGoal extends Goal {
         this.recurrence = recurrence;
         this.isFinished = isFinished;
     }
+    public RecurringGoal(@NonNull Goal goal,
+                         @NonNull Recurrence recurrence,
+                         @NonNull boolean isFinished) {
+        super(goal.getId(), goal.getContent(), goal.isComplete(), goal.getSortOrder());
+        this.recurrence = recurrence;
+        this.isFinished = isFinished;
+    }
+
     public RecurringGoal(
             @NonNull Integer id,
             @NonNull String content,
@@ -33,15 +41,19 @@ public class RecurringGoal extends Goal {
         super(id, content, isComplete, sortOrder);
         this.recurrence = recurrence;
         this.isFinished = isFinished;
+    }
 
-    }
-    public RecurringGoal(@NonNull Goal goal,
-                         @NonNull Recurrence recurrence,
-                         @NonNull boolean isFinished) {
-        super(goal.getId(), goal.getContent(), goal.isComplete(), goal.getSortOrder());
+    public RecurringGoal(
+            @NonNull Integer id,
+            @NonNull String content,
+            @NonNull boolean isComplete,
+            @Nullable int sortOrder,
+            @NonNull Recurrence recurrence
+    ) {
+        super(id, content, isComplete, sortOrder);
         this.recurrence = recurrence;
-        this.isFinished = isFinished;
     }
+
     public Recurrence getRecurrence() {
         return recurrence;
     }
