@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import edu.ucsd.cse110.successorator.lib.data.GoalRepository;
+import edu.ucsd.cse110.successorator.lib.domain.Date;
 import edu.ucsd.cse110.successorator.lib.domain.DatedGoal;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 import edu.ucsd.cse110.successorator.lib.domain.RecurringGoal;
@@ -35,6 +36,7 @@ public class MainViewModel extends ViewModel {
 
     // UI state
     private final MutableSubject<String> dateString;
+    private final MutableSubject<Date> dateSubject;
     private final MutableSubject<List<Goal>> orderedGoals;
     private final MutableLiveData<Boolean> isGoalListEmpty;
     private List<List<Goal>> ListDict;
@@ -58,9 +60,9 @@ public class MainViewModel extends ViewModel {
                     });
 
     public MainViewModel(GoalRepository goalRepository) {
+        this.dateSubject = new SimpleSubject<>();
         this.goalRepository = goalRepository;
         this.isDateChange = new SimpleSubject<>();
-
         // Create the observable subjects.
         this.orderedGoals = new SimpleSubject<>();
         this.dateString = new SimpleSubject<>();
@@ -97,6 +99,7 @@ public class MainViewModel extends ViewModel {
             isGoalListEmpty.setValue(orderedGoals.getValue().isEmpty());
         });
         dateUpdater.getDateString().observe(dateString::setValue);
+        dateUpdater.getDateAsSubject().observe(dateSubject::setValue);
     }
 
     public synchronized void updateRecurrence(){
@@ -156,6 +159,8 @@ public class MainViewModel extends ViewModel {
     public MutableSubject<String> getDateString(){
         return dateString;
     }
+
+    public MutableSubject<Date> getDateSubject(){return dateSubject;}
 
     public void setToday_Goals(){
         orderedGoals.setValue(List.copyOf(today_Goals));

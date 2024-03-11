@@ -9,7 +9,6 @@ public class DateUpdater implements TimeKeeper{
     private Date date;
     private DateFormatter formatter;
     private MutableSubject<String> dateString;
-
     private MutableSubject<Date> dateSubject;
 
     public DateUpdater(int delayHour){
@@ -32,6 +31,7 @@ public class DateUpdater implements TimeKeeper{
     }
 
     public void checkDate(){
+        dateSubject.setValue(date);
         dateString.setValue(formatter.getFormatDate(date.getCalendar()));
     }
 

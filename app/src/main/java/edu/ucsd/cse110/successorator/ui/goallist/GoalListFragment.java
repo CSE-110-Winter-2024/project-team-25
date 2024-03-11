@@ -81,7 +81,6 @@ public class GoalListFragment extends Fragment {
             Log.d("adapterIndex", Arrays.toString(goals.toArray()));
             adapter.clear();
             adapter.addAll(new ArrayList<>(goals)); // remember the mutable copy here!
-            //adapter.addAll(goals);
             adapter.notifyDataSetChanged();
         });
     }
@@ -108,8 +107,6 @@ public class GoalListFragment extends Fragment {
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
-
-                    //activityModel.listSelector(0);
                 }
             });
 
