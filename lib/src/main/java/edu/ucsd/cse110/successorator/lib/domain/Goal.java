@@ -11,8 +11,9 @@ public class Goal implements Comparable<Goal> {
     private final @Nullable Integer id;
     private final @Nullable String content;
     private final @Nullable boolean isComplete;
-
     private final @Nullable int sortOrder;
+    private  @NonNull Context context;
+
     public Goal(
         @NotNull Integer id,
         @NotNull String content,
@@ -23,6 +24,19 @@ public class Goal implements Comparable<Goal> {
         this.content = content;
         this.isComplete = isComplete;
         this.sortOrder = sortOrder;
+    }
+    public Goal(
+            @NotNull Integer id,
+            @NotNull String content,
+            @NotNull boolean isComplete,
+            @Nullable int sortOrder,
+            @NotNull Context context
+    ) {
+        this.id = id;
+        this.content = content;
+        this.isComplete = isComplete;
+        this.sortOrder = sortOrder;
+        this.context = context;
     }
 
 
@@ -56,7 +70,7 @@ public class Goal implements Comparable<Goal> {
         Goal goal = (Goal) o;
         return isComplete == goal.isComplete &&
           sortOrder == goal.sortOrder && Objects.equals(id, goal.id) &&
-          Objects.equals(content, goal.content);
+          Objects.equals(content, goal.content) && Objects.equals(context, goal.context);
     }
 
     @Override
@@ -69,5 +83,14 @@ public class Goal implements Comparable<Goal> {
         if(isComplete != goal.isComplete)
             return Boolean.compare(this.isComplete, goal.isComplete);
         return Integer.compare(this.sortOrder, goal.sortOrder);
+    }
+
+    @NonNull
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(@NonNull Context context) {
+        this.context = context;
     }
 }
