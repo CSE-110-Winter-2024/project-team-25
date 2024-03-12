@@ -33,7 +33,14 @@ public class Recurrence implements Serializable {
     public Date applyRecurrence() {
         Date nextDate = nextOccurrence.clone();
         if(index != -1) {
-            nextDate.getCalendar().add(Calendar.DATE, datePattern.get(index).getDays());
+            nextDate.getCalendar().add(Calendar.YEAR, datePattern.get(index).getYears());
+            nextDate.getCalendar().add(Calendar.MONTH, datePattern.get(index).getMonths());
+            if(datePattern.get(index).getDays() != 0) {
+                nextDate.getCalendar().add(Calendar.DATE, datePattern.get(index).getDays());
+            } else if(datePattern.get(index).getMonths()!=0) {
+                nextDate.getCalendar().set(Calendar.WEEK_OF_MONTH, nextOccurrence.getCalendar().get(Calendar.WEEK_OF_MONTH));
+                nextDate.getCalendar().set(Calendar.DAY_OF_WEEK, nextOccurrence.getCalendar().get(Calendar.DAY_OF_WEEK));
+            }
             nextOccurrence = nextDate;
         }
         index = (index + 1) % datePattern.size();

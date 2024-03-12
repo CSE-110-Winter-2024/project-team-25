@@ -66,13 +66,13 @@ public class GoalListFragment extends Fragment {
                 }));
         adapterList.add(new GoalListAdapter(requireContext(), List.of(),
                 id -> {
+                    activityModel.toggleGoalStatus(id);
+                }));
+        adapterList.add(new GoalListAdapter(requireContext(), List.of(),
+                id -> {
                     activityModel.deleteGoal(id);
                 }));
         this.adapter = adapterList.get(0);
-//        this.adapter = new GoalListAdapter(requireContext(), List.of(),
-//                id -> {
-//                    activityModel.toggleGoalStatus(id);
-//                });
 
         activityModel.getOrderedGoals().observe(goals -> {
             if (goals == null) {
