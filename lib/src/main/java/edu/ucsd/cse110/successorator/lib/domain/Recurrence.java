@@ -28,9 +28,9 @@ public class Recurrence implements Serializable {
     public Date applyRecurrence() {
         Date nextDate = nextOccurrence.clone();
         if(index != -1) {
-            nextDate.getCalendar().add(Calendar.DATE, datePattern.get(index).getDays());
-            nextDate.getCalendar().add(Calendar.MONTH, datePattern.get(index).getMonths());
             nextDate.getCalendar().add(Calendar.YEAR, datePattern.get(index).getYears());
+            nextDate.getCalendar().add(Calendar.MONTH, datePattern.get(index).getMonths());
+            nextDate.getCalendar().add(Calendar.DAY_OF_MONTH, datePattern.get(index).getDays());
             nextOccurrence = nextDate;
         }
         index = (index + 1) % datePattern.size();
