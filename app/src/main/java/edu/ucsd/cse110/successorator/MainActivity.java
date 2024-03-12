@@ -7,12 +7,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 
+
+import com.google.android.material.navigation.NavigationView;
 
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
 import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
@@ -26,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding view;
     private MainViewModel activityModel;
     private GoalListFragment goalList;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private ActionBarDrawerToggle drawerToggle;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +55,24 @@ public class MainActivity extends AppCompatActivity {
         this.view = ActivityMainBinding.inflate(getLayoutInflater());
 
         setContentView(view.getRoot());
+        drawerLayout = findViewById(R.id.fragment_container);
+        navigationView = findViewById(R.id.nav_view);
+        drawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+//                switch (menuItem.getItemId()){
+//                    case R.id.home:
+//                    {
+//                        Toast.makeText(MainActivity.this, "Home", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -68,7 +94,9 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
             activityModel.updateDateWithRollOver(sharedPref, HOUR_IN_DAY, false);
         }
-
+        if(drawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -77,4 +105,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.editgoal, menu);
         return true;
     }
+
+
+
 }

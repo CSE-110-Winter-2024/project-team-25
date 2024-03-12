@@ -15,4 +15,5 @@
         android:title="@string/edit_date"
         app:iconTint="@color/white"
         app:showAsAction="ifRoom" />
+
 </menu>
