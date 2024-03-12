@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import edu.ucsd.cse110.successorator.lib.domain.Date;
 import edu.ucsd.cse110.successorator.lib.domain.Recurrence;
+import edu.ucsd.cse110.successorator.lib.domain.RecurrenceFactory;
 
 public class US1RecurrenceTest
 {
@@ -79,5 +80,16 @@ public class US1RecurrenceTest
     assertEquals(Calendar.JANUARY,
                  cycleOccurrence.getCalendar().get(Calendar.MONTH));
     assertEquals(1, cycleOccurrence.getCalendar().get(Calendar.DAY_OF_MONTH));
+  }
+  @Test
+  public void TestMonthlyRecurrence() {
+    Date startDate = new Date(new GregorianCalendar(2024, 1, 1));
+    Recurrence rec = RecurrenceFactory.createMonthlyRecurrence(startDate);
+    Date nextDate = rec.applyRecurrence();
+    assertEquals(2024, nextDate.getCalendar().get(Calendar.YEAR));
+    assertEquals(Calendar.FEBRUARY, nextDate.getCalendar().get(Calendar.MONTH));
+    nextDate = rec.applyRecurrence();
+    assertEquals(2024, nextDate.getCalendar().get(Calendar.YEAR));
+    assertEquals(Calendar.MARCH, nextDate.getCalendar().get(Calendar.MONTH));
   }
 }

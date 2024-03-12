@@ -22,22 +22,20 @@ public class Recurrence implements Serializable, Cloneable {
         this.firstOccurrence = firstOccurrence;
         this.nextOccurrence = firstOccurrence;
         this.datePattern = datePattern;
-        this.index = -1;
+        this.index = 0;
     }
 
     public Date applyRecurrence() {
         Date nextDate = nextOccurrence.clone();
-        if(index != -1) {
-            nextDate.getCalendar().add(Calendar.YEAR, datePattern.get(index).getYears());
-            nextDate.getCalendar().add(Calendar.MONTH, datePattern.get(index).getMonths());
-            if(datePattern.get(index).getMonths() == 0 || datePattern.get(index).getDays() != 0) {
-                nextDate.getCalendar().add(Calendar.DAY_OF_MONTH, datePattern.get(index).getDays());
-            } else {
-              nextDate.getCalendar().set(Calendar.WEEK_OF_MONTH, nextOccurrence.getCalendar().get(Calendar.WEEK_OF_MONTH));
-              nextDate.getCalendar().set(Calendar.DAY_OF_WEEK, nextOccurrence.getCalendar().get(Calendar.DAY_OF_WEEK));
-            }
-            nextOccurrence = nextDate;
+        nextDate.getCalendar().add(Calendar.YEAR, datePattern.get(index).getYears());
+        nextDate.getCalendar().add(Calendar.MONTH, datePattern.get(index).getMonths());
+        if(datePattern.get(index).getMonths() == 0 || datePattern.get(index).getDays() != 0) {
+            nextDate.getCalendar().add(Calendar.DAY_OF_MONTH, datePattern.get(index).getDays());
+        } else {
+          nextDate.getCalendar().set(Calendar.WEEK_OF_MONTH, nextOccurrence.getCalendar().get(Calendar.WEEK_OF_MONTH));
+          nextDate.getCalendar().set(Calendar.DAY_OF_WEEK, nextOccurrence.getCalendar().get(Calendar.DAY_OF_WEEK));
         }
+        nextOccurrence = nextDate;
         index = (index + 1) % datePattern.size();
         return nextDate;
     }
