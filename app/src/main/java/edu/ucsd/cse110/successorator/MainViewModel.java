@@ -37,6 +37,7 @@ public class MainViewModel extends ViewModel {
     // UI state
     private final MutableSubject<String> dateString;
     private final MutableSubject<Date> dateSubject;
+    private final Date tomorrow;
     private final MutableSubject<List<Goal>> orderedGoals;
     private final MutableLiveData<Boolean> isGoalListEmpty;
     private List<List<Goal>> ListDict;
@@ -60,13 +61,15 @@ public class MainViewModel extends ViewModel {
                     });
 
     public MainViewModel(GoalRepository goalRepository) {
-        this.dateSubject = new SimpleSubject<>();
         this.goalRepository = goalRepository;
         this.isDateChange = new SimpleSubject<>();
         // Create the observable subjects.
         this.orderedGoals = new SimpleSubject<>();
         this.dateString = new SimpleSubject<>();
         this.dateUpdater = new DateUpdater(MainActivity.DELAY_HOUR);
+        this.dateSubject = dateUpdater.getDateAsSubject();
+        this.tomorrow = dateUpdater.getDate().clone();
+        this.tomorrow.hourAdvance(24);
         this.isGoalListEmpty = new MutableLiveData<>();
         this.today_Goals = new ArrayList<>();
         this.tomorrow_Goals = new ArrayList<>();
@@ -90,6 +93,19 @@ public class MainViewModel extends ViewModel {
                     )
                         .sorted()
                         .collect(Collectors.toList());
+            tomorrow_Goals = Stream.concat(
+                            goals.stream()
+                                    .filter(goal -> goal instanceof DatedGoal &&
+                                            tomorrow.equals(((DatedGoal) goal).getDate())
+                                    ),
+                            goals.stream()
+                                    .filter(goal -> goal instanceof RecurringGoal &&
+                                            !((RecurringGoal) goal).getIsFinished() &&
+                                            tomorrow.compareTo(((RecurringGoal)goal).getRecurrence().getFirstOccurrence())>=0
+                                            )
+                    )
+                    .sorted()
+                    .collect(Collectors.toList());
             ListDict.set(0, today_Goals);
             recurring_Goals = goals.stream()
                     .filter(goal -> goal instanceof RecurringGoal)
@@ -107,7 +123,8 @@ public class MainViewModel extends ViewModel {
         goalRepository.getAllGoals()
                 .stream()
                 .filter(goal -> goal instanceof RecurringGoal &&
-                        dateUpdater.getDate().equals(((RecurringGoal)goal).getRecurrence().getNextOccurrence()))
+                        //dateUpdater.getDate().equals(((RecurringGoal)goal).getRecurrence().getNextOccurrence()))
+                        tomorrow.equals(((RecurringGoal)goal).getRecurrence().getNextOccurrence()))
                 .forEach(goal -> {
                     ((RecurringGoal) goal).getRecurrence().applyRecurrence();
                     goalRepository.updateIsFinish(goal.getId(), ((RecurringGoal) goal).getRecurrence(), false);

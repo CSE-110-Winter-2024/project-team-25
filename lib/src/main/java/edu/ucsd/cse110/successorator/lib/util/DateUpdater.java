@@ -52,7 +52,7 @@ public class DateUpdater implements TimeKeeper{
         return date;
     }
     @Override
-    public Subject<Date> getDateAsSubject(){
+    public MutableSubject<Date> getDateAsSubject(){
         return dateSubject;
     }
 }
