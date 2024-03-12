@@ -83,13 +83,15 @@ public class US1RecurrenceTest
   }
   @Test
   public void TestMonthlyRecurrence() {
-    Date startDate = new Date(new GregorianCalendar(2024, 1, 1));
+    Date startDate = new Date(new GregorianCalendar(2024, 0, 15));
     Recurrence rec = RecurrenceFactory.createMonthlyRecurrence(startDate);
     Date nextDate = rec.applyRecurrence();
     assertEquals(2024, nextDate.getCalendar().get(Calendar.YEAR));
     assertEquals(Calendar.FEBRUARY, nextDate.getCalendar().get(Calendar.MONTH));
+    assertEquals(12, nextDate.getCalendar().get(Calendar.DAY_OF_MONTH));
     nextDate = rec.applyRecurrence();
     assertEquals(2024, nextDate.getCalendar().get(Calendar.YEAR));
     assertEquals(Calendar.MARCH, nextDate.getCalendar().get(Calendar.MONTH));
+    assertEquals(11, nextDate.getCalendar().get(Calendar.DAY_OF_MONTH));
   }
 }
