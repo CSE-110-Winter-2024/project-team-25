@@ -85,6 +85,10 @@ public class Goal implements Comparable<Goal> {
         return Integer.compare(this.sortOrder, goal.sortOrder);
     }
 
+    public String toString(){
+        return "id: "+id + " content " + content;
+    }
+
     @NonNull
     public Context getContext() {
         return context;

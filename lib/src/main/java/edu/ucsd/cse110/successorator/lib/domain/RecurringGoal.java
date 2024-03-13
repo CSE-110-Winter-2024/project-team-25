@@ -7,6 +7,7 @@ import java.util.Objects;
 
 public class RecurringGoal extends Goal {
     private Recurrence recurrence;
+    private boolean isFinished;
 
     public RecurringGoal(
         @NonNull Integer id,
@@ -19,6 +20,46 @@ public class RecurringGoal extends Goal {
         super(id, content, isComplete, sortOrder, context);
         this.recurrence = recurrence;
     }
+
+    public RecurringGoal(
+            @NonNull Integer id,
+            @NonNull String content,
+            @NonNull boolean isComplete,
+            @Nullable int sortOrder,
+            @NonNull Context context,
+            @NonNull Recurrence recurrence,
+            @NonNull boolean isFinished
+    ) {
+        super(id, content, isComplete, sortOrder, context);
+        this.recurrence = recurrence;
+        this.isFinished = isFinished;
+    }
+    public RecurringGoal(@NonNull Goal goal,
+                         @NonNull Recurrence recurrence) {
+        super(goal.getId(), goal.getContent(), goal.isComplete(), goal.getSortOrder());
+        this.recurrence = recurrence;
+    }
+    public RecurringGoal(@NonNull Goal goal,
+                         @NonNull Recurrence recurrence,
+                         @NonNull boolean isFinished) {
+        super(goal.getId(), goal.getContent(), goal.isComplete(), goal.getSortOrder());
+        this.recurrence = recurrence;
+        this.isFinished = isFinished;
+    }
+
+    public RecurringGoal(
+            @NonNull Integer id,
+            @NonNull String content,
+            @NonNull boolean isComplete,
+            @Nullable int sortOrder,
+            @NonNull Recurrence recurrence,
+            @NonNull boolean isFinished
+    ) {
+        super(id, content, isComplete, sortOrder);
+        this.recurrence = recurrence;
+        this.isFinished = isFinished;
+    }
+
     public RecurringGoal(
             @NonNull Integer id,
             @NonNull String content,
@@ -29,16 +70,13 @@ public class RecurringGoal extends Goal {
         super(id, content, isComplete, sortOrder);
         this.recurrence = recurrence;
     }
-    public RecurringGoal(@NonNull Goal goal,
-                         @NonNull Recurrence recurrence) {
-        super(goal.getId(), goal.getContent(), goal.isComplete(), goal.getSortOrder());
-        this.recurrence = recurrence;
-    }
 
     public Recurrence getRecurrence() {
         return recurrence;
     }
-
+    public RecurringGoalWithDate createRecurringGoalWithDate(Date date){
+        return new RecurringGoalWithDate(this, date, this.getId());
+    }
     public void setRecurrence(Recurrence recurrence) {
         this.recurrence = recurrence;
     }

@@ -7,4 +7,15 @@
     <string name="weekly_on">Weekly on %s</string>
     <string name="monthly_on">Monthly on %s</string>
     <string name="yearly_on">Yearly on %s</string>
+
+    <string-array name="goal_list_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
 </resources>

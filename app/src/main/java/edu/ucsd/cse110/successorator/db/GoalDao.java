@@ -1,5 +1,7 @@
 package edu.ucsd.cse110.successorator.db;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -10,14 +12,13 @@ import androidx.room.Transaction;
 
 import java.util.Calendar;
 import java.util.List;
-
 import edu.ucsd.cse110.successorator.lib.domain.Date;
 
 @Dao
 public interface GoalDao {
     @Query("SELECT * FROM goal WHERE id = :id")
     GoalEntity find(int id);
-    @Query("SELECT * FROM goal WHERE isComplete = 1 ORDER BY sortOrder")
+    @Query("SELECT * FROM goal WHERE isComplete = 1 AND recurrence IS NULL ORDER BY sortOrder")
     List<GoalEntity> getAllCompleteGoalEntities();
     @Query("SELECT * FROM goal ORDER BY sortOrder")
     List<GoalEntity> getAllGoalEntities();
@@ -44,9 +45,11 @@ public interface GoalDao {
             date = new Date(calendar);
         }
         if(maxSortOrder.equals(null)){
-            newGoalEntity = new GoalEntity(entity.content, entity.isComplete, 0, date, entity.recurrence, entity.deleted);
+            newGoalEntity = new GoalEntity(entity.content, entity.isComplete, 0, entity.date,
+                    entity.recurrence, entity.deleted, entity.RecurrenceID);
         }else{
-            newGoalEntity = new GoalEntity(entity.content, entity.isComplete, maxSortOrder+1, date, entity.recurrence, entity.deleted);
+            newGoalEntity = new GoalEntity(entity.content, entity.isComplete,
+                    maxSortOrder+1, entity.date, entity.recurrence, entity.deleted, entity.RecurrenceID);
         }
         Long id = addGoalEntity(newGoalEntity);
         return Math.toIntExact(id);
