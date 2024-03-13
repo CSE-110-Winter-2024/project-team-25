@@ -56,7 +56,7 @@ public class CreateGoalDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         this.view = FragmentDialogCreateGoalBinding.inflate(getLayoutInflater());
 
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = activityModel.getTargetDate().getCalendar();
         String weeklyTime = new SimpleDateFormat("EE").format(calendar.getTime());
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
         int index = (dayOfMonth - 1) / 7 + 1;
@@ -93,11 +93,12 @@ public class CreateGoalDialogFragment extends DialogFragment {
 
     private void onPositiveButtonClick(DialogInterface dialog, int which) {
         var content = view.goalContent.getText().toString();
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.HOUR, MainActivity.DELAY_HOUR);
-        Date today = new Date(calendar);
-//        GoalEntity goalEntity = new GoalEntity(content, false, 0);
-//        Goal goal = goalEntity.toGoal();
+
+
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.add(Calendar.HOUR, MainActivity.DELAY_HOUR);
+//        Date today = new Date(calendar);
+        Date today = activityModel.getTargetDate();
         Goal goal = new DatedGoal(0, content, false, 0, today);
         if (view.oneTimeRecurrenceButton.isChecked()) {
             activityModel.addGoal(goal);

@@ -35,15 +35,6 @@ public class GoalDateComparator {
             .collect(Collectors.toList());
     }
 
-    public static boolean hasRecurringWithDateGoalOn(Date date, int id, List<Goal> goals){
-        boolean result = goals.stream()
-                .filter(goal->goal instanceof RecurringGoalWithDate
-                        &&((RecurringGoalWithDate)goal).getRecurrenceID()==id
-                        &&((RecurringGoalWithDate)goal).getDate().equals(date))
-                .count() != 0;
-        return result;
-    }
-
     public static boolean hasRedundancy(RecurringGoalWithDate newGoal, List<Goal> goals){
         return goals.stream().anyMatch(goal -> goal instanceof RecurringGoalWithDate
                 && ((RecurringGoalWithDate)goal).equal(newGoal));

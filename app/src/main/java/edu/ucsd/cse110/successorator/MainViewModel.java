@@ -3,8 +3,6 @@ package edu.ucsd.cse110.successorator;
 import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
 
 import android.content.SharedPreferences;
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -27,7 +25,6 @@ public class MainViewModel extends ViewModel {
     // Domain state (true "Model" state)
     private final GoalRepository goalRepository;
     private final DateUpdater dateUpdater;
-    // UI state
     private final MutableSubject<String> dateString;
     private final MutableSubject<Date> dateSubject; //Date
     private Date tomorrow;
@@ -90,19 +87,18 @@ public class MainViewModel extends ViewModel {
         goalRepository.deleteGoal(id);
     }
     public int addGoal(Goal goal) {
-        int id = goalRepository.addGoal(goal);
-        addRecurringGoalWithDate(goal, id);
-        return id;
+        addRecurringGoalWithDate(goal);
+        return goalRepository.addGoal(goal);
     }
 
-    public void addRecurringGoalWithDate(Goal goal, int id){
+    public void addRecurringGoalWithDate(Goal goal){
         if(goal instanceof RecurringGoal){
             if(((RecurringGoal)goal).getRecurrence().isFutureRecurrence(today)){
-                RecurringGoalWithDate goal_today = new RecurringGoalWithDate(goal, today, id);
+                RecurringGoalWithDate goal_today = ((RecurringGoal) goal).createRecurringGoalWithDate(today);
                 addGoal(goal_today);
             }
             if(((RecurringGoal)goal).getRecurrence().isFutureRecurrence(tomorrow)){
-                RecurringGoalWithDate goal_tomorrow = new RecurringGoalWithDate(goal, tomorrow, id);
+                RecurringGoalWithDate goal_tomorrow = ((RecurringGoal) goal).createRecurringGoalWithDate(tomorrow);
                 addGoal(goal_tomorrow);
             }
         }
@@ -133,17 +129,10 @@ public class MainViewModel extends ViewModel {
             today = dateUpdater.getDate().clone();
             tomorrow = dateUpdater.getDate().clone();
             tomorrow.hourAdvance(24);
-//            deleteDatedGoalwithRecurrenceID(today);
-////            addDatedGoalwithRecurrenceID(today);
-////            Log.d("recurrenceId debug", ""+goalRepository.getAllGoals().size());
-////            deleteDatedGoalwithRecurrenceID(tomorrow);
-////            addDatedGoalwithRecurrenceID(tomorrow);
             updateGoalwithRecurrence(today);
             updateGoalwithRecurrence(tomorrow);
-            Log.d("recurrenceId debug", ""+goalRepository.getAllGoals().size());
             rollOver();
             listSelector(adapterIndex.getValue());
-            Log.d("recurrenceId debug", ""+goalRepository.getAllGoals().size());
         }
     }
 
@@ -162,44 +151,18 @@ public class MainViewModel extends ViewModel {
                 );
     }
 
-    public synchronized void deleteDatedGoalwithRecurrenceID(Date date){
-        goalRepository.getAllGoals()
-                .stream()
-                .filter(goal -> goal instanceof RecurringGoalWithDate
-                                && !goal.isComplete()
-                                && ((RecurringGoal)goalRepository.find(((RecurringGoalWithDate) goal).
-                                    getRecurrenceID())).getRecurrence().isFutureRecurrence(date))
-
-                .forEach(goal -> {
-                    goalRepository.deleteGoal(goal.getId());
-                });
-    }
-
-    public synchronized void addDatedGoalwithRecurrenceID(Date date) {
-        goalRepository.getAllGoals()
-                .stream()
-                .filter(goal -> goal instanceof RecurringGoal &&
-                        ((RecurringGoal)goal).getRecurrence().isFutureRecurrence(date) &&
-                        !GoalDateComparator.hasRecurringWithDateGoalOn(date, goal.getId(),
-                                goalRepository.getAllGoals()))
-                .forEach(goal -> {
-                    Goal recurringGoalAsDatedGoal = new RecurringGoalWithDate(goal.getId(),
-                            goal.getContent(), false, goal.getSortOrder(),
-                            date.clone(), goal.getId());
-                    goalRepository.addGoal(recurringGoalAsDatedGoal);
-                });
-    }
-
     public void listSelector(int item_id){
         switch(item_id) {
             case 0:
                 adapterIndex.setValue(0);
                 this.targetDate = today;
+                this.dateSubject.setValue(targetDate.clone());
                 typeSubject.setValue(Type.TODAY);
                 break;
             case 1:
                 adapterIndex.setValue(1);
                 this.targetDate = tomorrow;
+                this.dateSubject.setValue(targetDate.clone());
                 typeSubject.setValue(Type.TOMORROW);
                 break;
             case 2:
@@ -210,5 +173,8 @@ public class MainViewModel extends ViewModel {
     }
     public Subject<Integer> getAdapterIndexAsSubject(){
         return adapterIndex;
+    }
+    public Date getTargetDate(){
+        return targetDate.clone();
     }
 }
