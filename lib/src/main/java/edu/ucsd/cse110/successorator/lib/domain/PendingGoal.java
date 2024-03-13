@@ -5,35 +5,35 @@ import androidx.annotation.NonNull;
 import java.util.Objects;
 
 public class PendingGoal extends Goal {
-    private boolean deleted;
+    private boolean finished;
     public PendingGoal(
         Integer id,
         String content,
         boolean isComplete,
         int sortOrder,
         Context context,
-        boolean deleted
+        boolean finished
     ) {
         super(id, content, isComplete, sortOrder, context);
-        this.deleted = deleted;
+        this.finished = finished;
     }
     public PendingGoal(
             Integer id,
             String content,
             boolean isComplete,
             int sortOrder,
-            boolean deleted
+            boolean finished
     ) {
         super(id, content, isComplete, sortOrder);
-        this.deleted = deleted;
+        this.finished = finished;
     }
     public PendingGoal(@NonNull Goal goal,
-                       boolean deleted) {
+                       boolean finished) {
         super(goal.getId(), goal.getContent(), goal.isComplete(), goal.getSortOrder());
-        this.deleted = deleted;
+        this.finished = finished;
     }
     public DatedGoal toDatedGoal(Date date) {
-        this.deleted = true;
+        this.finished = true;
         return new DatedGoal(
                 this.getId(),
                 this.getContent(),
@@ -44,12 +44,12 @@ public class PendingGoal extends Goal {
         );
     }
 
-    public boolean isDeleted() {
-        return deleted;
+    public boolean isFinished() {
+        return finished;
     }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class PendingGoal extends Goal {
                 this.getSortOrder() == goal.getSortOrder() && Objects.equals(this.id(), goal.id()) &&
                 Objects.equals(this.getContent(), goal.getContent())
                 && Objects.equals(this.getContext(), goal.getContext()) &&
-                this.isDeleted() == goal.isDeleted();
+                this.isFinished() == goal.isFinished();
 
     }
 }

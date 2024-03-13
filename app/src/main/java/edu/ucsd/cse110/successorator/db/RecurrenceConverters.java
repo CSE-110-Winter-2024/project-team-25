@@ -37,7 +37,7 @@ public class RecurrenceConverters {
         try {
             return (Recurrence) new ObjectInputStream(new ByteArrayInputStream(data)).readObject();
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         return null;
     }

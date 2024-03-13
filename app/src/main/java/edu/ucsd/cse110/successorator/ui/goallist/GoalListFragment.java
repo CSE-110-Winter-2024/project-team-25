@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.ucsd.cse110.successorator.MainActivity;
 import edu.ucsd.cse110.successorator.MainViewModel;
 import edu.ucsd.cse110.successorator.databinding.FragmentGoalListBinding;
 
@@ -43,12 +44,11 @@ public class GoalListFragment extends Fragment {
         var modelFactory = ViewModelProvider.Factory.from(MainViewModel.initializer);
         var modelProvider = new ViewModelProvider(modelOwner, modelFactory);
         this.activityModel = modelProvider.get(MainViewModel.class);
-
         // Initialize the Adapter (with an empty list for now)
         this.adapter = new GoalListAdapter(requireContext(), List.of(),
                 id -> {
                     activityModel.toggleGoalStatus(id);
-                });
+                }, activityModel.getUpdateGoalMap());
         activityModel.getOrderedGoals().observe(goals -> {
             if (goals == null) {
                 return;

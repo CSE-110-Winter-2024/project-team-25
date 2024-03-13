@@ -1,6 +1,9 @@
 package edu.ucsd.cse110.successorator.lib.data;
 
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import edu.ucsd.cse110.successorator.lib.domain.Date;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
@@ -13,5 +16,6 @@ public interface GoalRepository {
     int addGoal(String content);
     int addGoal(Goal goal);
     void deleteGoal(int id);
+    void updateGoal(int id, Function<Goal, Goal> update);
     Subject<List<Goal>> getAllGoals();
 }

@@ -42,7 +42,15 @@ public class RoomGoalRepository implements GoalRepository {
         var goalEntity = goalDao.find(id);
         if(goalEntity != null) goalDao.deleteEntity(goalEntity);
     }
-
+    public void updateGoal(int id, java.util.function.Function<Goal, Goal> update) {
+        var goalEntity = goalDao.find(id);
+        if(goalEntity != null) {
+            goalDao.deleteEntity(goalEntity);
+            var goal = goalEntity.toGoal();
+            goal = update.apply(goal);
+            goalDao.addGoalEntity(GoalEntity.fromGoal(goal));
+        }
+    }
     public Subject<List<Goal>> getAllGoals() {
         var entityLiveList = goalDao.getAllGoalEntitiesAsLiveData();
         if(entityLiveList == null) return new LiveDataSubjectAdapter<>(null);

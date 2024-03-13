@@ -2,6 +2,9 @@ package edu.ucsd.cse110.successorator.ui.goallist;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.os.Vibrator;
+import android.util.Log;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,19 +14,21 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 
+import edu.ucsd.cse110.successorator.R;
 import edu.ucsd.cse110.successorator.databinding.ListItemGoalBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 
 public class GoalListAdapter extends ArrayAdapter<Goal> {
     Consumer<Integer> onCompleteClick;
-    public GoalListAdapter(Context context, List<Goal> goals) {
-        super(context, 0, new ArrayList<>(goals));
-    }
-    public GoalListAdapter(Context context, List<Goal> goals, Consumer<Integer> onCompleteClick) {
+    Map<Integer, Consumer<Integer>> updateGoalMap;
+    public GoalListAdapter(Context context, List<Goal> goals, Consumer<Integer> onCompleteClick, Map<Integer, Consumer<Integer>> updateGoalMap) {
         super(context, 0, new ArrayList<>(goals));
         this.onCompleteClick = onCompleteClick;
+        this.updateGoalMap = updateGoalMap;
     }
 
     @NonNull
@@ -47,6 +52,24 @@ public class GoalListAdapter extends ArrayAdapter<Goal> {
             var id = goal.id();
             assert id != null;
             onCompleteClick.accept(id);
+        });
+        binding.goalContentText.setOnLongClickListener(v -> {
+            Log.w("GoalListAdapter", "Long click");
+            var id = goal.id();
+            assert id != null;
+            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+            var popup = new android.widget.PopupMenu(getContext(), v);
+            popup.getMenuInflater().inflate(R.menu.update_goal, popup.getMenu());
+            popup.setOnMenuItemClickListener(item -> {
+                var action = updateGoalMap.get(item.getItemId());
+                if (action != null) {
+                    action.accept(id);
+                    return true;
+                }
+                return false;
+            });
+            popup.show();
+            return true;
         });
         // Populate the view with the flashcard's data.
         binding.goalContentText.setText(goal.getContent());
