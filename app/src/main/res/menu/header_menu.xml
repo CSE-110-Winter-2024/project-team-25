@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/context_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Home"
+        android:icon="@drawable/home"
+        />
+    <item
+        android:id="@+id/context_work"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Work"
+        android:icon="@drawable/work"
+        />
+    <item
+        android:id="@+id/context_School"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="School"
+        android:icon="@drawable/school"
+        />
+    <item
+        android:id="@+id/context_errands"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Errands"
+        android:icon="@drawable/errands"
+        />
+</menu>
