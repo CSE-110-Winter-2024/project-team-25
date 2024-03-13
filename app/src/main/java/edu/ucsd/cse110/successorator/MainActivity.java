@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 
+import java.text.SimpleDateFormat;
+
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
 import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
 
@@ -26,18 +28,19 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding view;
     private MainViewModel activityModel;
     private GoalListFragment goalList;
+    private SimpleDateFormat dateFormatter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.dateFormatter = new SimpleDateFormat("EEEE, MM/dd");
         this.goalList = GoalListFragment.newInstance();
-
         var modelFactory = ViewModelProvider.Factory.from(MainViewModel.initializer);
         var modelProvider = new ViewModelProvider(this, modelFactory);
         this.activityModel = modelProvider.get(MainViewModel.class);
-        this.activityModel.getDateString().observe(dateString -> {
-            setTitle(dateString);
+        this.activityModel.getDateSubject().observe(date -> {
+            Log.d("check line", "41");
+            setTitle(dateFormatter.format(date.getCalendar().getTime()));
         });
-      
         //^^^
         getSupportFragmentManager()
                 .beginTransaction()
