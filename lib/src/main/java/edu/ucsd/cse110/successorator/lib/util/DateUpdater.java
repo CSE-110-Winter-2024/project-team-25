@@ -15,7 +15,7 @@ public class DateUpdater implements TimeKeeper{
         Calendar calendar = new GregorianCalendar();
         date = new Date(calendar);
         dateSubject = new SimpleSubject<>();
-        dateSubject.setValue(date);
+        //dateSubject.setValue(date);
         formatter = new DateFormatter();
         dateString = new SimpleSubject<>();
         dateUpdate(delayHour);

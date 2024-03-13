@@ -30,14 +30,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.goalList = GoalListFragment.newInstance();
-
         var modelFactory = ViewModelProvider.Factory.from(MainViewModel.initializer);
         var modelProvider = new ViewModelProvider(this, modelFactory);
         this.activityModel = modelProvider.get(MainViewModel.class);
         this.activityModel.getDateString().observe(dateString -> {
             setTitle(dateString);
         });
-      
         //^^^
         getSupportFragmentManager()
                 .beginTransaction()

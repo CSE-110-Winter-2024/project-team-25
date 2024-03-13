@@ -27,9 +27,6 @@ public class RoomGoalRepository implements GoalRepository {
         var goalEntity = goalDao.find(id);
         if(goalEntity != null) goalDao.updateGoalStatus(id, !goalEntity.toGoal().isComplete());
     }
-    public void updateIsFinish(int id, Recurrence recurrence, boolean isFinish){
-        goalDao.updateGoalIsFinishStatus(id, recurrence, isFinish);
-    }
 
     public void rollOver() {
         goalDao.rollOver();
@@ -60,6 +57,9 @@ public class RoomGoalRepository implements GoalRepository {
                         .collect(Collectors.toList());
         });
         return new LiveDataSubjectAdapter<>(goalLiveList);
+    }
+    public Goal find(int id) {
+        return goalDao.find(id).toGoal();
     }
     public List<Goal> getAllGoals() {
         return goalDao.getAllGoalEntities().stream().map(GoalEntity::toGoal).collect(Collectors.toList());

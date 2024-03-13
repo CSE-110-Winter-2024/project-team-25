@@ -74,10 +74,9 @@ public class RecurringGoal extends Goal {
     public Recurrence getRecurrence() {
         return recurrence;
     }
-    public boolean getIsFinished(){
-        return isFinished;
+    public RecurringGoalWithDate createRecurringGoalWithDate(Date date){
+        return new RecurringGoalWithDate(this, date, this.getId());
     }
-
     public void setRecurrence(Recurrence recurrence) {
         this.recurrence = recurrence;
     }

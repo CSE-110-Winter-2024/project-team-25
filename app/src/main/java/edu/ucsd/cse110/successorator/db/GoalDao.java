@@ -28,10 +28,6 @@ public interface GoalDao {
     LiveData<List<GoalEntity>> getAllGoalEntitiesAsLiveData();
     @Query("UPDATE goal SET isComplete = :status WHERE id = :id")
     void updateGoalStatus(int id, boolean status);
-    @Query("UPDATE goal SET isFinished = :status, recurrence = :recurrence WHERE id = :id")
-    void updateGoalIsFinishStatus(int id, Recurrence recurrence, boolean status);
-    @Query("UPDATE goal SET isFinished = isComplete WHERE recurrence is NOT NULL")
-    void resetFinishStatus();
     @Query("SELECT MAX(sortOrder) FROM goal")
     int getMaxSortOrder();
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -45,10 +41,11 @@ public interface GoalDao {
         Integer maxSortOrder = getMaxSortOrder();
         GoalEntity newGoalEntity;
         if(maxSortOrder.equals(null)){
-            //Log.d("recurrence", "is a recurring goal: " + (entity.toGoal() instanceof RecurringGoal));
-            newGoalEntity = new GoalEntity(entity.content, entity.isComplete, 0, entity.date, entity.recurrence, entity.deleted);
+            newGoalEntity = new GoalEntity(entity.content, entity.isComplete, 0, entity.date,
+                    entity.recurrence, entity.deleted, entity.RecurrenceID);
         }else{
-            newGoalEntity = new GoalEntity(entity.content, entity.isComplete, maxSortOrder+1, entity.date, entity.recurrence, entity.deleted);
+            newGoalEntity = new GoalEntity(entity.content, entity.isComplete,
+                    maxSortOrder+1, entity.date, entity.recurrence, entity.deleted, entity.RecurrenceID);
         }
         Long id = addGoalEntity(newGoalEntity);
         return Math.toIntExact(id);
@@ -56,7 +53,6 @@ public interface GoalDao {
     @Transaction
     default void rollOver(){
         List<GoalEntity> removedGoalEntity = getAllCompleteGoalEntities();
-        resetFinishStatus();
         deleteEntities(removedGoalEntity);
     }
 }

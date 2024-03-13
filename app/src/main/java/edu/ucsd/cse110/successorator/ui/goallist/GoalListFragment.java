@@ -56,8 +56,7 @@ public class GoalListFragment extends Fragment {
         this.activityModel = modelProvider.get(MainViewModel.class);
 
 
-
-        String[] items = new String[]{"Today's Goals", "Recurring Goals"};
+        String[] items = new String[]{"Today's Goals", "Tomorrow", "Recurring Goals"};
         SpinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, items);
         adapterList = new ArrayList<>();
         adapterList.add(new GoalListAdapter(requireContext(), List.of(),
@@ -70,7 +69,8 @@ public class GoalListFragment extends Fragment {
                 }));
         adapterList.add(new GoalListAdapter(requireContext(), List.of(),
                 id -> {
-                    activityModel.deleteGoal(id);
+                    activityModel.deleteGoal(id); // delete recurring goal --> all dated goal from that
+                    //recurring goal need to be deleted
                 }));
         this.adapter = adapterList.get(0);
 
@@ -78,11 +78,11 @@ public class GoalListFragment extends Fragment {
             if (goals == null) {
                 return;
             }
-            Log.d("adapterIndex", Arrays.toString(goals.toArray()));
             adapter.clear();
             adapter.addAll(new ArrayList<>(goals)); // remember the mutable copy here!
             adapter.notifyDataSetChanged();
         });
+
     }
 
     @Nullable
@@ -92,10 +92,10 @@ public class GoalListFragment extends Fragment {
 
         // Set the adapter on the ListView
         activityModel.getAdapterIndexAsSubject().observe(id -> {
-            Log.d("adapterIndex", " "+id);
             adapter = adapterList.get(id);
             view.goalList.setAdapter(adapter);
         });
+        Log.d("line check", " line 58");
         //view.goalList.setAdapter(adapter);
         view.spinner.setAdapter(SpinnerAdapter);
 
@@ -114,7 +114,6 @@ public class GoalListFragment extends Fragment {
         activityModel.getIsGoalListEmpty().observe(getViewLifecycleOwner(), isEmpty -> {
             view.empty.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
         });
-
         return view.getRoot();
     }
 }

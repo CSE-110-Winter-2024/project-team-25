@@ -21,7 +21,6 @@ public class RecurrenceFactory {
             first++;
         first %= daysOfWeek.size();
         int curr = first;
-
         List<Period> datePattern = new ArrayList<>();
         while(datePattern.size() != daysOfWeek.size()) {
             datePattern.add(Period.ofDays(
