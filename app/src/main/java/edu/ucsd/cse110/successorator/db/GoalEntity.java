@@ -49,7 +49,7 @@ public class GoalEntity {
         if(goal instanceof RecurringGoal){
             return new GoalEntity(goal.getContent(), goal.isComplete(), goal.getSortOrder(), null, ((RecurringGoal) goal).getRecurrence(), null);
         } else if(goal instanceof PendingGoal){
-            return new GoalEntity(goal.getContent(), goal.isComplete(), goal.getSortOrder(), null, null, ((PendingGoal) goal).isDeleted());
+            return new GoalEntity(goal.getContent(), goal.isComplete(), goal.getSortOrder(), null, null, ((PendingGoal) goal).isFinished());
         } else if(goal instanceof DatedGoal){
             return new GoalEntity(goal.getContent(), goal.isComplete(), goal.getSortOrder(), ((DatedGoal) goal).getDate(), null, null);
         }
