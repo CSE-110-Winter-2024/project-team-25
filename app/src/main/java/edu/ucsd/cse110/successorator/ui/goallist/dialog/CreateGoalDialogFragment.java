@@ -116,12 +116,12 @@ public class CreateGoalDialogFragment extends DialogFragment {
         }
         else if(view.monthlyRecurrenceButton.isChecked()) {
             Recurrence recurrence = createMonthlyRecurrence(today);
-            RecurringGoal recurringGoal = new RecurringGoal(goal, recurrence, false);
+            RecurringGoal recurringGoal = new RecurringGoal(goal, recurrence);
             activityModel.addGoal(recurringGoal);
         }
         else if(view.yearlyRecurrenceButton.isChecked()) {
             Recurrence recurrence = createYearlyRecurrence(today);
-            RecurringGoal recurringGoal = new RecurringGoal(goal, recurrence, false);
+            RecurringGoal recurringGoal = new RecurringGoal(goal, recurrence);
             activityModel.addGoal(recurringGoal);
         }
         else {
