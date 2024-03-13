@@ -12,9 +12,7 @@ import androidx.room.Transaction;
 
 import java.util.Calendar;
 import java.util.List;
-
-import edu.ucsd.cse110.successorator.lib.domain.Recurrence;
-import edu.ucsd.cse110.successorator.lib.domain.RecurringGoal;
+import edu.ucsd.cse110.successorator.lib.domain.Date;
 
 @Dao
 public interface GoalDao {
@@ -40,6 +38,12 @@ public interface GoalDao {
     default int append(GoalEntity entity){
         Integer maxSortOrder = getMaxSortOrder();
         GoalEntity newGoalEntity;
+        Date date = null;
+        if(entity.date != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(entity.date);
+            date = new Date(calendar);
+        }
         if(maxSortOrder.equals(null)){
             newGoalEntity = new GoalEntity(entity.content, entity.isComplete, 0, entity.date,
                     entity.recurrence, entity.deleted, entity.RecurrenceID);
