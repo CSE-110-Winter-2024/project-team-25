@@ -1,6 +1,7 @@
 package edu.ucsd.cse110.successorator.lib.data;
 
 import java.util.List;
+import java.util.function.Function;
 
 import edu.ucsd.cse110.successorator.lib.domain.Date;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
@@ -13,6 +14,7 @@ public interface GoalRepository {
     int addGoal(Goal goal);
     void deleteGoal(int id);
     Subject<List<Goal>> getAllGoalsAsSubject();
+    void updateGoal(int id, Function<Goal, Goal> update);
     List<Goal> getAllGoals();
     Goal find(int id);
     void deleteRecurringGoalWithDateByRecurrenceID(int id);
