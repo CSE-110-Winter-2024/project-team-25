@@ -37,7 +37,7 @@ public class RecurringGoalWithDate extends DatedGoal{
         super(goal.getId(), goal.getContent(), goal.isComplete(), goal.getSortOrder(), date);
         this.recurrenceID = recurrenceID;
     }
-    public boolean equal(RecurringGoalWithDate goal){
+    public boolean equals(RecurringGoalWithDate goal){
         return this.recurrenceID == goal.getRecurrenceID()&&super.getDate().equals(goal.getDate());
     }
 
