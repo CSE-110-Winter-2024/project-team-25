@@ -39,7 +39,7 @@ android {
 dependencies {
     implementation(project(mapOf("path" to ":lib")))
     implementation("junit:junit:4.12")
-    testImplementation("androidx.test.ext:junit:1.1.0")
+    testImplementation("androidx.test.ext:junit:1.1.5")
     testImplementation("org.robolectric:robolectric:4.6.1")
     project(":lib")
 

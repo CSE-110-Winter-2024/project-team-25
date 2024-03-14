@@ -1,12 +1,11 @@
 package edu.ucsd.cse110.successorator;
 
 import android.app.Application;
-
 import androidx.room.Room;
-
 import edu.ucsd.cse110.successorator.db.RoomGoalRepositoryForTest;
 import edu.ucsd.cse110.successorator.db.SuccessoratorDatabase;
 import edu.ucsd.cse110.successorator.lib.data.GoalRepository;
+import edu.ucsd.cse110.successorator.db.RecurrenceConverters;
 
 public class SuccessoratorApplication extends Application {
     GoalRepository goalRepo;

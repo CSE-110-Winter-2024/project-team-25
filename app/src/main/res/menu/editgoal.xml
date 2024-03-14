@@ -2,16 +2,41 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/menu_dropdown"
+        android:title=""
+        android:icon="@drawable/ic_dropdown"
+        android:orderInCategory="3"
+        app:iconTint="@color/white"
+        app:showAsAction="ifRoom"
+        >
+        <menu>
+            <item
+                android:id="@+id/today_option"
+                android:title="Today" />
+            <item
+                android:id="@+id/tomorrow_option"
+                android:title="Tomorrow" />
+            <item
+                android:id="@+id/pending_option"
+                android:title="Pending" />
+            <item
+                android:id="@+id/recurring_option"
+                android:title="Recurring" />
+
+        </menu>
+    </item>
+
+    <item
         android:id="@+id/edit_bar_menu_add_goal"
         android:icon="@drawable/ic_edit"
-        android:orderInCategory="2"
+        android:orderInCategory="5"
         android:title="@string/add_goal"
         app:iconTint="@color/white"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/edit_bar_menu_edit_date"
         android:icon="@drawable/ic_editcalendar"
-        android:orderInCategory="1"
+        android:orderInCategory="4"
         android:title="@string/edit_date"
         app:iconTint="@color/white"
         app:showAsAction="ifRoom" />

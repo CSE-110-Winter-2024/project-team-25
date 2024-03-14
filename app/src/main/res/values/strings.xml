@@ -7,4 +7,7 @@
     <string name="open">open</string>
     <string name="close">close</string>
     <string name="app">APP</string>
+    <string name="weekly_on">Weekly on %s</string>
+    <string name="monthly_on">Monthly on %s</string>
+    <string name="yearly_on">Yearly on %s</string>
 </resources>
