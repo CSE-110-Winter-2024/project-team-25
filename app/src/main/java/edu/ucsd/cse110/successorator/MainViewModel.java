@@ -10,10 +10,14 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.viewmodel.ViewModelInitializer;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import edu.ucsd.cse110.successorator.lib.data.GoalRepository;
 import edu.ucsd.cse110.successorator.lib.domain.Date;
+import edu.ucsd.cse110.successorator.lib.domain.DatedGoal;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
+import edu.ucsd.cse110.successorator.lib.domain.PendingGoal;
 import edu.ucsd.cse110.successorator.lib.domain.RecurringGoal;
 import edu.ucsd.cse110.successorator.lib.domain.RecurringGoalWithDate;
 import edu.ucsd.cse110.successorator.lib.domain.Type;
@@ -36,6 +40,8 @@ public class MainViewModel extends ViewModel {
     private final MutableLiveData<Boolean> isGoalListEmpty;
     private final MutableSubject<Type> typeSubject;
     private final MutableSubject<Integer> adapterIndex;
+    private final Map<Integer, Consumer<Integer>> updateGoalMap;
+
     public static final ViewModelInitializer<MainViewModel> initializer =
             new ViewModelInitializer<>(
                     MainViewModel.class,
@@ -46,6 +52,14 @@ public class MainViewModel extends ViewModel {
                     });
 
     public MainViewModel(GoalRepository goalRepository) {
+
+        this.updateGoalMap = Map.ofEntries(
+                Map.entry(R.id.move_to_today, (Consumer<Integer>) this::moveGoalToToday),
+                Map.entry(R.id.move_to_tomorrow, (Consumer<Integer>) this::moveGoalToTomorrow),
+                Map.entry(R.id.delete, (Consumer<Integer>) this::deleteGoal),
+                Map.entry(R.id.finish, (Consumer<Integer>) this::finishGoal)
+        );
+
         this.goalRepository = goalRepository;
         // Create the observable subjects.
         this.orderedGoals = new SimpleSubject<>();
@@ -160,6 +174,25 @@ public class MainViewModel extends ViewModel {
                             //}
                         }
                 );
+    }
+    public void moveGoalToToday(int id) {
+        goalRepository.updateGoal(id, goal -> new DatedGoal(goal, today));
+    }
+    public void moveGoalToTomorrow(int id) {
+        goalRepository.updateGoal(id, goal -> {
+            if (!(goal instanceof PendingGoal)) return goal;
+            return ((PendingGoal) goal).toDatedGoal(tomorrow);
+        });
+    }
+    public void finishGoal(int id) {
+        goalRepository.updateGoal(id, goal -> {
+            if (!(goal instanceof PendingGoal)) return goal;
+            return ((PendingGoal) goal).toDatedGoal(today);
+        });
+    }
+
+    public Map<Integer, Consumer<Integer>> getUpdateGoalMap() {
+        return updateGoalMap;
     }
 
     private synchronized void deleteGoalWithRecurrence(Date date){
