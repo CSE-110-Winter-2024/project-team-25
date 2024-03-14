@@ -151,9 +151,7 @@ public class MainViewModel extends ViewModel {
                 .forEach(
                         goal -> {
                             RecurringGoalWithDate newGoalWithDate = ((RecurringGoal) goal).createRecurringGoalWithDate(date);
-                            //if (!GoalDateComparator.hasRedundancy(newGoalWithDate, goalRepository.getAllGoals())) {
                             goalRepository.addGoal(newGoalWithDate);
-                            //}
                         }
                 );
     }

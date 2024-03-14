@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import edu.ucsd.cse110.successorator.lib.domain.Date;
 import edu.ucsd.cse110.successorator.lib.domain.DatedGoal;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
+import edu.ucsd.cse110.successorator.lib.domain.PendingGoal;
 import edu.ucsd.cse110.successorator.lib.domain.RecurringGoal;
 import edu.ucsd.cse110.successorator.lib.domain.RecurringGoalWithDate;
 import edu.ucsd.cse110.successorator.lib.domain.Type;
@@ -23,7 +24,7 @@ public class GoalDateComparator {
             case RECURRENCE:
                 return goal -> (goal instanceof RecurringGoal);
             case PENDING:
-                return null;
+                return goal -> (goal instanceof PendingGoal);
         }
         return null;
     }
