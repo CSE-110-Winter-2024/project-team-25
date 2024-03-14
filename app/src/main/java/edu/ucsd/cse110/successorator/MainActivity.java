@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
 //        frameLayout = findViewById(R.id.fragment_container);
         navigationView = findViewById(R.id.navigationView);
 
+
+
         drawerToggle = new ActionBarDrawerToggle(this,drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
 
@@ -84,31 +86,44 @@ public class MainActivity extends AppCompatActivity {
 //                return false;
 //            }
 //        });
-        drawerToggle.syncState();;
+        drawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_hamburger);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId()==R.id.context_home){
+                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_focus);
                     Toast.makeText(MainActivity.this, "home", Toast.LENGTH_SHORT).show();
                     drawerLayout.closeDrawer(GravityCompat.START);
                 }
                 else if (item.getItemId()==R.id.context_work){
-                    Toast.makeText(MainActivity.this, "home", Toast.LENGTH_SHORT).show();
+
+                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_focus);
+                    Toast.makeText(MainActivity.this, "work", Toast.LENGTH_SHORT).show();
                     drawerLayout.closeDrawer(GravityCompat.START);
 
                 }
                 else if (item.getItemId()==R.id.context_school){
-                    Toast.makeText(MainActivity.this, "home", Toast.LENGTH_SHORT).show();
+                    drawerToggle.setHomeAsUpIndicator(R.drawable.ic_focus);
+                    Toast.makeText(MainActivity.this, "school", Toast.LENGTH_SHORT).show();
                     drawerLayout.closeDrawer(GravityCompat.START);
-
                 }
                 else if (item.getItemId()==R.id.context_errands){
-                    Toast.makeText(MainActivity.this, "home", Toast.LENGTH_SHORT).show();
+                    drawerToggle.setHomeAsUpIndicator(R.drawable.ic_focus);
+                    Toast.makeText(MainActivity.this, "errand", Toast.LENGTH_SHORT).show();
                     drawerLayout.closeDrawer(GravityCompat.START);
 
                 }
+                else if (item.getItemId()==R.id.context_cancel){
+                    drawerToggle.setHomeAsUpIndicator(R.drawable.ic_hamburger);
+                    Toast.makeText(MainActivity.this, "cancel", Toast.LENGTH_SHORT).show();
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    drawerToggle.syncState();
+                }
                 drawerLayout.closeDrawer(GravityCompat.START);
+//                drawerToggle.syncState();
                 return true;
             }
         });
@@ -202,4 +217,12 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        drawerToggle.syncState();
+    }
+
 }
