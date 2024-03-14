@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.fragment_container);
 //        materialToolbar = findViewById(R.id.materialToolbar);
         frameLayout = findViewById(R.id.framelayout);
-        navigationView = findViewById(R.id.navigationView);
+        navigationView = view.navigationView;
 
         drawerToggle = new ActionBarDrawerToggle(this,drawerLayout,materialToolbar,R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
@@ -107,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
                 else if (item.getItemId()==R.id.context_errands){
                     Toast.makeText(MainActivity.this, "home", Toast.LENGTH_SHORT).show();
                     drawerLayout.closeDrawer(GravityCompat.START);
-
                 }
                 return false;
             }
