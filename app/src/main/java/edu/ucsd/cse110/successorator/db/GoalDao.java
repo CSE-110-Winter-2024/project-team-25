@@ -32,6 +32,8 @@ public interface GoalDao {
     int getMaxSortOrder();
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long addGoalEntity(GoalEntity goal);
+    @Query("DELETE FROM goal WHERE RecurrenceID = :id")
+    void deleteRecurringGoalWithDateByRecurrenceID(int id);
     @Delete
     void deleteEntities(List<GoalEntity> entities);
     @Delete

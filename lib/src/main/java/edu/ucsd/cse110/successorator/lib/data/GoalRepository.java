@@ -15,4 +15,5 @@ public interface GoalRepository {
     Subject<List<Goal>> getAllGoalsAsSubject();
     List<Goal> getAllGoals();
     Goal find(int id);
+    void deleteRecurringGoalWithDateByRecurrenceID(int id);
     }
