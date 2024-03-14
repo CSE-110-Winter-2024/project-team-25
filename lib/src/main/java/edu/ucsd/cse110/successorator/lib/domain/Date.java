@@ -42,6 +42,7 @@ public class Date implements Cloneable, Comparable<Date>, Serializable {
             throw new RuntimeException(e);
         }
     }
+
     @Override
     public int compareTo(Date d){
         if (calendar.get(Calendar.YEAR)!=d.getCalendar().get(Calendar.YEAR)){

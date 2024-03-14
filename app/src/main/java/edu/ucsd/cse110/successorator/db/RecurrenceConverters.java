@@ -13,15 +13,7 @@ import edu.ucsd.cse110.successorator.lib.domain.Recurrence;
 
 public class RecurrenceConverters {
 
-    private static RecurrenceConverters instance;
     private RecurrenceConverters() {}
-
-    public static RecurrenceConverters getInstance() {
-        if(instance == null) {
-            instance = new RecurrenceConverters();
-        }
-        return instance;
-    }
     @TypeConverter
     public static byte[] fromRecurrence(Recurrence recurrence) {
         if(recurrence == null) {
