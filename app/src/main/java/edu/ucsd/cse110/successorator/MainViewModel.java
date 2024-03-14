@@ -1,10 +1,7 @@
 package edu.ucsd.cse110.successorator;
-
 import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
-
 import android.content.SharedPreferences;
 import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -12,7 +9,6 @@ import androidx.lifecycle.viewmodel.ViewModelInitializer;
 
 import java.util.Calendar;
 import java.util.List;
-
 import edu.ucsd.cse110.successorator.lib.data.GoalRepository;
 import edu.ucsd.cse110.successorator.lib.domain.Date;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
@@ -107,11 +103,6 @@ public class MainViewModel extends ViewModel {
 
     public void addRecurringGoalWithDate(Goal goal){
         if(goal instanceof RecurringGoal){
-            Log.d("date from recurring goal", ""+ ((RecurringGoal) goal).getRecurrence().getFirstOccurrence().getCalendar().get(Calendar.DATE));
-            Log.d("date from recurring goal", ""+ tomorrow.getCalendar().get(Calendar.DATE));
-            Log.d("date from recurring goal", ""+ ((RecurringGoal)goal).getRecurrence().isFutureRecurrence(tomorrow));
-
-
             if(((RecurringGoal)goal).getRecurrence().isFutureRecurrence(today)){
                 RecurringGoalWithDate goal_today = ((RecurringGoal) goal).createRecurringGoalWithDate(today);
                 addGoal(goal_today);

@@ -32,7 +32,7 @@
         android:orderInCategory="5"
         android:title="@string/add_goal"
         app:iconTint="@color/white"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/edit_bar_menu_edit_date"
         android:icon="@drawable/ic_editcalendar"

@@ -14,6 +14,9 @@ public class Date implements Cloneable, Comparable<Date>, Serializable {
     public void hourAdvance(int hourChange){
         calendar.add(Calendar.HOUR, hourChange);
     }
+    public void syncDate(){
+        calendar.setTimeInMillis(System.currentTimeMillis());
+    }
     public Calendar getCalendar() {
         return calendar;
     }

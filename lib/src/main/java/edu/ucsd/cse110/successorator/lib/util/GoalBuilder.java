@@ -129,6 +129,8 @@ public class GoalBuilder {
     }
     Goal goal = new Goal(id, content, isComplete, sortOrder, context);
     Calendar calendar = Calendar.getInstance();
+
+
     switch (goalType){
       case Goal:
         return goal;

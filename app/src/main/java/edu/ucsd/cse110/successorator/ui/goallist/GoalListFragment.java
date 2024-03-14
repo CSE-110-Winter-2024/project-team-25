@@ -65,6 +65,10 @@ public class GoalListFragment extends Fragment {
                     activityModel.deleteGoal(id); // delete recurring goal --> all dated goal from that
                     //recurring goal need to be deleted
                 }));
+        adapterList.add(new GoalListAdapter(requireContext(), List.of(),
+                id -> {
+                    //ac
+                }));
         this.adapter = adapterList.get(0);
 
         activityModel.getOrderedGoals().observe(goals -> {

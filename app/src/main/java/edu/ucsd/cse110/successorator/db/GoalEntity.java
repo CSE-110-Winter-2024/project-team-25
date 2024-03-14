@@ -111,6 +111,10 @@ public class GoalEntity {
                                       .setComplete(isComplete)
                                       .setSortOrder(sortOrder)
                                       .setContext(context);
+//                                      .setDate(date)
+//                .setRecurrence(recurrence)
+//                .setDeleted(deleted);
+
         if(this.date != null) {
             goalBuilder.setDate(this.date);
             if(this.RecurrenceID!=null){

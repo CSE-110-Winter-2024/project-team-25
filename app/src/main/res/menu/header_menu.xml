@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+<!--    <group-->
+<!--        android:id="@+id/group1">-->
+
+        <item
+            android:id="@+id/context_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/ic_home"
+            android:title="Home"
+
+            />
+        <item
+            android:id="@+id/context_work"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:title="Work"
+            android:icon="@drawable/ic_work"
+            />
+        <item
+            android:id="@+id/context_school"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:title="School"
+            android:icon="@drawable/ic_school"
+            />
+        <item
+            android:id="@+id/context_errands"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:title="Errands"
+            android:icon="@drawable/ic_errands"
+            />
+        <item
+            android:id="@+id/context_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:title="Cancel"
+            android:icon="@drawable/ic_cross"
+            />
+
+
+
+</menu>

@@ -2,7 +2,6 @@ package edu.ucsd.cse110.successorator.lib.util;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
 import edu.ucsd.cse110.successorator.lib.domain.Date;
 
 public class DateUpdater implements TimeKeeper{
@@ -26,7 +25,7 @@ public class DateUpdater implements TimeKeeper{
         checkDate();
     }
     public void syncDate(){
-        date.getCalendar().setTimeInMillis(System.currentTimeMillis());
+        date.syncDate();
         checkDate();
     }
 
@@ -42,6 +41,7 @@ public class DateUpdater implements TimeKeeper{
 //    public MutableSubject<Date> getDateSubject(){
 //        return dateSubject;
 //    }
+
 
     public DateFormatter getFormatter() {
         return formatter;
