@@ -99,21 +99,23 @@ public class MainViewModel extends ViewModel {
     public void moveGoalToToday(int id) {
         goalRepository.updateGoal(id, goal -> new DatedGoal(goal, new Date(Calendar.getInstance())));
     }
-    public void moveGoalToTomorrow(int id){
+    public void moveGoalToTomorrow(int id) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 1);
-        goalRepository.updateGoal(id, goal -> new DatedGoal(goal, new Date(calendar)));
-    }
-    public void finishGoal(int id){
         goalRepository.updateGoal(id, goal -> {
             if (!(goal instanceof PendingGoal)) return goal;
-            ((PendingGoal) goal).setFinished(true);
-            return goal;
+            return ((PendingGoal) goal).toDatedGoal(new Date(calendar));
+        });
+    }
+    public void finishGoal(int id) {
+        goalRepository.updateGoal(id, goal -> {
+            if (!(goal instanceof PendingGoal)) return goal;
+            return ((PendingGoal) goal).toDatedGoal(new Date(Calendar.getInstance()));
         });
     }
 
     //return value of int for easy testing
-    public int addGoal(String content){
+    public int addGoal(String content) {
         return goalRepository.addGoal(content);
     }
 
