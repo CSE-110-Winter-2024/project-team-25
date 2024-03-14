@@ -17,7 +17,11 @@ import androidx.lifecycle.ViewModelProvider;
 import java.text.SimpleDateFormat;
 
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
+import edu.ucsd.cse110.successorator.lib.util.Subject;
 import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import edu.ucsd.cse110.successorator.ui.goallist.dialog.CreateGoalDialogFragment;
 
@@ -41,12 +45,13 @@ public class MainActivity extends AppCompatActivity {
             Log.d("check line", "41");
             setTitle(dateFormatter.format(date.getCalendar().getTime()));
         });
+
         //^^^
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, this.goalList)
                 .commit();
-      
+
         this.view = ActivityMainBinding.inflate(getLayoutInflater());
 
         setContentView(view.getRoot());
@@ -59,25 +64,64 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         activityModel.updateDateWithRollOver(sharedPref, DELAY_HOUR, true);
     }
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        var itemId = item.getItemId();
-
-        if (itemId == R.id.edit_bar_menu_add_goal) {
-            var dialogFragment = CreateGoalDialogFragment.newInstance();
-            dialogFragment.show(goalList.getParentFragmentManager(), "CreateGoalDialogFragment");
-        }
-        else if(itemId == R.id.edit_bar_menu_edit_date){
-            SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-            activityModel.updateDateWithRollOver(sharedPref, HOUR_IN_DAY, false);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.editgoal, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.edit_bar_menu_add_goal) {
+            // Handle "Add Goal" action
+            CreateGoalDialogFragment dialogFragment = CreateGoalDialogFragment.newInstance();
+            dialogFragment.show(getSupportFragmentManager(), "CreateGoalDialogFragment");
+            return true;
+        } else if (itemId == R.id.edit_bar_menu_edit_date) {
+            // Handle "Edit Date" action
+            SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+            activityModel.updateDateWithRollOver(sharedPref, HOUR_IN_DAY, false);
+            return true;
+        }
+        else if (itemId == R.id.today_option) {
+            activityModel.listSelector(0);
+            // Call switch to Today's Goalist
+
+
+            return true;
+        } else if (itemId == R.id.tomorrow_option) {
+
+            // Call switch to Tomorrow's Goalist
+            activityModel.listSelector(1);
+
+            return true;
+        }
+        else if (itemId == R.id.pending_option) {
+            this.activityModel.getDateString().observe(dateString -> {
+                setTitle("Pending");
+            });
+
+            // Call switch to Pending's Goalist
+            activityModel.listSelector(3);
+            return true;
+        }
+        else if (itemId == R.id.recurring_option) {
+            this.activityModel.getDateString().observe(dateString -> {
+                setTitle("Recurring");
+            });
+
+            // Call switch to Recurring's Goalist
+            activityModel.listSelector(2);
+
+            return true;
+        }
+
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

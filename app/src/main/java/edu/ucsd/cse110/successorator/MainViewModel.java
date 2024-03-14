@@ -155,6 +155,7 @@ public class MainViewModel extends ViewModel {
                         ((RecurringGoal) goal).getRecurrence().isFutureRecurrence(date))
                 .forEach(
                         goal -> {
+                            Log.d("error in foreach goal","see line 157");
                             RecurringGoalWithDate newGoalWithDate = ((RecurringGoal) goal).createRecurringGoalWithDate(date);
                             goalRepository.addGoal(newGoalWithDate);
                         }
@@ -194,6 +195,10 @@ public class MainViewModel extends ViewModel {
                 adapterIndex.setValue(2);
                 typeSubject.setValue(Type.RECURRENCE);
                 break;
+            case 3:
+                adapterIndex.setValue(3);
+                typeSubject.setValue(Type.PENDING);
+                break;
         }
     }
     public Subject<Integer> getAdapterIndexAsSubject(){
@@ -201,5 +206,13 @@ public class MainViewModel extends ViewModel {
     }
     public Date getTargetDate(){
         return targetDate.clone();
+    }
+
+    public Date getToday(){
+        return today.clone();
+    }
+
+    public Date getTomorrow(){
+        return tomorrow.clone();
     }
 }
