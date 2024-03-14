@@ -32,10 +32,11 @@ public class MainViewModel extends ViewModel {
     private Date tomorrow;
     private Date today;
     private Date targetDate;
+    private final MutableSubject<Integer> adapterIndex;
+
     private final MutableSubject<List<Goal>> orderedGoals;
     private final MutableLiveData<Boolean> isGoalListEmpty;
     private final MutableSubject<Type> typeSubject;
-    private final MutableSubject<Integer> adapterIndex;
     public static final ViewModelInitializer<MainViewModel> initializer =
             new ViewModelInitializer<>(
                     MainViewModel.class,
