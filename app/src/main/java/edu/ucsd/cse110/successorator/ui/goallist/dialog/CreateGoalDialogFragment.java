@@ -269,7 +269,7 @@ public class CreateGoalDialogFragment extends DialogFragment {
             int day = Integer.parseInt(parts[2]);
 
             Date setDate = getDate(year, month, day);
-            Log.d("error in setDate",year + ", " + month + ", " + + day);
+            Log.d("error in setDate",setDate.getCalendar().get(Calendar.YEAR)+" "+ setDate.getCalendar().get(Calendar.MONTH)+setDate.getCalendar().get(Calendar.DAY_OF_MONTH));
             Goal goal = new DatedGoal(0, content, false, 0, setDate);
             if (recurringView.dailyButton.isChecked()) {
                 Recurrence recurrence = createDailyRecurrence(setDate);
@@ -328,7 +328,7 @@ public class CreateGoalDialogFragment extends DialogFragment {
         Date today = activityModel.getToday();
         Calendar calendar = today.getCalendar();
         calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.MONTH, month-1);
         calendar.set(Calendar.DATE, day);
         Date setDate = new Date(calendar);
         return setDate;

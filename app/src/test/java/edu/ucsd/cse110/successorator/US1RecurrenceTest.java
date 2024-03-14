@@ -61,7 +61,6 @@ public class US1RecurrenceTest
         //test case: daily recurrence
         testDate = new Date(new GregorianCalendar());
         assertTrue(rec_Daily.isFutureRecurrence(testDate));
-
         //test case: weekly recurrence
         testDate = new Date(new GregorianCalendar(2024, 0, 15));
         assertTrue(rec_Weekly.isFutureRecurrence(testDate));
@@ -88,6 +87,11 @@ public class US1RecurrenceTest
         assertFalse(rec_Yearly.isFutureRecurrence(testDate));
         testDate = new Date(new GregorianCalendar(2025, 0, 15));
         assertTrue(rec_Yearly.isFutureRecurrence(testDate));
+
+        startDate = new Date(new GregorianCalendar(2024, 2, 15));
+        rec_Daily = RecurrenceFactory.createDailyRecurrence(startDate);
+        testDate = new Date(new GregorianCalendar(2024, 2, 15));
+        assertTrue(rec_Daily.isFutureRecurrence(testDate));
     }
 }
 

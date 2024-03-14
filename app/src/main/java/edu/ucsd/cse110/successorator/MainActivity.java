@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import java.text.SimpleDateFormat;
 
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
+import edu.ucsd.cse110.successorator.lib.util.DateFormatter;
 import edu.ucsd.cse110.successorator.lib.util.Subject;
 import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
 
@@ -32,18 +33,17 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding view;
     private MainViewModel activityModel;
     private GoalListFragment goalList;
-    private SimpleDateFormat dateFormatter;
+    private DateFormatter dateFormatter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.dateFormatter = new SimpleDateFormat("EEEE, MM/dd");
+        this.dateFormatter = new DateFormatter();
         this.goalList = GoalListFragment.newInstance();
         var modelFactory = ViewModelProvider.Factory.from(MainViewModel.initializer);
         var modelProvider = new ViewModelProvider(this, modelFactory);
         this.activityModel = modelProvider.get(MainViewModel.class);
         this.activityModel.getDateSubject().observe(date -> {
-            Log.d("check line", "41");
-            setTitle(dateFormatter.format(date.getCalendar().getTime()));
+            setTitle(dateFormatter.getFormatDate(date.getCalendar()));
         });
 
         //^^^
@@ -81,16 +81,12 @@ public class MainActivity extends AppCompatActivity {
             dialogFragment.show(getSupportFragmentManager(), "CreateGoalDialogFragment");
             return true;
         } else if (itemId == R.id.edit_bar_menu_edit_date) {
-            // Handle "Edit Date" action
             SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
             activityModel.updateDateWithRollOver(sharedPref, HOUR_IN_DAY, false);
             return true;
         }
         else if (itemId == R.id.today_option) {
             activityModel.listSelector(0);
-            // Call switch to Today's Goalist
-
-
             return true;
         } else if (itemId == R.id.tomorrow_option) {
 
@@ -100,22 +96,13 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         else if (itemId == R.id.pending_option) {
-            this.activityModel.getDateString().observe(dateString -> {
-                setTitle("Pending");
-            });
-
-            // Call switch to Pending's Goalist
+            setTitle("Pending");
             activityModel.listSelector(3);
             return true;
         }
         else if (itemId == R.id.recurring_option) {
-            this.activityModel.getDateString().observe(dateString -> {
-                setTitle("Recurring");
-            });
-
-            // Call switch to Recurring's Goalist
+            setTitle("Recurring");
             activityModel.listSelector(2);
-
             return true;
         }
 
