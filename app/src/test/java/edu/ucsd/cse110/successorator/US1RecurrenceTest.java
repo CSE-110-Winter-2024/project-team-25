@@ -48,7 +48,6 @@ public class US1RecurrenceTest
         assertEquals(startDate, recurrence.getFirstOccurrence());
         assertEquals(startDate, recurrence.getNextOccurrence());
     }
-
     @Test
     public void testApplyRecurrence()
     {
