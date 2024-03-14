@@ -3,6 +3,8 @@ package edu.ucsd.cse110.successorator;
 import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
 
 import android.content.SharedPreferences;
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -62,13 +64,17 @@ public class MainViewModel extends ViewModel {
         adapterIndex.setValue(0);
         typeSubject.setValue(Type.TODAY);
         typeSubject.observe(
-                type -> orderedGoals.setValue(GoalDateComparator.createGoalListWithDate(
-                        targetDate, goalRepository.getAllGoals(), type))
+                type -> {
+                        orderedGoals.setValue(GoalDateComparator.createGoalListWithDate(
+                        targetDate, goalRepository.getAllGoals(), type));
+                        isGoalListEmpty.setValue(orderedGoals.getValue().isEmpty());
+                }
         );
         goalRepository.getAllGoalsAsSubject().observe(goals -> {
             if (goals == null) return;
             orderedGoals.setValue(GoalDateComparator.createGoalListWithDate(
                     targetDate, goals, typeSubject.getValue()));
+            isGoalListEmpty.setValue(orderedGoals.getValue().isEmpty());
         });
         dateUpdater.getDateString().observe(dateString::setValue);
         dateUpdater.getDateAsSubject().observe(date -> dateSubject.setValue(date.clone()));
@@ -83,12 +89,17 @@ public class MainViewModel extends ViewModel {
         goalRepository.toggleIsCompleteStatus(id);
     }
     public void deleteGoal(int id){
-        //delete recurring goal
+        if(goalRepository.find(id) instanceof RecurringGoal){
+            goalRepository.deleteRecurringGoalWithDateByRecurrenceID(id);
+        }
         goalRepository.deleteGoal(id);
     }
     public int addGoal(Goal goal) {
-        addRecurringGoalWithDate(goal);
-        return goalRepository.addGoal(goal);
+        int id = goalRepository.addGoal(goal);
+        if(goal instanceof RecurringGoal) {
+            addRecurringGoalWithDate(goalRepository.find(id));
+        }
+        return id;
     }
 
     public void addRecurringGoalWithDate(Goal goal){
@@ -129,14 +140,14 @@ public class MainViewModel extends ViewModel {
             today = dateUpdater.getDate().clone();
             tomorrow = dateUpdater.getDate().clone();
             tomorrow.hourAdvance(24);
-            updateGoalwithRecurrence(today);
-            updateGoalwithRecurrence(tomorrow);
+            addGoalwithRecurrence(tomorrow);
+            deleteGoalWithRecurrence(today);
             rollOver();
             listSelector(adapterIndex.getValue());
         }
     }
 
-    private synchronized void updateGoalwithRecurrence(Date date){
+    private synchronized void addGoalwithRecurrence(Date date){
         goalRepository.getAllGoals()
                 .stream()
                 .filter(goal -> goal instanceof RecurringGoal&&
@@ -144,8 +155,23 @@ public class MainViewModel extends ViewModel {
                 .forEach(
                         goal -> {
                             RecurringGoalWithDate newGoalWithDate = ((RecurringGoal) goal).createRecurringGoalWithDate(date);
-                            if (!GoalDateComparator.hasRedundancy(newGoalWithDate, goalRepository.getAllGoals())) {
-                                goalRepository.addGoal(newGoalWithDate);
+                            //if (!GoalDateComparator.hasRedundancy(newGoalWithDate, goalRepository.getAllGoals())) {
+                            goalRepository.addGoal(newGoalWithDate);
+                            //}
+                        }
+                );
+    }
+
+    private synchronized void deleteGoalWithRecurrence(Date date){
+        goalRepository.getAllGoals()
+                .stream()
+                .filter(goal -> goal instanceof RecurringGoalWithDate &&
+                        ((RecurringGoalWithDate) goal).getDate().compareTo(date)<=0)
+                .forEach(
+                        goal -> {
+                            if (GoalDateComparator.hasRedundancy(date, (RecurringGoalWithDate) goal,
+                                    goalRepository.getAllGoals()) &&!goal.isComplete()) {
+                                goalRepository.deleteGoal(goal.getId());
                             }
                         }
                 );

@@ -34,10 +34,22 @@ public class GoalDateComparator {
             .sorted()
             .collect(Collectors.toList());
     }
-
-    public static boolean hasRedundancy(RecurringGoalWithDate newGoal, List<Goal> goals){
-        return goals.stream().anyMatch(goal -> goal instanceof RecurringGoalWithDate
-                && ((RecurringGoalWithDate)goal).equal(newGoal));
+    /*public static boolean overrideSameRecurringTask (Date date, int recurrenceId, List<Goal> goals){
+        // all recurring goal recurred on that given day with same recurringId as recurrence
+        // completeness should be preserved
+        goals.stream().anyMatch(goal -> goal instanceof RecurringGoalWithDate && goal)
+    }
+    public static void updateDateForRecurringGoalWithDate (Date date, List<Goal> goals) {
+        /*goals.stream().filter(goal -> goal instanceof RecurringGoal
+                            && )
+    }*/
+    public static boolean hasRedundancy(Date date, RecurringGoalWithDate targetGoal, List<Goal> goals){
+        return goals.stream()
+                .filter(goal -> goal.getId()!=targetGoal.getId())
+                .anyMatch(goal -> goal instanceof RecurringGoalWithDate
+                && ((RecurringGoalWithDate)goal).getDate().compareTo(date)<=0
+                && targetGoal.getRecurrenceID()==((RecurringGoalWithDate) goal).getRecurrenceID()
+                &&!goal.isComplete()&&goal.getSortOrder()>targetGoal.getSortOrder());
     }
 
 }
