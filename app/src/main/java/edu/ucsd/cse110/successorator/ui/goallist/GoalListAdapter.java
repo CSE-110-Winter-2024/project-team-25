@@ -2,8 +2,6 @@ package edu.ucsd.cse110.successorator.ui.goallist;
 
 import android.content.Context;
 import android.graphics.Paint;
-import android.os.Vibrator;
-import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +13,6 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Consumer;
 
 import edu.ucsd.cse110.successorator.R;
@@ -54,7 +51,6 @@ public class GoalListAdapter extends ArrayAdapter<Goal> {
             onCompleteClick.accept(id);
         });
         binding.goalContentText.setOnLongClickListener(v -> {
-            Log.w("GoalListAdapter", "Long click");
             var id = goal.id();
             assert id != null;
             v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
