@@ -16,14 +16,13 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/list_item_goal"/>
 
-
     <TextView
-        android:id="@android:id/empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="16dp"
-        android:gravity="center"
-        android:lines="3"
-        android:text="No goals for the Day\nClick the + at the upper right to\n enter your most important thing" />
+            android:id="@android:id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:lines="3"
+            android:text="No goals for the Day\nClick the + at the upper right to\n enter your most important thing" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

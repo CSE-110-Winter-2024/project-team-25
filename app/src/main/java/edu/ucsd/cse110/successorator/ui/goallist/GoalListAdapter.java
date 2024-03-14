@@ -2,6 +2,7 @@ package edu.ucsd.cse110.successorator.ui.goallist;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ public class GoalListAdapter extends ArrayAdapter<Goal> {
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         // Get the goal for this position.
-        var goal = getItem(position);
+        Goal goal = getItem(position);
         assert goal != null;
 
         // Check if a view is being reused...
@@ -52,6 +53,13 @@ public class GoalListAdapter extends ArrayAdapter<Goal> {
         binding.goalContentText.setText(goal.getContent());
         binding.goalContentText.setPaintFlags(goal.isComplete() ?
                 binding.goalContentText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG : 0);
+
+        // Bind context
+        Log.i("GLAdapter Context", goal.getContent() + (goal.getContext() != null ?
+          goal.getContext().toString() : "NULL"));
+        binding.goalContextText.setText(goal.getContext() != null ?
+                                          goal.getContext().toString() : "NULL");
+
 
         return binding.getRoot();
     }

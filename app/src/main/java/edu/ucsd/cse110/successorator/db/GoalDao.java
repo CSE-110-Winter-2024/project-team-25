@@ -48,10 +48,10 @@ public interface GoalDao {
         }
         if(maxSortOrder.equals(null)){
             newGoalEntity = new GoalEntity(entity.content, entity.isComplete, 0, entity.date,
-                    entity.recurrence, entity.deleted, entity.RecurrenceID);
+                    entity.recurrence, entity.deleted, entity.RecurrenceID, entity.context);
         }else{
             newGoalEntity = new GoalEntity(entity.content, entity.isComplete,
-                    maxSortOrder+1, entity.date, entity.recurrence, entity.deleted, entity.RecurrenceID);
+                    maxSortOrder+1, entity.date, entity.recurrence, entity.deleted, entity.RecurrenceID, entity.context);
         }
         Long id = addGoalEntity(newGoalEntity);
         return Math.toIntExact(id);
