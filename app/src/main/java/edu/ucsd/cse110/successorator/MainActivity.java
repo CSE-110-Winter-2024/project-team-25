@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import java.text.SimpleDateFormat;
 
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
+import edu.ucsd.cse110.successorator.lib.util.Subject;
 import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
 
 import java.text.SimpleDateFormat;
@@ -64,22 +65,6 @@ public class MainActivity extends AppCompatActivity {
         activityModel.updateDateWithRollOver(sharedPref, DELAY_HOUR, true);
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        var itemId = item.getItemId();
-//
-//        if (itemId == R.id.edit_bar_menu_add_goal) {
-//            var dialogFragment = CreateGoalDialogFragment.newInstance();
-//            dialogFragment.show(goalList.getParentFragmentManager(), "CreateGoalDialogFragment");
-//        }
-//        else if(itemId == R.id.edit_bar_menu_edit_date){
-//            SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-//            activityModel.updateDateWithRollOver(sharedPref, HOUR_IN_DAY, false);
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.editgoal, menu);
@@ -102,26 +87,15 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         else if (itemId == R.id.today_option) {
-            this.activityModel.getDateString().observe(dateString -> {
-                setTitle(dateString);
-            });
-
+            activityModel.listSelector(0);
             // Call switch to Today's Goalist
 
 
             return true;
         } else if (itemId == R.id.tomorrow_option) {
-            Calendar c = Calendar.getInstance();
-            if(c.get(Calendar.HOUR) >= 2) {
-                c.add(Calendar.DATE, 1);
-            }
-            String tomorrowString = new SimpleDateFormat("EEEE, MM/dd").format(c.getTime());
-            this.activityModel.getDateString().observe(dateString -> {
-                setTitle(tomorrowString);
-            });
 
             // Call switch to Tomorrow's Goalist
-
+            activityModel.listSelector(1);
 
             return true;
         }
@@ -131,8 +105,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
             // Call switch to Pending's Goalist
-
-
+            activityModel.listSelector(3);
             return true;
         }
         else if (itemId == R.id.recurring_option) {
@@ -141,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
             // Call switch to Recurring's Goalist
-
+            activityModel.listSelector(2);
 
             return true;
         }
@@ -150,4 +123,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
