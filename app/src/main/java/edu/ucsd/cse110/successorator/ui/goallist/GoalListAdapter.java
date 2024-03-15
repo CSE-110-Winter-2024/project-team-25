@@ -2,7 +2,7 @@ package edu.ucsd.cse110.successorator.ui.goallist;
 
 import android.content.Context;
 import android.graphics.Paint;
-
+import android.util.Log;
 import android.view.HapticFeedbackConstants;
 
 import android.view.LayoutInflater;
@@ -75,6 +75,8 @@ public class GoalListAdapter extends ArrayAdapter<Goal> {
                 binding.goalContentText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG : 0);
 
         // Bind context
+        Log.i("GLAdapter Context", goal.getContent() + (goal.getContext() != null ?
+          goal.getContext().toString() : "NULL"));
         binding.goalContextText.setText(goal.getContext() != null ?
                                           goal.getContext().toString() : "NULL");
 

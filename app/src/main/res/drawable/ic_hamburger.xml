@@ -6,4 +6,5 @@
   <path
       android:fillColor="#FF000000"
       android:pathData="M120,720v-80h720v80L120,720ZM120,520v-80h720v80L120,520ZM120,320v-80h720v80L120,320Z"/>
+
 </vector>

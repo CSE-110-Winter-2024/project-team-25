@@ -13,4 +13,17 @@
     <string name="weekly_recurrence">Weekly...</string>
     <string name="monthly_recurrence">Monthly...</string>
     <string name="yearly_on">Yearly on %s</string>
+    <string name="open">open\n</string>
+    <string name="close">close</string>
+
+    <string-array name="goal_list_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
 </resources>
