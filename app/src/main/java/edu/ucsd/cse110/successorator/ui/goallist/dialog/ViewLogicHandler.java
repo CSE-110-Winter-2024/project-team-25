@@ -7,6 +7,7 @@ import static edu.ucsd.cse110.successorator.lib.domain.RecurrenceFactory.createY
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -89,7 +90,7 @@ public class ViewLogicHandler {
         if(date == null){
             return null;
         }
-        Recurrence recurrence;
+        Recurrence recurrence = null;
         if (view.dailyRecurrenceButton.isChecked()) {
             recurrence = createDailyRecurrence(date);
         }
@@ -101,9 +102,6 @@ public class ViewLogicHandler {
         }
         else if(view.yearlyRecurrenceButton.isChecked()) {
             recurrence = createYearlyRecurrence(date);
-        }
-        else {
-            throw new IllegalStateException("No recurrence options is selected.");
         }
         return recurrence;
     }
@@ -120,10 +118,12 @@ public class ViewLogicHandler {
         } else {
             throw new IllegalStateException("No context options is selected.");
         }
+        Log.d("refractor check", " "+context);
         return context;
     }
     public static Long checkDateClick(Type type, Date targetDate, FragmentDialogCreateGoalBinding view){
         if((type == Type.TOMORROW || type == Type.TODAY) && view.oneTimeRecurrenceButton.isChecked()){
+            Log.d("refractor check", " "+targetDate.getCalendar().getTimeInMillis() );
             return targetDate.getCalendar().getTimeInMillis();
         }
         return null;
@@ -137,6 +137,9 @@ public class ViewLogicHandler {
             startDateForRecurrence = targetDate;
         }else{
             startDateForRecurrence = null;
+        }
+        if(startDateForRecurrence!=null){
+            Log.d("refractor check", "startDateForRecurrence "+startDateForRecurrence.toString());
         }
         return startDateForRecurrence;
     }

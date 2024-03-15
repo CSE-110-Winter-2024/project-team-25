@@ -108,6 +108,9 @@ public class MainViewModel extends ViewModel {
         goalRepository.deleteGoal(id);
     }
     public int addGoal(Goal goal) {
+        if(goal == null){
+            return 0;
+        }
         int id = goalRepository.addGoal(goal);
         if(goal instanceof RecurringGoal) {
             addRecurringGoalWithDate(goalRepository.find(id));
