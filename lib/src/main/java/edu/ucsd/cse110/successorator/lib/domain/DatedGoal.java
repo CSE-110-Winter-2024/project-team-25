@@ -32,7 +32,19 @@ public class DatedGoal extends Goal {
     }
     public DatedGoal(@NonNull Goal goal,
                        Date date) {
-        super(goal.getId(), goal.getContent(), goal.isComplete(), goal.getSortOrder());
+        super(goal.getId(), goal.getContent(), goal.isComplete(), goal.getSortOrder(), goal.getContext());
+        this.date = date;
+    }
+
+    public DatedGoal(
+      @NonNull Integer id,
+      @NonNull String content,
+      @NonNull boolean isComplete,
+      @Nullable int sortOrder,
+      @NonNull Date date,
+      @NonNull Context context
+    ) {
+        super(id, content, isComplete, sortOrder, context);
         this.date = date;
     }
 

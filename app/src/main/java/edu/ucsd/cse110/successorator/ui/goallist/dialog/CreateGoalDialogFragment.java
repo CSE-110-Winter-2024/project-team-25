@@ -14,10 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import android.util.Log;
 import android.widget.RadioButton;
 
 import edu.ucsd.cse110.successorator.MainActivity;
 import edu.ucsd.cse110.successorator.db.GoalEntity;
+import edu.ucsd.cse110.successorator.lib.domain.Context;
 import edu.ucsd.cse110.successorator.lib.domain.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -99,7 +102,21 @@ public class CreateGoalDialogFragment extends DialogFragment {
 //        calendar.add(Calendar.HOUR, MainActivity.DELAY_HOUR);
 //        Date today = new Date(calendar);
         Date today = activityModel.getTargetDate();
-        Goal goal = new DatedGoal(0, content, false, 0, today);
+        Context context;
+        if (view.HomeContextButton.isChecked()){
+            context = Context.HOME;
+        } else if (view.WorkContextButton.isChecked()){
+            context = Context.WORK;
+        } else if (view.SchoolContextButton.isChecked()){
+            context = Context.SCHOOL;
+        } else if (view.ErrandContextButton.isChecked()){
+            context = Context.ERRANDS;
+        } else {
+            throw new IllegalStateException("No context options is selected.");
+        }
+        Log.i("debugging", context.toString());
+
+        Goal goal = new DatedGoal(0, content, false, 0, today, context);
         if (view.oneTimeRecurrenceButton.isChecked()) {
             activityModel.addGoal(goal);
         }
@@ -127,6 +144,10 @@ public class CreateGoalDialogFragment extends DialogFragment {
         else {
             throw new IllegalStateException("No recurrence options is selected.");
         }
+
+        Log.i("CGDFragment Context", goal.getContent() + (goal.getContext() != null ?
+          goal.getContext().toString() : "NULL"));
+
         dialog.dismiss();
     }
 
