@@ -47,6 +47,10 @@ public class DateUpdater implements TimeKeeper{
         return formatter;
     }
 
+    public void setFormatter(DateFormatter formatter) {
+        this.formatter = formatter;
+    }
+
     @Override
     public Date getDate() {
         return date;

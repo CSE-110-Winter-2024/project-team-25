@@ -95,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
                     activityModel.activate_focus_mode(edu.ucsd.cse110.successorator.lib.domain.Context.HOME);
                     activityModel.listSelector(activityModel.getadapterIndex());
                     drawerLayout.closeDrawer(GravityCompat.START);
-
                 }
                 else if (item.getItemId()==R.id.context_work){
                     getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_focus);
@@ -103,17 +102,16 @@ public class MainActivity extends AppCompatActivity {
                     activityModel.activate_focus_mode(edu.ucsd.cse110.successorator.lib.domain.Context.WORK);
                     activityModel.listSelector(activityModel.getadapterIndex());
                     drawerLayout.closeDrawer(GravityCompat.START);
-
                 }
                 else if (item.getItemId()==R.id.context_school){
-                    drawerToggle.setHomeAsUpIndicator(R.drawable.ic_focus);
+                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_focus);
                     Toast.makeText(MainActivity.this, "school", Toast.LENGTH_SHORT).show();
                     activityModel.activate_focus_mode(edu.ucsd.cse110.successorator.lib.domain.Context.SCHOOL);
                     activityModel.listSelector(activityModel.getadapterIndex());
                     drawerLayout.closeDrawer(GravityCompat.START);
                 }
                 else if (item.getItemId()==R.id.context_errands){
-                    drawerToggle.setHomeAsUpIndicator(R.drawable.ic_focus);
+                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_focus);
                     Toast.makeText(MainActivity.this, "errand", Toast.LENGTH_SHORT).show();
                     activityModel.activate_focus_mode(edu.ucsd.cse110.successorator.lib.domain.Context.ERRANDS);
                     activityModel.listSelector(activityModel.getadapterIndex());
@@ -121,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 else if (item.getItemId()==R.id.context_cancel){
-                    drawerToggle.setHomeAsUpIndicator(R.drawable.ic_hamburger);
+                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_hamburger);
                     Toast.makeText(MainActivity.this, "cancel", Toast.LENGTH_SHORT).show();
                     activityModel.deactivate_focus_mode();
                     activityModel.listSelector(activityModel.getadapterIndex());
