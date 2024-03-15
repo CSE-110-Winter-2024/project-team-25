@@ -12,7 +12,7 @@ public class Goal implements Comparable<Goal> {
     private final @Nullable String content;
     private final @Nullable boolean isComplete;
     private final @Nullable int sortOrder;
-    private  @NonNull Context context;
+    private  @Nullable Context context;
 
     public Goal(
         @NotNull Integer id,
@@ -30,7 +30,7 @@ public class Goal implements Comparable<Goal> {
             @NotNull String content,
             @NotNull boolean isComplete,
             @Nullable int sortOrder,
-            @NotNull Context context
+            @Nullable Context context
     ) {
         this.id = id;
         this.content = content;
@@ -80,21 +80,37 @@ public class Goal implements Comparable<Goal> {
 
     @Override
     public int compareTo(@NonNull Goal goal) {
-        if(isComplete != goal.isComplete)
+        if(this.context == null){
+            return 1;
+        }
+        if(goal.context == null){
+            return -1;
+        }
+        if (this.context != goal.context)
+            return this.context.compareTo(goal.context);
+        else if(this.isComplete != goal.isComplete)
             return Boolean.compare(this.isComplete, goal.isComplete);
         return Integer.compare(this.sortOrder, goal.sortOrder);
     }
 
-    public String toString(){
-        return "id: "+id + " content " + content;
+    @Override
+    public String toString()
+    {
+        return "Goal{" + "id=" + id + ", content='" + content + '\''
+          + ", isComplete=" + isComplete + ", sortOrder=" + sortOrder
+          + ", context=" + (context != null ? context.toString() : "NULL") + '}';
     }
 
     @NonNull
     public Context getContext() {
+//        Log.i("Benny", context.toString());
+//        System.out.println(context != null ? context.toString() : "NULL");
         return context;
     }
 
     public void setContext(@NonNull Context context) {
         this.context = context;
     }
+
+
 }

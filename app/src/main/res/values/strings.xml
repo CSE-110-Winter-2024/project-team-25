@@ -4,9 +4,15 @@
     <string name="hello_world">Hello, World!</string>
     <string name="add_goal" />
     <string name="edit_date" />
+    <string name="app">APP</string>
     <string name="weekly_on">Weekly on %s</string>
     <string name="monthly_on">Monthly on %s</string>
+    <string name="yearly_recurrence">Yearly...</string>
+    <string name="weekly_recurrence">Weekly...</string>
+    <string name="monthly_recurrence">Monthly...</string>
     <string name="yearly_on">Yearly on %s</string>
+    <string name="open">open\n</string>
+    <string name="close">close</string>
 
     <string-array name="goal_list_array">
         <item>Mercury</item>

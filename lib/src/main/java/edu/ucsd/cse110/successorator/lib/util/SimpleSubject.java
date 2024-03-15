@@ -4,7 +4,8 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
-public class SimpleSubject<T> implements MutableSubject<T> {
+public class
+SimpleSubject<T> implements MutableSubject<T> {
     private @Nullable T value = null;
     private final List<Observer<T>> observers = new java.util.ArrayList<>();
 

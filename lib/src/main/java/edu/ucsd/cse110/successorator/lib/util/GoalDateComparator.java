@@ -7,30 +7,52 @@ import java.util.stream.Collectors;
 import edu.ucsd.cse110.successorator.lib.domain.Date;
 import edu.ucsd.cse110.successorator.lib.domain.DatedGoal;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
+import edu.ucsd.cse110.successorator.lib.domain.PendingGoal;
 import edu.ucsd.cse110.successorator.lib.domain.RecurringGoal;
 import edu.ucsd.cse110.successorator.lib.domain.RecurringGoalWithDate;
 import edu.ucsd.cse110.successorator.lib.domain.Type;
+import edu.ucsd.cse110.successorator.lib.domain.Context;
 
 public class GoalDateComparator {
-    public static Predicate<Goal> createGoalPredicate(Date targetDate, Type type){
-        switch (type){
-            case TODAY:
-                return goal-> (goal instanceof DatedGoal
+    public static Predicate<Goal> createGoalPredicate(Date targetDate, Type type, boolean b, Context c){
+        if (b){
+            switch (type){
+                case TODAY:
+                    return goal-> (goal instanceof DatedGoal
+                            &&((DatedGoal) goal).getDate().compareTo(targetDate)<=0
+                            && (goal.getContext()==c));
+                case TOMORROW:
+                    return goal -> (goal instanceof DatedGoal
+                            &&((DatedGoal) goal).getDate().equals(targetDate)
+                            && (goal.getContext()==c));
+                case RECURRENCE:
+                    return goal -> (goal instanceof RecurringGoal
+                            && (goal.getContext()==c));
+                case PENDING:
+                    return goal -> (goal instanceof PendingGoal
+                            && (goal.getContext()==c));
+            }
+        } else{
+            switch (type){
+                case TODAY:
+                    return goal-> (goal instanceof DatedGoal
                             &&((DatedGoal) goal).getDate().compareTo(targetDate)<=0);
-            case TOMORROW:
-                return goal -> (goal instanceof DatedGoal
-                                &&((DatedGoal) goal).getDate().equals(targetDate));
-            case RECURRENCE:
-                return goal -> (goal instanceof RecurringGoal);
-            case PENDING:
-                return null;
+                case TOMORROW:
+                    return goal -> (goal instanceof DatedGoal
+                            &&((DatedGoal) goal).getDate().equals(targetDate));
+                case RECURRENCE:
+                    return goal -> (goal instanceof RecurringGoal);
+                case PENDING:
+                    return goal -> (goal instanceof PendingGoal);
+            }
         }
+
         return null;
     }
-    public static List<Goal> createGoalListWithDate(Date targetDate, List<Goal>goals, Type type){
+    public static List<Goal> createGoalListWithDate(Date targetDate, List<Goal>goals, Type type, boolean b, Context c){
         return goals
             .stream()
-            .filter(GoalDateComparator.createGoalPredicate(targetDate, type))
+            .filter(GoalDateComparator.createGoalPredicate(targetDate, type, b, c))
             .sorted()
             .collect(Collectors.toList());
     }

@@ -29,7 +29,7 @@ public class PendingGoal extends Goal {
     }
     public PendingGoal(@NonNull Goal goal,
                        boolean deleted) {
-        super(goal.getId(), goal.getContent(), goal.isComplete(), goal.getSortOrder());
+        super(goal.getId(), goal.getContent(), goal.isComplete(), goal.getSortOrder(), goal.getContext());
         this.deleted = deleted;
     }
     public DatedGoal toDatedGoal(Date date) {

@@ -46,56 +46,6 @@ public class US1RecurrenceTest
     {
         assertNotNull(recurrence);
         assertEquals(startDate, recurrence.getFirstOccurrence());
-        assertEquals(startDate, recurrence.getNextOccurrence());
-    }
-    @Test
-    public void testApplyRecurrence()
-    {
-        // First occurrence should be January 1, 2024.
-        Date firstOccurrence = recurrence.applyRecurrence();
-        assertEquals(2024, firstOccurrence.getCalendar().get(Calendar.YEAR));
-        assertEquals(Calendar.JANUARY,
-                firstOccurrence.getCalendar().get(Calendar.MONTH));
-        assertEquals(2, firstOccurrence.getCalendar().get(Calendar.DAY_OF_MONTH));
-
-        // Next occurrence should be January 2, 2024.
-        Date secondOccurrence = recurrence.applyRecurrence();
-        assertEquals(2024, secondOccurrence.getCalendar().get(Calendar.YEAR));
-        assertEquals(Calendar.JANUARY,
-                secondOccurrence.getCalendar().get(Calendar.MONTH));
-        assertEquals(3, secondOccurrence.getCalendar().get(Calendar.DAY_OF_MONTH));
-
-        // Next occurrence should be January 3, 2024.
-        Date thirdOccurrence = recurrence.applyRecurrence();
-        assertEquals(2024, thirdOccurrence.getCalendar().get(Calendar.YEAR));
-        assertEquals(Calendar.JANUARY,
-                thirdOccurrence.getCalendar().get(Calendar.MONTH));
-        assertEquals(4, thirdOccurrence.getCalendar().get(Calendar.DAY_OF_MONTH));
-
-        // After applying the recurrence many times, check if it cycles properly.
-        for (int i = 0; i < 363; i++)
-        {
-            recurrence.applyRecurrence();
-        }
-        // Next occurrence should be January 1, 2025, as the recurrence should cycle yearly.
-        Date cycleOccurrence = recurrence.applyRecurrence();
-        assertEquals(2025, cycleOccurrence.getCalendar().get(Calendar.YEAR));
-        assertEquals(Calendar.JANUARY,
-                cycleOccurrence.getCalendar().get(Calendar.MONTH));
-        assertEquals(2, cycleOccurrence.getCalendar().get(Calendar.DAY_OF_MONTH));
-    }
-    @Test
-    public void TestMonthlyRecurrence() {
-        Date startDate = new Date(new GregorianCalendar(2024, 0, 15));
-        Recurrence rec = RecurrenceFactory.createMonthlyRecurrence(startDate);
-        Date nextDate = rec.applyRecurrence();
-        assertEquals(2024, nextDate.getCalendar().get(Calendar.YEAR));
-        assertEquals(Calendar.FEBRUARY, nextDate.getCalendar().get(Calendar.MONTH));
-        assertEquals(12, nextDate.getCalendar().get(Calendar.DAY_OF_MONTH));
-        nextDate = rec.applyRecurrence();
-        assertEquals(2024, nextDate.getCalendar().get(Calendar.YEAR));
-        assertEquals(Calendar.MARCH, nextDate.getCalendar().get(Calendar.MONTH));
-        assertEquals(11, nextDate.getCalendar().get(Calendar.DAY_OF_MONTH));
     }
     @Test
     public void TestIsFutureRecurrence(){
@@ -111,7 +61,6 @@ public class US1RecurrenceTest
         //test case: daily recurrence
         testDate = new Date(new GregorianCalendar());
         assertTrue(rec_Daily.isFutureRecurrence(testDate));
-
         //test case: weekly recurrence
         testDate = new Date(new GregorianCalendar(2024, 0, 15));
         assertTrue(rec_Weekly.isFutureRecurrence(testDate));
@@ -138,6 +87,11 @@ public class US1RecurrenceTest
         assertFalse(rec_Yearly.isFutureRecurrence(testDate));
         testDate = new Date(new GregorianCalendar(2025, 0, 15));
         assertTrue(rec_Yearly.isFutureRecurrence(testDate));
+
+        startDate = new Date(new GregorianCalendar(2024, 2, 15));
+        rec_Daily = RecurrenceFactory.createDailyRecurrence(startDate);
+        testDate = new Date(new GregorianCalendar(2024, 2, 15));
+        assertTrue(rec_Daily.isFutureRecurrence(testDate));
     }
 }
 

@@ -6,32 +6,29 @@
     android:layout_height="wrap_content">
 
     <EditText
-            android:id="@+id/goal_content"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:ems="10"
-            android:hint="Goal..."
-            android:inputType="text"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/goal_content"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:hint="Goal..."
+        android:inputType="text"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
-            android:layout_width="344dp"
-            android:layout_height="41dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteY="76dp"
             android:id="@+id/ContextRadioGroup"
             android:orientation="horizontal"
-            android:checkedButton="@id/HomeContextButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="12dp"
-            app:layout_constraintTop_toBottomOf="@+id/goal_content"
-            app:layout_constraintBottom_toTopOf="@+id/radioGroup2">
+            app:layout_constraintStart_toStartOf="parent">
 
         <RadioButton
                 android:text="Home"
@@ -72,8 +69,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ContextRadioGroup"
-            android:id="@+id/radioGroup2">
+            app:layout_constraintTop_toBottomOf="@+id/ContextRadioGroup">
 
         <RadioButton
                 android:id="@+id/one_time_recurrence_button"
@@ -110,31 +106,5 @@
                 android:text="yearly on"
                 android:textSize="20sp" />
     </RadioGroup>
-
-    <TextView
-        android:id="@+id/start_on_label"
-        android:layout_width="118dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="24dp"
-        android:text="Starting on"
-        android:textColor="#404040"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
-    <EditText
-        android:id="@+id/recurrence_date"
-        android:layout_width="371dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:ems="10"
-        android:hint="YYYY/MM/DD"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_on_label" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -36,7 +36,7 @@ public class RecurringGoal extends Goal {
     }
     public RecurringGoal(@NonNull Goal goal,
                          @NonNull Recurrence recurrence) {
-        super(goal.getId(), goal.getContent(), goal.isComplete(), goal.getSortOrder());
+        super(goal.getId(), goal.getContent(), goal.isComplete(), goal.getSortOrder(), goal.getContext());
         this.recurrence = recurrence;
     }
     public RecurringGoal(@NonNull Goal goal,
