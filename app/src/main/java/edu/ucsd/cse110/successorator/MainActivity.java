@@ -72,23 +72,13 @@ public class MainActivity extends AppCompatActivity {
 
         //starts here
         drawerLayout = findViewById(R.id.drawerlayout);
-//        materialToolbar = findViewById(R.id.materialToolbar);
-//        frameLayout = findViewById(R.id.fragment_container);
         navigationView = findViewById(R.id.navigationView);
 
 
         drawerToggle = new ActionBarDrawerToggle(this,drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
-
-//        materialToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item){
-//                if(item.getItemId()==R.id.edit_bar_menu_add_goal){
-//                    Toast.makeText(MainActivity.this, "add goal", Toast.LENGTH_SHORT).show();
-//                }
-//                return false;
-//            }
-//        });
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        activityModel.updateDateWithRollOver(sharedPref, DELAY_HOUR, true);
 
         drawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -151,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("onResume", "onResumeStatus: True");
         super.onResume();
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        activityModel.updateDateWithRollOver(sharedPref, DELAY_HOUR, true);
+        //activityModel.updateDateWithRollOver(sharedPref, DELAY_HOUR, true);
     }
 
     @Override
