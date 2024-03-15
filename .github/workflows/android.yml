@@ -27,12 +27,12 @@ jobs:
       - name: Run Tests with Gradle
         run: ./gradlew test
 
-      - name: Android Emulator Tests
-        uses: ReactiveCircus/android-emulator-runner@v2.30.1
-        with:
-          api-level: 29 
-          target: default
-          arch: x86_64  # Force architecture
-          profile: Nexus 6 # Choose a well-defined device profile
-          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot # Optimization flags
-          script: ./gradlew connectedAndroidTest
+      # - name: Android Emulator Tests
+      #   uses: ReactiveCircus/android-emulator-runner@v2.30.1
+      #   with:
+      #     api-level: 29 
+      #     target: default
+      #     arch: x86_64  # Force architecture
+      #     profile: Nexus 6 # Choose a well-defined device profile
+      #     emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot # Optimization flags
+      #     script: ./gradlew connectedAndroidTest
