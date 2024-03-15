@@ -166,10 +166,7 @@ public class MainActivity extends AppCompatActivity {
             activityModel.listSelector(0);
             return true;
         } else if (itemId == R.id.tomorrow_option) {
-
-            // Call switch to Tomorrow's Goalist
             activityModel.listSelector(1);
-
             return true;
         }
         else if (itemId == R.id.pending_option) {
@@ -185,11 +182,6 @@ public class MainActivity extends AppCompatActivity {
         if(drawerToggle.onOptionsItemSelected(item)){
             return true;
         }
-
-        if(drawerToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
