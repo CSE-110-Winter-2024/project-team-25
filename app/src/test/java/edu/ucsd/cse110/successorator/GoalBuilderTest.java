@@ -44,5 +44,13 @@ public class GoalBuilderTest {
         assertEquals(sortOrder, builder.getSortOrder());
     }
 
+    @Test
+    public void testSetContest() {
+        GoalBuilder builder = new GoalBuilder();
+        builder.setContext(Context.HOME);
+        assertEquals(Context.HOME, builder.getContext());
+    }
+
+
 
 }
