@@ -1,17 +1,10 @@
 package edu.ucsd.cse110.successorator.ui.goallist;
 
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,21 +12,19 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import edu.ucsd.cse110.successorator.MainViewModel;
-import edu.ucsd.cse110.successorator.R;
 import edu.ucsd.cse110.successorator.databinding.FragmentGoalListBinding;
 
 
 public class GoalListFragment extends Fragment {
     private MainViewModel activityModel;
     private FragmentGoalListBinding view;
-    private GoalListAdapter adapter;
+    private ArrayAdapter adapter;
 
-    private List<GoalListAdapter> adapterList;
-    private ArrayAdapter<String>  SpinnerAdapter;
+    private List<ArrayAdapter> adapterList;
+    // private ArrayAdapter<String>  SpinnerAdapter;
 
     public GoalListFragment() {
         // Required empty public constructor
@@ -56,8 +47,8 @@ public class GoalListFragment extends Fragment {
         this.activityModel = modelProvider.get(MainViewModel.class);
 
 
-        String[] items = new String[]{"Today's Goals", "Tomorrow", "Recurring Goals"};
-        SpinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, items);
+//        String[] items = new String[]{"Today's Goals", "Tomorrow", "Recurring Goals"};
+//        SpinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, items);
         adapterList = new ArrayList<>();
         adapterList.add(new GoalListAdapter(requireContext(), List.of(),
                 id -> {
@@ -71,7 +62,9 @@ public class GoalListFragment extends Fragment {
                 id -> {
                     activityModel.deleteGoal(id); // delete recurring goal --> all dated goal from that
                     //recurring goal need to be deleted
-                }, activityModel.getUpdateGoalMap()));
+        }, activityModel.getUpdateGoalMap()));
+        adapterList.add(new PendingListAdapter(requireContext(), List.of(),
+                 activityModel.getUpdateGoalMap()));
         this.adapter = adapterList.get(0);
 
         activityModel.getOrderedGoals().observe(goals -> {
@@ -95,21 +88,6 @@ public class GoalListFragment extends Fragment {
             adapter = adapterList.get(id);
             view.goalList.setAdapter(adapter);
         });
-        Log.d("line check", " line 58");
-        //view.goalList.setAdapter(adapter);
-        view.spinner.setAdapter(SpinnerAdapter);
-
-        view.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view,
-                                           int pos, long id) {
-                    activityModel.listSelector(pos);
-                }
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                }
-            });
-
 
         activityModel.getIsGoalListEmpty().observe(getViewLifecycleOwner(), isEmpty -> {
             view.empty.setVisibility(isEmpty ? View.VISIBLE : View.GONE);

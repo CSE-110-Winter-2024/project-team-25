@@ -1,18 +1,16 @@
 package edu.ucsd.cse110.successorator;
-
 import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
-
 import android.content.SharedPreferences;
 import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.viewmodel.ViewModelInitializer;
+
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-
 import edu.ucsd.cse110.successorator.lib.data.GoalRepository;
 import edu.ucsd.cse110.successorator.lib.domain.Date;
 import edu.ucsd.cse110.successorator.lib.domain.DatedGoal;
@@ -36,10 +34,11 @@ public class MainViewModel extends ViewModel {
     private Date tomorrow;
     private Date today;
     private Date targetDate;
+    private final MutableSubject<Integer> adapterIndex;
+
     private final MutableSubject<List<Goal>> orderedGoals;
     private final MutableLiveData<Boolean> isGoalListEmpty;
     private final MutableSubject<Type> typeSubject;
-    private final MutableSubject<Integer> adapterIndex;
     private final Map<Integer, Consumer<Integer>> updateGoalMap;
 
     public static final ViewModelInitializer<MainViewModel> initializer =
@@ -123,6 +122,7 @@ public class MainViewModel extends ViewModel {
                 addGoal(goal_today);
             }
             if(((RecurringGoal)goal).getRecurrence().isFutureRecurrence(tomorrow)){
+                Log.d("date from recurring goal", ""+ tomorrow.getCalendar().get(Calendar.DATE));
                 RecurringGoalWithDate goal_tomorrow = ((RecurringGoal) goal).createRecurringGoalWithDate(tomorrow);
                 addGoal(goal_tomorrow);
             }
@@ -168,10 +168,9 @@ public class MainViewModel extends ViewModel {
                         ((RecurringGoal) goal).getRecurrence().isFutureRecurrence(date))
                 .forEach(
                         goal -> {
+                            Log.d("error in foreach goal","see line 157");
                             RecurringGoalWithDate newGoalWithDate = ((RecurringGoal) goal).createRecurringGoalWithDate(date);
-                            //if (!GoalDateComparator.hasRedundancy(newGoalWithDate, goalRepository.getAllGoals())) {
                             goalRepository.addGoal(newGoalWithDate);
-                            //}
                         }
                 );
     }
@@ -228,12 +227,27 @@ public class MainViewModel extends ViewModel {
                 adapterIndex.setValue(2);
                 typeSubject.setValue(Type.RECURRENCE);
                 break;
+            case 3:
+                adapterIndex.setValue(3);
+                typeSubject.setValue(Type.PENDING);
+                break;
         }
     }
     public Subject<Integer> getAdapterIndexAsSubject(){
         return adapterIndex;
     }
+    public Type getType(){
+        return typeSubject.getValue();
+    }
     public Date getTargetDate(){
         return targetDate.clone();
+    }
+
+    public Date getToday(){
+        return today.clone();
+    }
+
+    public Date getTomorrow(){
+        return tomorrow.clone();
     }
 }
