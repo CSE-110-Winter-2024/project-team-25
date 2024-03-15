@@ -19,6 +19,7 @@ import edu.ucsd.cse110.successorator.lib.domain.PendingGoal;
 import edu.ucsd.cse110.successorator.lib.domain.RecurringGoal;
 import edu.ucsd.cse110.successorator.lib.domain.RecurringGoalWithDate;
 import edu.ucsd.cse110.successorator.lib.domain.Type;
+import edu.ucsd.cse110.successorator.lib.domain.Context;
 import edu.ucsd.cse110.successorator.lib.util.DateUpdater;
 import edu.ucsd.cse110.successorator.lib.util.GoalDateComparator;
 import edu.ucsd.cse110.successorator.lib.util.MutableSubject;
@@ -40,6 +41,9 @@ public class MainViewModel extends ViewModel {
     private final MutableLiveData<Boolean> isGoalListEmpty;
     private final MutableSubject<Type> typeSubject;
     private final Map<Integer, Consumer<Integer>> updateGoalMap;
+
+    private boolean focus_mode=false;
+    private Context context = Context.NONE;
 
     public static final ViewModelInitializer<MainViewModel> initializer =
             new ViewModelInitializer<>(
@@ -79,14 +83,14 @@ public class MainViewModel extends ViewModel {
         typeSubject.observe(
                 type -> {
                         orderedGoals.setValue(GoalDateComparator.createGoalListWithDate(
-                        targetDate, goalRepository.getAllGoals(), type));
+                        targetDate, goalRepository.getAllGoals(), type, focus_mode, context));
                         isGoalListEmpty.setValue(orderedGoals.getValue().isEmpty());
                 }
         );
         goalRepository.getAllGoalsAsSubject().observe(goals -> {
             if (goals == null) return;
             orderedGoals.setValue(GoalDateComparator.createGoalListWithDate(
-                    targetDate, goals, typeSubject.getValue()));
+                    targetDate, goals, typeSubject.getValue(), focus_mode, context));
             isGoalListEmpty.setValue(orderedGoals.getValue().isEmpty());
         });
         dateUpdater.getDateString().observe(dateString::setValue);
@@ -252,5 +256,17 @@ public class MainViewModel extends ViewModel {
 
     public Date getTomorrow(){
         return tomorrow.clone();
+    }
+
+    public void activate_focus_mode(Context t){
+        focus_mode = true;
+        context = t;
+
+    }
+    public void deactivate_focus_mode(){
+        focus_mode = false;
+    }
+    public int getadapterIndex(){
+        return adapterIndex.getValue();
     }
 }
