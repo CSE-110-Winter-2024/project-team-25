@@ -129,23 +129,35 @@ public class GoalBuilder {
     }
     Goal goal = new Goal(id, content, isComplete, sortOrder, context);
     Calendar calendar = Calendar.getInstance();
-
-
-    switch (goalType){
-      case Goal:
-        return goal;
-      case RecurringGoalWithDate:
-        calendar.setTimeInMillis(this.date);
-        return new RecurringGoalWithDate(goal, new Date(calendar), recurrenceID);
-      case DatedGoal:
-        calendar.setTimeInMillis(this.date);
-        return new DatedGoal(goal, new Date(calendar));
-      case RecurringGoal:
-        return new RecurringGoal(goal, this.recurrence);
-      case PendingGoal:
-        return new PendingGoal(goal, deleted);
-      default:
-        throw new IllegalStateException("Unexpected value: " + goalType);
+    if(this.date!=null && this.recurrenceID!=null){
+      calendar.setTimeInMillis(date);
+      return new RecurringGoalWithDate(goal, new Date(calendar), recurrenceID);
+    }else if(this.date!=null){
+      calendar.setTimeInMillis(date);
+      return new DatedGoal(goal, new Date(calendar));
+    }else if(this.recurrence!=null){
+      return new RecurringGoal(goal, recurrence);
+    }else if(this.deleted!=null){
+      return new PendingGoal(goal, deleted);
+    }else{
+      return goal;
     }
+//
+//    switch (goalType){
+//      case Goal:
+//        return goal;
+//      case RecurringGoalWithDate:
+//        calendar.setTimeInMillis(this.date);
+//        return new RecurringGoalWithDate(goal, new Date(calendar), recurrenceID);
+//      case DatedGoal:
+//        calendar.setTimeInMillis(this.date);
+//        return new DatedGoal(goal, new Date(calendar));
+//      case RecurringGoal:
+//        return new RecurringGoal(goal, this.recurrence);
+//      case PendingGoal:
+//        return new PendingGoal(goal, deleted);
+//      default:
+//        throw new IllegalStateException("Unexpected value: " + goalType);
+//    }
   }
 }

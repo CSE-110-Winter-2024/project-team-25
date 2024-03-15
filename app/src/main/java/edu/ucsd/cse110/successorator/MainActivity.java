@@ -67,13 +67,24 @@ public class MainActivity extends AppCompatActivity {
         this.view = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(view.getRoot());
         //starts here
-        drawerLayout = findViewById(R.id.fragment_container);
-        frameLayout = findViewById(R.id.framelayout);
-        navigationView = view.navigationView;
+        drawerLayout = findViewById(R.id.drawerlayout);
+//        materialToolbar = findViewById(R.id.materialToolbar);
+//        frameLayout = findViewById(R.id.fragment_container);
+        navigationView = findViewById(R.id.navigationView);
 
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+        drawerToggle = new ActionBarDrawerToggle(this,drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
 
+//        materialToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item){
+//                if(item.getItemId()==R.id.edit_bar_menu_add_goal){
+//                    Toast.makeText(MainActivity.this, "add goal", Toast.LENGTH_SHORT).show();
+//                }
+//                return false;
+//            }
+//        });
+        drawerToggle.syncState();;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -95,11 +106,12 @@ public class MainActivity extends AppCompatActivity {
                 else if (item.getItemId()==R.id.context_errands){
                     Toast.makeText(MainActivity.this, "home", Toast.LENGTH_SHORT).show();
                     drawerLayout.closeDrawer(GravityCompat.START);
+
                 }
-                return false;
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
             }
         });
-        drawerToggle.syncState();
     }
 
     @Override
@@ -149,6 +161,9 @@ public class MainActivity extends AppCompatActivity {
         else if (itemId == R.id.recurring_option) {
             setTitle("Recurring");
             activityModel.listSelector(2);
+            return true;
+        }
+        if(drawerToggle.onOptionsItemSelected(item)){
             return true;
         }
         return super.onOptionsItemSelected(item);

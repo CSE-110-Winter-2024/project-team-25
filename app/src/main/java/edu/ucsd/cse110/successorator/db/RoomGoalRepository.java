@@ -44,7 +44,15 @@ public class RoomGoalRepository implements GoalRepository {
     public void deleteRecurringGoalWithDateByRecurrenceID(int id){
         goalDao.deleteRecurringGoalWithDateByRecurrenceID(id);
     }
-
+    public void updateGoal(int id, java.util.function.Function<Goal, Goal> update) {
+        var goalEntity = goalDao.find(id);
+        if(goalEntity != null) {
+            goalDao.deleteEntity(goalEntity);
+            var goal = goalEntity.toGoal();
+            goal = update.apply(goal);
+            goalDao.addGoalEntity(GoalEntity.fromGoal(goal));
+        }
+    }
     public void deleteGoal(int id) {
         var goalEntity = goalDao.find(id);
         if(goalEntity != null) goalDao.deleteEntity(goalEntity);

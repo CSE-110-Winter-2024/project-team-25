@@ -105,37 +105,39 @@ public class GoalEntity {
 
     // New version using GoalBuilder
     public Goal toGoal() {
-        GoalBuilder goalBuilder = new GoalBuilder()
+        return new GoalBuilder()
                                       .setId(id)
                                       .setContent(content)
                                       .setComplete(isComplete)
                                       .setSortOrder(sortOrder)
-                                      .setContext(context);
-//                                      .setDate(date)
-//                .setRecurrence(recurrence)
-//                .setDeleted(deleted);
+                                      .setContext(context)
+                                      .setDate(date)
+                                      .setRecurrence(recurrence)
+                                      .setDeleted(deleted)
+                                      .setRecurrenceID(RecurrenceID)
+                .build();
 
-        if(this.date != null) {
-            goalBuilder.setDate(this.date);
-            if(this.RecurrenceID!=null){
-                Log.i("goalType", GoalType.RecurringGoalWithDate.toString());
-                goalBuilder.setGoalType(GoalType.RecurringGoalWithDate);
-                goalBuilder.setRecurrenceID(this.RecurrenceID);
-            }
-            Log.i("goalType", GoalType.DatedGoal.toString());
-            goalBuilder.setGoalType(GoalType.DatedGoal);
-        } else if(this.recurrence != null){
-            Log.i("goalType", GoalType.RecurringGoal.toString());
-            goalBuilder.setGoalType(GoalType.RecurringGoal);
-            goalBuilder.setRecurrence(this.recurrence);
-        } else if(this.deleted != null){
-            Log.i("goalType", GoalType.PendingGoal.toString());
-            goalBuilder.setGoalType(GoalType.PendingGoal);
-            goalBuilder.setDeleted(this.deleted);
-        }
-        Context context1 = goalBuilder.getContext();
-        Log.i("GoalEntityContext", goalBuilder.getContent() +
-          (context1 != null ? context1.toString() : goalBuilder.getContent() + "NULL"));
-        return goalBuilder.build();
+//        if(this.date != null) {
+//            goalBuilder.setDate(this.date);
+//            if(this.RecurrenceID!=null){
+//                Log.i("goalType", GoalType.RecurringGoalWithDate.toString());
+//                goalBuilder.setGoalType(GoalType.RecurringGoalWithDate);
+//                goalBuilder.setRecurrenceID(this.RecurrenceID);
+//            }
+//            Log.i("goalType", GoalType.DatedGoal.toString());
+//            goalBuilder.setGoalType(GoalType.DatedGoal);
+//        } else if(this.recurrence != null){
+//            Log.i("goalType", GoalType.RecurringGoal.toString());
+//            goalBuilder.setGoalType(GoalType.RecurringGoal);
+//            goalBuilder.setRecurrence(this.recurrence);
+//        } else if(this.deleted != null){
+//            Log.i("goalType", GoalType.PendingGoal.toString());
+//            goalBuilder.setGoalType(GoalType.PendingGoal);
+//            goalBuilder.setDeleted(this.deleted);
+//        }
+//        Context context1 = goalBuilder.getContext();
+//        Log.i("GoalEntityContext", goalBuilder.getContent() +
+//          (context1 != null ? context1.toString() : goalBuilder.getContent() + "NULL"));
+//        return goalBuilder.build();
     }
 }

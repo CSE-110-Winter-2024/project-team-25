@@ -21,4 +21,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <RadioGroup
+        android:id="@+id/ContextRadioGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goal_content">
+
+    <RadioButton
+        android:id="@+id/HomeContextButton"
+        android:layout_width="86dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Home" />
+
+    <RadioButton
+        android:id="@+id/WorkContextButton"
+        android:layout_width="86dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Work" />
+
+    <RadioButton
+        android:id="@+id/SchoolContextButton"
+        android:layout_width="86dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="School" />
+
+    <RadioButton
+        android:id="@+id/ErrandContextButton"
+        android:layout_width="86dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Errand" />
+    </RadioGroup>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

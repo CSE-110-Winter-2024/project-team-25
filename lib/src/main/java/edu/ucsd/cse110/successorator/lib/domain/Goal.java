@@ -12,7 +12,7 @@ public class Goal implements Comparable<Goal> {
     private final @Nullable String content;
     private final @Nullable boolean isComplete;
     private final @Nullable int sortOrder;
-    private  @NonNull Context context;
+    private  @Nullable Context context;
 
     public Goal(
         @NotNull Integer id,
@@ -30,7 +30,7 @@ public class Goal implements Comparable<Goal> {
             @NotNull String content,
             @NotNull boolean isComplete,
             @Nullable int sortOrder,
-            @NotNull Context context
+            @Nullable Context context
     ) {
         this.id = id;
         this.content = content;
@@ -80,6 +80,12 @@ public class Goal implements Comparable<Goal> {
 
     @Override
     public int compareTo(@NonNull Goal goal) {
+        if(this.context == null){
+            return 1;
+        }
+        if(goal.context == null){
+            return -1;
+        }
         if (this.context != goal.context)
             return this.context.compareTo(goal.context);
         else if(this.isComplete != goal.isComplete)

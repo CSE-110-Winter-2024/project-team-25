@@ -1,11 +1,9 @@
 package edu.ucsd.cse110.successorator.ui.goallist;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -23,9 +21,9 @@ import edu.ucsd.cse110.successorator.databinding.FragmentGoalListBinding;
 public class GoalListFragment extends Fragment {
     private MainViewModel activityModel;
     private FragmentGoalListBinding view;
-    private GoalListAdapter adapter;
+    private ArrayAdapter adapter;
 
-    private List<GoalListAdapter> adapterList;
+    private List<ArrayAdapter> adapterList;
     // private ArrayAdapter<String>  SpinnerAdapter;
 
     public GoalListFragment() {
@@ -55,20 +53,18 @@ public class GoalListFragment extends Fragment {
         adapterList.add(new GoalListAdapter(requireContext(), List.of(),
                 id -> {
                     activityModel.toggleGoalStatus(id);
-                }));
+                }, activityModel.getUpdateGoalMap()));
         adapterList.add(new GoalListAdapter(requireContext(), List.of(),
                 id -> {
                     activityModel.toggleGoalStatus(id);
-                }));
+                }, activityModel.getUpdateGoalMap()));
         adapterList.add(new GoalListAdapter(requireContext(), List.of(),
                 id -> {
                     activityModel.deleteGoal(id); // delete recurring goal --> all dated goal from that
                     //recurring goal need to be deleted
-                }));
-        adapterList.add(new GoalListAdapter(requireContext(), List.of(),
-                id -> {
-                    //ac
-                }));
+        }, activityModel.getUpdateGoalMap()));
+        adapterList.add(new PendingListAdapter(requireContext(), List.of(),
+                 activityModel.getUpdateGoalMap()));
         this.adapter = adapterList.get(0);
 
         activityModel.getOrderedGoals().observe(goals -> {
@@ -92,21 +88,6 @@ public class GoalListFragment extends Fragment {
             adapter = adapterList.get(id);
             view.goalList.setAdapter(adapter);
         });
-//        Log.d("line check", " line 58");
-//        view.goalList.setAdapter(adapter);
-//        view.spinner.setAdapter(SpinnerAdapter);
-//
-//        view.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-//                @Override
-//                public void onItemSelected(AdapterView<?> parent, View view,
-//                                           int pos, long id) {
-//                    activityModel.listSelector(pos);
-//                }
-//                @Override
-//                public void onNothingSelected(AdapterView<?> parent) {
-//                }
-//            });
-//
 
         activityModel.getIsGoalListEmpty().observe(getViewLifecycleOwner(), isEmpty -> {
             view.empty.setVisibility(isEmpty ? View.VISIBLE : View.GONE);

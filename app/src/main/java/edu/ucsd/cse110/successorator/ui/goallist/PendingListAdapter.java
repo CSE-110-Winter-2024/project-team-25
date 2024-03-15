@@ -2,6 +2,9 @@ package edu.ucsd.cse110.successorator.ui.goallist;
 
 import android.content.Context;
 import android.graphics.Paint;
+
+import android.view.HapticFeedbackConstants;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,26 +14,26 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
+import edu.ucsd.cse110.successorator.R;
 import edu.ucsd.cse110.successorator.databinding.ListItemGoalBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 
-public class ReccurenceListAdapter extends ArrayAdapter<Goal> {
-    Consumer<Integer> onCompleteClick;
-    public ReccurenceListAdapter(Context context, List<Goal> goals) {
+public class PendingListAdapter extends ArrayAdapter<Goal> {
+
+    Map<Integer, Consumer<Integer>> updateGoalMap;
+    public PendingListAdapter(Context context, List<Goal> goals, Map<Integer, Consumer<Integer>> updateGoalMap) {
         super(context, 0, new ArrayList<>(goals));
-    }
-    public ReccurenceListAdapter(Context context, List<Goal> goals, Consumer<Integer> onCompleteClick) {
-        super(context, 0, new ArrayList<>(goals));
-        this.onCompleteClick = onCompleteClick;
+        this.updateGoalMap = updateGoalMap;
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         // Get the goal for this position.
-        var goal = getItem(position);
+        Goal goal = getItem(position);
         assert goal != null;
 
         // Check if a view is being reused...
@@ -43,15 +46,32 @@ public class ReccurenceListAdapter extends ArrayAdapter<Goal> {
             var layoutInflater = LayoutInflater.from(getContext());
             binding = ListItemGoalBinding.inflate(layoutInflater, parent, false);
         }
-        binding.goalContentText.setOnClickListener(v -> {
+        binding.goalContentText.setOnLongClickListener(v -> {
             var id = goal.id();
             assert id != null;
-            onCompleteClick.accept(id);
+            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+            var popup = new android.widget.PopupMenu(getContext(), v);
+            popup.getMenuInflater().inflate(R.menu.update_goal, popup.getMenu());
+            popup.setOnMenuItemClickListener(item -> {
+                var action = updateGoalMap.get(item.getItemId());
+                if (action != null) {
+                    action.accept(id);
+                    return true;
+                }
+                return false;
+            });
+            popup.show();
+            return true;
         });
         // Populate the view with the flashcard's data.
         binding.goalContentText.setText(goal.getContent());
         binding.goalContentText.setPaintFlags(goal.isComplete() ?
                 binding.goalContentText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG : 0);
+
+        // Bind context
+        binding.goalContextText.setText(goal.getContext() != null ?
+                goal.getContext().toString() : "NULL");
+
 
         return binding.getRoot();
     }

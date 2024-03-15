@@ -9,5 +9,8 @@
     <string name="app">APP</string>
     <string name="weekly_on">Weekly on %s</string>
     <string name="monthly_on">Monthly on %s</string>
+    <string name="yearly_recurrence">Yearly...</string>
+    <string name="weekly_recurrence">Weekly...</string>
+    <string name="monthly_recurrence">Monthly...</string>
     <string name="yearly_on">Yearly on %s</string>
 </resources>
