@@ -7,12 +7,20 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 
+
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.navigation.NavigationView;
 
 import java.text.SimpleDateFormat;
 
@@ -32,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel activityModel;
     private GoalListFragment goalList;
     private SimpleDateFormat dateFormatter;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private MaterialToolbar materialToolbar;
+    private FrameLayout frameLayout;
+    private ActionBarDrawerToggle drawerToggle;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +67,67 @@ public class MainActivity extends AppCompatActivity {
         this.view = ActivityMainBinding.inflate(getLayoutInflater());
 
         setContentView(view.getRoot());
+        drawerLayout = findViewById(R.id.drawerlayout);
+//        materialToolbar = findViewById(R.id.materialToolbar);
+//        frameLayout = findViewById(R.id.fragment_container);
+        navigationView = findViewById(R.id.navigationView);
+
+
+
+        drawerToggle = new ActionBarDrawerToggle(this,drawerLayout, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(drawerToggle);
+
+//        materialToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item){
+//                if(item.getItemId()==R.id.edit_bar_menu_add_goal){
+//                    Toast.makeText(MainActivity.this, "add goal", Toast.LENGTH_SHORT).show();
+//                }
+//                return false;
+//            }
+//        });
+        drawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_hamburger);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId()==R.id.context_home){
+                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_focus);
+                    Toast.makeText(MainActivity.this, "home", Toast.LENGTH_SHORT).show();
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                }
+                else if (item.getItemId()==R.id.context_work){
+
+                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_focus);
+                    Toast.makeText(MainActivity.this, "work", Toast.LENGTH_SHORT).show();
+                    drawerLayout.closeDrawer(GravityCompat.START);
+
+                }
+                else if (item.getItemId()==R.id.context_school){
+                    drawerToggle.setHomeAsUpIndicator(R.drawable.ic_focus);
+                    Toast.makeText(MainActivity.this, "school", Toast.LENGTH_SHORT).show();
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                }
+                else if (item.getItemId()==R.id.context_errands){
+                    drawerToggle.setHomeAsUpIndicator(R.drawable.ic_focus);
+                    Toast.makeText(MainActivity.this, "errand", Toast.LENGTH_SHORT).show();
+                    drawerLayout.closeDrawer(GravityCompat.START);
+
+                }
+                else if (item.getItemId()==R.id.context_cancel){
+                    drawerToggle.setHomeAsUpIndicator(R.drawable.ic_hamburger);
+                    Toast.makeText(MainActivity.this, "cancel", Toast.LENGTH_SHORT).show();
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    drawerToggle.syncState();
+                }
+                drawerLayout.closeDrawer(GravityCompat.START);
+//                drawerToggle.syncState();
+                return true;
+            }
+        });
+
     }
 
     @Override
@@ -107,8 +181,6 @@ public class MainActivity extends AppCompatActivity {
             });
 
             // Call switch to Today's Goalist
-
-
             return true;
         } else if (itemId == R.id.tomorrow_option) {
             Calendar c = Calendar.getInstance();
@@ -119,35 +191,38 @@ public class MainActivity extends AppCompatActivity {
             this.activityModel.getDateString().observe(dateString -> {
                 setTitle(tomorrowString);
             });
-
             // Call switch to Tomorrow's Goalist
-
-
             return true;
         }
         else if (itemId == R.id.pending_option) {
             this.activityModel.getDateString().observe(dateString -> {
                 setTitle("Pending");
             });
-
             // Call switch to Pending's Goalist
-
-
             return true;
         }
         else if (itemId == R.id.recurring_option) {
             this.activityModel.getDateString().observe(dateString -> {
                 setTitle("Recurring");
             });
-
             // Call switch to Recurring's Goalist
 
 
             return true;
         }
 
-
+        if(drawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        drawerToggle.syncState();
+    }
+
 }
