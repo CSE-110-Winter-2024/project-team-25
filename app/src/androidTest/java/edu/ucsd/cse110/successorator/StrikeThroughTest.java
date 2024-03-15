@@ -1,34 +1,34 @@
-//package edu.ucsd.cse110.successorator;
-//import androidx.test.espresso.Espresso;
-//import androidx.test.espresso.action.ViewActions;
-//import androidx.test.ext.junit.rules.ActivityScenarioRule;
-//import androidx.test.ext.junit.runners.AndroidJUnit4;
-//
-//import org.junit.Rule;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//
-//import static androidx.test.espresso.Espresso.onData;
-//import static androidx.test.espresso.assertion.ViewAssertions.matches;
-//import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-//import static androidx.test.espresso.matcher.ViewMatchers.withId;
-//import static androidx.test.espresso.matcher.ViewMatchers.withText;
-//import static org.hamcrest.CoreMatchers.anything;
-//import static org.junit.Assert.assertEquals;
-//
-//import android.graphics.Paint;
-//import android.widget.TextView;
-//
-//import java.lang.reflect.Field;
-//import java.lang.reflect.Method;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//import edu.ucsd.cse110.successorator.lib.domain.Goal;
-//import edu.ucsd.cse110.successorator.lib.util.Subject;
-//
-//@RunWith(AndroidJUnit4.class)
-//public class StrikeThroughTest {
+package edu.ucsd.cse110.successorator;
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static androidx.test.espresso.Espresso.onData;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.anything;
+import static org.junit.Assert.assertEquals;
+
+import android.graphics.Paint;
+import android.widget.TextView;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.ucsd.cse110.successorator.lib.domain.Goal;
+import edu.ucsd.cse110.successorator.lib.util.Subject;
+
+@RunWith(AndroidJUnit4.class)
+public class StrikeThroughTest {
 //
 //    @Rule
 //    public ActivityScenarioRule<MainActivity> activityRule =
@@ -271,5 +271,5 @@
 //        });
 //        deleteGoals(1);
 //    }
-//
-//}
+
+}

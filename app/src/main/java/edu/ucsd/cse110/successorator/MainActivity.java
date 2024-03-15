@@ -72,23 +72,13 @@ public class MainActivity extends AppCompatActivity {
 
         //starts here
         drawerLayout = findViewById(R.id.drawerlayout);
-//        materialToolbar = findViewById(R.id.materialToolbar);
-//        frameLayout = findViewById(R.id.fragment_container);
         navigationView = findViewById(R.id.navigationView);
 
 
         drawerToggle = new ActionBarDrawerToggle(this,drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
-
-//        materialToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item){
-//                if(item.getItemId()==R.id.edit_bar_menu_add_goal){
-//                    Toast.makeText(MainActivity.this, "add goal", Toast.LENGTH_SHORT).show();
-//                }
-//                return false;
-//            }
-//        });
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        activityModel.updateDateWithRollOver(sharedPref, DELAY_HOUR, true);
 
         drawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -105,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
                     activityModel.activate_focus_mode(edu.ucsd.cse110.successorator.lib.domain.Context.HOME);
                     activityModel.listSelector(activityModel.getadapterIndex());
                     drawerLayout.closeDrawer(GravityCompat.START);
-
                 }
                 else if (item.getItemId()==R.id.context_work){
                     getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_focus);
@@ -113,17 +102,16 @@ public class MainActivity extends AppCompatActivity {
                     activityModel.activate_focus_mode(edu.ucsd.cse110.successorator.lib.domain.Context.WORK);
                     activityModel.listSelector(activityModel.getadapterIndex());
                     drawerLayout.closeDrawer(GravityCompat.START);
-
                 }
                 else if (item.getItemId()==R.id.context_school){
-                    drawerToggle.setHomeAsUpIndicator(R.drawable.ic_focus);
+                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_focus);
                     Toast.makeText(MainActivity.this, "school", Toast.LENGTH_SHORT).show();
                     activityModel.activate_focus_mode(edu.ucsd.cse110.successorator.lib.domain.Context.SCHOOL);
                     activityModel.listSelector(activityModel.getadapterIndex());
                     drawerLayout.closeDrawer(GravityCompat.START);
                 }
                 else if (item.getItemId()==R.id.context_errands){
-                    drawerToggle.setHomeAsUpIndicator(R.drawable.ic_focus);
+                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_focus);
                     Toast.makeText(MainActivity.this, "errand", Toast.LENGTH_SHORT).show();
                     activityModel.activate_focus_mode(edu.ucsd.cse110.successorator.lib.domain.Context.ERRANDS);
                     activityModel.listSelector(activityModel.getadapterIndex());
@@ -131,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 else if (item.getItemId()==R.id.context_cancel){
-                    drawerToggle.setHomeAsUpIndicator(R.drawable.ic_hamburger);
+                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_hamburger);
                     Toast.makeText(MainActivity.this, "cancel", Toast.LENGTH_SHORT).show();
                     activityModel.deactivate_focus_mode();
                     activityModel.listSelector(activityModel.getadapterIndex());
@@ -151,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("onResume", "onResumeStatus: True");
         super.onResume();
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        activityModel.updateDateWithRollOver(sharedPref, DELAY_HOUR, true);
+        //activityModel.updateDateWithRollOver(sharedPref, DELAY_HOUR, true);
     }
 
     @Override
