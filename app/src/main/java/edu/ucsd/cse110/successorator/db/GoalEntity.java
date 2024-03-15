@@ -75,7 +75,8 @@ public class GoalEntity {
                     ((DatedGoal) goal).getDate().getCalendar().getTimeInMillis(),
                     null, null, null, goal.getContext());
         }
-
+        Log.d("read content", goal.getContent());
+        Log.d("read content", ((RecurringGoal) goal).getRecurrence().getFirstOccurrence().toString());
 
         return null;
     }
